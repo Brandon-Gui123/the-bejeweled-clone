@@ -233,12 +233,36 @@ public class GemBoardBehaviour : MonoBehaviour
 
     public void OnSwappingComplete()
     {
-        isSwappingAllowed = true;
+    }
 
+    public IEnumerator OnSwappingCompleteRoutine()
+    {
         CheckForMatch(clickedGem);
         CheckForMatch(previouslySelectedGem);
 
+        bool hasGemsToShrink = false;
+        bool isShrinkingGems = false;
+
+        // process matched gems
+        foreach (Gem gem in gems)
+        {
+            if (gem.hasBeenMatched)
+            {
+                hasGemsToShrink = true;
+                isShrinkingGems = true;
+
+                gem.transform.DOScale(Vector3.zero, 0.75f).OnComplete(() => isShrinkingGems = false);
+                gem.hasBeenMatched = false;
+            }
+        }
+
+        if (hasGemsToShrink)
+        {
+            yield return new WaitWhile(() => isShrinkingGems);
+        }
+
         clickedGem = null;
         previouslySelectedGem = null;
+        isSwappingAllowed = true;
     }
 }
