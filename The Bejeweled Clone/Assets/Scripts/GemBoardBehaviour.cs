@@ -87,6 +87,9 @@ public class GemBoardBehaviour : MonoBehaviour
                 // all gems to be deselected after the swap
                 hasSelectedGem = false;
                 gemSelectionIndicator.SetActive(false);
+
+                CheckForMatch(currentlySelectedGemPosition.row, currentlySelectedGemPosition.col);
+                CheckForMatch(gemRow, gemCol);
             }
             else
             {
