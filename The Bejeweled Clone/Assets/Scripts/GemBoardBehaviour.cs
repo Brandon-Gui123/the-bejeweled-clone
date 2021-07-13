@@ -10,6 +10,8 @@ public class GemBoardBehaviour : MonoBehaviour
     public GameObject gemSelectionIndicator;
 
     public bool hasSelectedGem = false;
+    public (int row, int col) currentlySelectedGemPosition;
+
     // Start is called before the first frame update
     void Start()
     {
