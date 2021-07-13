@@ -116,5 +116,19 @@ public class GemBoardBehaviour : MonoBehaviour
 
     public void CheckForMatch(int gemRow, int gemCol)
     {
+        bool hasMatchAbove = false;
+
+        // check 2 gems above - gemRow must be greater than 1
+        if (gemRow > 1)
+        {
+            hasMatchAbove =
+                gems[gemRow - 2, gemCol].gemType == gems[gemRow, gemCol].gemType
+                && gems[gemRow - 1, gemCol].gemType == gems[gemRow, gemCol].gemType;
+        }
+
+        if (hasMatchAbove)
+        {
+            Debug.Log($"Found match above for gem at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
+        }
     }
 }
