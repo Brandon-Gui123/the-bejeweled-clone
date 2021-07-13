@@ -7,6 +7,7 @@ public class GemBoardBehaviour : MonoBehaviour
     public Gem[,] gems = new Gem[8, 8];
 
     public Gem gemPrefab;
+    public GameObject gemSelectionIndicator;
 
     // Start is called before the first frame update
     void Start()
