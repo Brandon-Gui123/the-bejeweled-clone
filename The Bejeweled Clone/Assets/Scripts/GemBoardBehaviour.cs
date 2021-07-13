@@ -13,6 +13,7 @@ public class GemBoardBehaviour : MonoBehaviour
     public Gem previouslySelectedGem;
 
     public bool isSwappingAllowed = true;
+    public Gem clickedGem;
 
     // Start is called before the first frame update
     void Start()
