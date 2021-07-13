@@ -26,6 +26,8 @@ public class GemBoardBehaviour : MonoBehaviour
 
                 gems[currentRow, currentCol].rowOnBoard = currentRow;
                 gems[currentRow, currentCol].colOnBoard = currentCol;
+
+                gems[currentRow, currentCol].gemBoard = this;
             }
         }
     }
