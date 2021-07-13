@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class GemBoardBehaviour : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class GemBoardBehaviour : MonoBehaviour
     public GameObject gemSelectionIndicator;
 
     public Gem previouslySelectedGem;
+
+    public bool isSwappingAllowed = true;
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +46,12 @@ public class GemBoardBehaviour : MonoBehaviour
 
     public void OnGemClicked(Gem clickedGem)
     {
+        // do nothing if swapping isn't allowed
+        if (!isSwappingAllowed)
+        {
+            return;
+        }
+
         // do we already have a gem selected?
         if (previouslySelectedGem)
         {
@@ -68,13 +77,16 @@ public class GemBoardBehaviour : MonoBehaviour
                 // perform the swap
                 Debug.Log($"Swap to be performed for gems at ({clickedGem.rowOnBoard}, {clickedGem.colOnBoard}) and ({previouslySelectedGem.rowOnBoard}, {previouslySelectedGem.colOnBoard})");
 
+                // do not allow other gems to be swapped while one is happening
+                isSwappingAllowed = false;
+
                 // swap the object instances
                 gems[clickedGem.rowOnBoard, clickedGem.colOnBoard] = previouslySelectedGem;
                 gems[previouslySelectedGem.rowOnBoard, previouslySelectedGem.colOnBoard] = clickedGem;
 
                 // update positions of the gem so that it appears as swapped
                 Vector3 clickedGemOriginalPosition = clickedGem.transform.position;
-                clickedGem.transform.DOMove(previouslySelectedGem.transform.position, 0.5f);
+                clickedGem.transform.DOMove(previouslySelectedGem.transform.position, 0.5f).OnComplete(OnSwappingComplete);
                 previouslySelectedGem.transform.DOMove(clickedGemOriginalPosition, 0.5f);
 
                 // update the stored gem positions so that subsequent swapping with the same gems
@@ -195,5 +207,10 @@ public class GemBoardBehaviour : MonoBehaviour
         {
             Debug.Log($"Found horizontal middle match for gem at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
         }
+    }
+
+    public void OnSwappingComplete()
+    {
+        isSwappingAllowed = true;
     }
 }
