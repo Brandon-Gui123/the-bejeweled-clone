@@ -233,6 +233,7 @@ public class GemBoardBehaviour : MonoBehaviour
 
     public void OnSwappingComplete()
     {
+        StartCoroutine(OnSwappingCompleteRoutine());
     }
 
     public IEnumerator OnSwappingCompleteRoutine()
