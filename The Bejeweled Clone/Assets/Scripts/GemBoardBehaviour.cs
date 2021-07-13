@@ -179,31 +179,55 @@ public class GemBoardBehaviour : MonoBehaviour
         if (hasMatchAbove)
         {
             Debug.Log($"Found match above for gem at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
+
+            gem.hasBeenMatched = true;
+            gems[gemRow - 1, gemCol].hasBeenMatched = true;
+            gems[gemRow - 2, gemCol].hasBeenMatched = true;
         }
 
         if (hasMatchRight)
         {
             Debug.Log($"Found match to the right for gem at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
+
+            gem.hasBeenMatched = true;
+            gems[gemRow, gemCol + 2].hasBeenMatched = true;
+            gems[gemRow, gemCol + 1].hasBeenMatched = true;
         }
 
         if (hasMatchBelow)
         {
             Debug.Log($"Found match below for gem at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
+
+            gem.hasBeenMatched = true;
+            gems[gemRow + 2, gemCol].hasBeenMatched = true;
+            gems[gemRow + 1, gemCol].hasBeenMatched = true;
         }
 
         if (hasMatchLeft)
         {
             Debug.Log($"Found match to the left for gem at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
+
+            gem.hasBeenMatched = true;
+            gems[gemRow, gemCol - 2].hasBeenMatched = true;
+            gems[gemRow, gemCol - 1].hasBeenMatched = true;
         }
     
         if (hasMiddleVerticalMatch)
         {
             Debug.Log($"Found vertical middle match at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
+
+            gem.hasBeenMatched = true;
+            gems[gemRow - 1, gemCol].hasBeenMatched = true;
+            gems[gemRow + 1, gemCol].hasBeenMatched = true;
         }
     
         if (hasMiddleHorizontalMatch)
         {
             Debug.Log($"Found horizontal middle match for gem at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
+
+            gem.hasBeenMatched = true;
+            gems[gemRow, gemCol + 1].hasBeenMatched = true;
+            gems[gemRow, gemCol - 1].hasBeenMatched = true;
         }
     }
 
