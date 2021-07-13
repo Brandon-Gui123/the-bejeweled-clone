@@ -22,7 +22,7 @@ public class GemBoardBehaviour : MonoBehaviour
                     (GemTypes)Random.Range(0, System.Enum.GetNames(typeof(GemTypes)).Length - 1);
 
                 gems[currentRow, currentCol].transform.position =
-                    new Vector3(currentRow + (0.1f * currentRow), currentCol + (0.1f * currentCol));
+                    new Vector3(currentCol + (0.1f * currentCol), -(currentRow + (0.1f * currentRow)));
 
                 gems[currentRow, currentCol].rowOnBoard = currentRow;
                 gems[currentRow, currentCol].colOnBoard = currentCol;
