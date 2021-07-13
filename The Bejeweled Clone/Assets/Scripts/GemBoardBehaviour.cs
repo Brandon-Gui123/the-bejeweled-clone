@@ -23,6 +23,9 @@ public class GemBoardBehaviour : MonoBehaviour
 
                 gems[currentRow, currentCol].transform.position =
                     new Vector3(currentRow + (0.1f * currentRow), currentCol + (0.1f * currentCol));
+
+                gems[currentRow, currentCol].rowOnBoard = currentRow;
+                gems[currentRow, currentCol].colOnBoard = currentCol;
             }
         }
     }
