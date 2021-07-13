@@ -268,6 +268,31 @@ public class GemBoardBehaviour : MonoBehaviour
         if (hasGemsToShrink)
         {
             yield return new WaitWhile(() => isShrinkingGems);
+
+            // to wait for Unity to destroy the Gem objects for us
+            yield return new WaitForEndOfFrame();
+
+            // wherever there are null, fill it with new Gem objects
+            for (int currentRow = 0; currentRow < gems.GetLength(0); currentRow++)
+            {
+                for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
+                {
+                    if (!gems[currentRow, currentCol])
+                    {
+                        gems[currentRow, currentCol] = Instantiate(gemPrefab, transform.position, transform.rotation, transform);
+
+                        gems[currentRow, currentCol].gemType = (GemTypes)Random.Range(0, System.Enum.GetNames(typeof(GemTypes)).Length);
+
+                        gems[currentRow, currentCol].transform.position =
+                        new Vector3(currentCol + (0.1f * currentCol), -(currentRow + (0.1f * currentRow)));
+
+                        gems[currentRow, currentCol].rowOnBoard = currentRow;
+                        gems[currentRow, currentCol].colOnBoard = currentCol;
+
+                        gems[currentRow, currentCol].gemBoard = this;
+                    }
+                }
+            }
         }
 
         clickedGem = null;
