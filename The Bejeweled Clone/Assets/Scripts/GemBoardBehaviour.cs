@@ -47,6 +47,9 @@ public class GemBoardBehaviour : MonoBehaviour
 
     public void OnGemClicked(Gem clickedGem)
     {
+        // since we want to process matches outside the scope of this function
+        this.clickedGem = clickedGem;
+
         // do nothing if swapping isn't allowed
         if (!isSwappingAllowed)
         {
@@ -100,9 +103,6 @@ public class GemBoardBehaviour : MonoBehaviour
 
                 // all gems to be deselected after the swap
                 gemSelectionIndicator.SetActive(false);
-
-                // since we want to process matches outside of this scope
-                this.clickedGem = clickedGem;
             }
         }
         else
@@ -112,6 +112,7 @@ public class GemBoardBehaviour : MonoBehaviour
             // display the gem selection indicator at that gem's position
             gemSelectionIndicator.SetActive(true);
             gemSelectionIndicator.transform.position = clickedGem.transform.position;
+            gemSelectionIndicator.transform.Translate(0f, 0f, -1f, Space.World);
         }
     }
 
@@ -179,42 +180,124 @@ public class GemBoardBehaviour : MonoBehaviour
         if (hasMatchAbove)
         {
             Debug.Log($"Found match above for gem at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
+
+            gem.hasBeenMatched = true;
+            gems[gemRow - 1, gemCol].hasBeenMatched = true;
+            gems[gemRow - 2, gemCol].hasBeenMatched = true;
         }
 
         if (hasMatchRight)
         {
             Debug.Log($"Found match to the right for gem at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
+
+            gem.hasBeenMatched = true;
+            gems[gemRow, gemCol + 2].hasBeenMatched = true;
+            gems[gemRow, gemCol + 1].hasBeenMatched = true;
         }
 
         if (hasMatchBelow)
         {
             Debug.Log($"Found match below for gem at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
+
+            gem.hasBeenMatched = true;
+            gems[gemRow + 2, gemCol].hasBeenMatched = true;
+            gems[gemRow + 1, gemCol].hasBeenMatched = true;
         }
 
         if (hasMatchLeft)
         {
             Debug.Log($"Found match to the left for gem at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
+
+            gem.hasBeenMatched = true;
+            gems[gemRow, gemCol - 2].hasBeenMatched = true;
+            gems[gemRow, gemCol - 1].hasBeenMatched = true;
         }
     
         if (hasMiddleVerticalMatch)
         {
             Debug.Log($"Found vertical middle match at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
+
+            gem.hasBeenMatched = true;
+            gems[gemRow - 1, gemCol].hasBeenMatched = true;
+            gems[gemRow + 1, gemCol].hasBeenMatched = true;
         }
     
         if (hasMiddleHorizontalMatch)
         {
             Debug.Log($"Found horizontal middle match for gem at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
+
+            gem.hasBeenMatched = true;
+            gems[gemRow, gemCol + 1].hasBeenMatched = true;
+            gems[gemRow, gemCol - 1].hasBeenMatched = true;
         }
     }
 
     public void OnSwappingComplete()
     {
-        isSwappingAllowed = true;
+        StartCoroutine(OnSwappingCompleteRoutine());
+    }
 
+    public IEnumerator OnSwappingCompleteRoutine()
+    {
         CheckForMatch(clickedGem);
         CheckForMatch(previouslySelectedGem);
 
+        bool hasGemsToShrink = false;
+        bool isShrinkingGems = false;
+
+        // process matched gems
+        foreach (Gem gem in gems)
+        {
+            if (gem.hasBeenMatched)
+            {
+                hasGemsToShrink = true;
+                isShrinkingGems = true;
+
+                gem.transform.DOScale(Vector3.zero, 0.75f).OnComplete(
+                    () =>
+                    {
+                        isShrinkingGems = false;
+
+                        // will cause null errors but that's because
+                        // we have not generated new gems
+                        Destroy(gem.gameObject);
+                    }
+                );
+            }
+        }
+
+        if (hasGemsToShrink)
+        {
+            yield return new WaitWhile(() => isShrinkingGems);
+
+            // to wait for Unity to destroy the Gem objects for us
+            yield return new WaitForEndOfFrame();
+
+            // wherever there are null, fill it with new Gem objects
+            for (int currentRow = 0; currentRow < gems.GetLength(0); currentRow++)
+            {
+                for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
+                {
+                    if (!gems[currentRow, currentCol])
+                    {
+                        gems[currentRow, currentCol] = Instantiate(gemPrefab, transform.position, transform.rotation, transform);
+
+                        gems[currentRow, currentCol].gemType = (GemTypes)Random.Range(0, System.Enum.GetNames(typeof(GemTypes)).Length);
+
+                        gems[currentRow, currentCol].transform.position =
+                        new Vector3(currentCol + (0.1f * currentCol), -(currentRow + (0.1f * currentRow)));
+
+                        gems[currentRow, currentCol].rowOnBoard = currentRow;
+                        gems[currentRow, currentCol].colOnBoard = currentCol;
+
+                        gems[currentRow, currentCol].gemBoard = this;
+                    }
+                }
+            }
+        }
+
         clickedGem = null;
         previouslySelectedGem = null;
+        isSwappingAllowed = true;
     }
 }

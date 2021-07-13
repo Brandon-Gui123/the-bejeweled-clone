@@ -12,6 +12,8 @@ public class Gem : MonoBehaviour
     public int rowOnBoard;
     public int colOnBoard;
 
+    public bool hasBeenMatched = false;
+
     // Start is called before the first frame update
     void Start()
     {
