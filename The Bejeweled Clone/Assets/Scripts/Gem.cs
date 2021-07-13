@@ -7,6 +7,8 @@ public class Gem : MonoBehaviour
     public GemTypes gemType;
     public SpriteRenderer gemSprite;
 
+    public GemBoardBehaviour gemBoard;
+
     // Start is called before the first frame update
     void Start()
     {
