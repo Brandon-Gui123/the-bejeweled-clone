@@ -47,6 +47,9 @@ public class GemBoardBehaviour : MonoBehaviour
 
     public void OnGemClicked(Gem clickedGem)
     {
+        // since we want to process matches outside the scope of this function
+        this.clickedGem = clickedGem;
+
         // do nothing if swapping isn't allowed
         if (!isSwappingAllowed)
         {
@@ -100,9 +103,6 @@ public class GemBoardBehaviour : MonoBehaviour
 
                 // all gems to be deselected after the swap
                 gemSelectionIndicator.SetActive(false);
-
-                // since we want to process matches outside of this scope
-                this.clickedGem = clickedGem;
             }
         }
         else
