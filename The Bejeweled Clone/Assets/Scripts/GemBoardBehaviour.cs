@@ -101,12 +101,9 @@ public class GemBoardBehaviour : MonoBehaviour
                 // all gems to be deselected after the swap
                 gemSelectionIndicator.SetActive(false);
 
-                CheckForMatch(clickedGem);
-                CheckForMatch(previouslySelectedGem);
+                // since we want to process matches outside of this scope
+                this.clickedGem = clickedGem;
             }
-
-            // swapping done
-            previouslySelectedGem = null;
         }
         else
         {
@@ -213,5 +210,11 @@ public class GemBoardBehaviour : MonoBehaviour
     public void OnSwappingComplete()
     {
         isSwappingAllowed = true;
+
+        CheckForMatch(clickedGem);
+        CheckForMatch(previouslySelectedGem);
+
+        clickedGem = null;
+        previouslySelectedGem = null;
     }
 }
