@@ -35,4 +35,9 @@ public class GemBoardBehaviour : MonoBehaviour
     {
         
     }
+
+    public void OnGemClicked(int gemRow, int gemCol)
+    {
+        Debug.Log($"({gemRow}, {gemCol})", gems[gemRow, gemCol]);
+    }
 }
