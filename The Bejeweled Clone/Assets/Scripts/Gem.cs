@@ -7,6 +7,11 @@ public class Gem : MonoBehaviour
     public GemTypes gemType;
     public SpriteRenderer gemSprite;
 
+    public GemBoardBehaviour gemBoard;
+
+    public int rowOnBoard;
+    public int colOnBoard;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,6 +48,12 @@ public class Gem : MonoBehaviour
                 gemSprite.color = Color.white;
                 break;
         }
+    }
+
+    // Called while the user's cursor is over a collider and the mouse button is pressed down
+    private void OnMouseDown()
+    {
+        gemBoard.OnGemClicked(rowOnBoard, colOnBoard);
     }
 
     // Update is called once per frame
