@@ -44,6 +44,51 @@ public class GemBoardBehaviour : MonoBehaviour
 
     public void OnGemClicked(int gemRow, int gemCol)
     {
-        Debug.Log($"({gemRow}, {gemCol})", gems[gemRow, gemCol]);
+        // do we already have a gem selected?
+        if (hasSelectedGem)
+        {
+            // check to see if swapping can be done
+            
+            // if the same gem is clicked as the previous, don't do anything
+            if (gemRow == currentlySelectedGemPosition.row && gemCol == currentlySelectedGemPosition.col)
+            {
+                return;
+            }
+
+            // is the gem we selected adjacent to the gem we previously selected?
+            bool isDirectlyAbove = currentlySelectedGemPosition.row + 1 == gemRow && currentlySelectedGemPosition.col == gemCol;
+            bool isDirectlyBelow = currentlySelectedGemPosition.row - 1 == gemRow && currentlySelectedGemPosition.col == gemCol;
+            bool isDirectlyRight = currentlySelectedGemPosition.col + 1 == gemCol && currentlySelectedGemPosition.row == gemRow;
+            bool isDirectlyLeft = currentlySelectedGemPosition.col - 1 == gemCol && currentlySelectedGemPosition.row == gemRow;
+
+            if (isDirectlyAbove || isDirectlyBelow || isDirectlyRight || isDirectlyLeft)
+            {
+                // perform the swap
+                Debug.Log($"Swap to be performed for gems at ({gemRow}, {gemCol}) and ({currentlySelectedGemPosition.row}, {currentlySelectedGemPosition.col})");
+            }
+            else
+            {
+                // assume we selected a new gem
+                currentlySelectedGemPosition.row = gemRow;
+                currentlySelectedGemPosition.col = gemCol;
+
+                // display the gem selection indicator at that gem's position
+                gemSelectionIndicator.SetActive(true);
+                gemSelectionIndicator.transform.position = gems[gemRow, gemCol].transform.position;
+            }
+        }
+        else
+        {
+            // the gem will clicked on will be the one we select
+            hasSelectedGem = true;
+
+            // keep the row and column values for reference later
+            currentlySelectedGemPosition.row = gemRow;
+            currentlySelectedGemPosition.col = gemCol;
+
+            // display the gem selection indicator at that gem's position
+            gemSelectionIndicator.SetActive(true);
+            gemSelectionIndicator.transform.position = gems[gemRow, gemCol].transform.position;
+        }
     }
 }
