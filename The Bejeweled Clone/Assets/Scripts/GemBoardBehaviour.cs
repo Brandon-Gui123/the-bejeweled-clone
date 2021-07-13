@@ -65,6 +65,28 @@ public class GemBoardBehaviour : MonoBehaviour
             {
                 // perform the swap
                 Debug.Log($"Swap to be performed for gems at ({gemRow}, {gemCol}) and ({currentlySelectedGemPosition.row}, {currentlySelectedGemPosition.col})");
+
+                Gem currentlySelected = gems[currentlySelectedGemPosition.row, currentlySelectedGemPosition.col];
+                Vector3 currentlySelectedOriginalPosition = gems[currentlySelectedGemPosition.row, currentlySelectedGemPosition.col].transform.position;
+
+                // update positions of the gem so that it appears as swapped
+                gems[currentlySelectedGemPosition.row, currentlySelectedGemPosition.col].transform.position = gems[gemRow, gemCol].transform.position;
+                gems[gemRow, gemCol].transform.position = currentlySelectedOriginalPosition;
+
+                // update the stored gem positions so that subsequent swapping with the same gems
+                // won't cause any issues
+                gems[gemRow, gemCol].rowOnBoard = currentlySelected.rowOnBoard;
+                gems[gemRow, gemCol].colOnBoard = currentlySelected.colOnBoard;
+                gems[currentlySelectedGemPosition.row, currentlySelectedGemPosition.col].rowOnBoard = gemRow;
+                gems[currentlySelectedGemPosition.row, currentlySelectedGemPosition.col].colOnBoard = gemCol;
+
+                // swap the object instances of the gem
+                gems[currentlySelectedGemPosition.row, currentlySelectedGemPosition.col] = gems[gemRow, gemCol];
+                gems[gemRow, gemCol] = currentlySelected;
+
+                // all gems to be deselected after the swap
+                hasSelectedGem = false;
+                gemSelectionIndicator.SetActive(false);
             }
             else
             {
