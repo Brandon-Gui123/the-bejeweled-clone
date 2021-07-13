@@ -88,8 +88,8 @@ public class GemBoardBehaviour : MonoBehaviour
                 // all gems to be deselected after the swap
                 gemSelectionIndicator.SetActive(false);
 
-                CheckForMatch(clickedGem.rowOnBoard, clickedGem.colOnBoard);
-                CheckForMatch(previouslySelectedGem.rowOnBoard, previouslySelectedGem.colOnBoard);
+                CheckForMatch(clickedGem);
+                CheckForMatch(previouslySelectedGem);
             }
 
             // swapping done
@@ -105,7 +105,7 @@ public class GemBoardBehaviour : MonoBehaviour
         }
     }
 
-    public void CheckForMatch(int gemRow, int gemCol)
+    public void CheckForMatch(Gem gem)
     {
         bool hasMatchAbove = false;
         bool hasMatchRight = false;
@@ -114,6 +114,9 @@ public class GemBoardBehaviour : MonoBehaviour
 
         bool hasMiddleVerticalMatch = false;
         bool hasMiddleHorizontalMatch = false;
+
+        int gemRow = gem.rowOnBoard;
+        int gemCol = gem.colOnBoard;
 
         // check 2 gems above - gemRow must be greater than 1
         if (gemRow > 1)
