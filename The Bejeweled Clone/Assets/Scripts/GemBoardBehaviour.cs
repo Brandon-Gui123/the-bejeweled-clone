@@ -113,4 +113,8 @@ public class GemBoardBehaviour : MonoBehaviour
             gemSelectionIndicator.transform.position = gems[gemRow, gemCol].transform.position;
         }
     }
+
+    public void CheckForMatch(int gemRow, int gemCol)
+    {
+    }
 }
