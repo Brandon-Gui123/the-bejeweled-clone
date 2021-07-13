@@ -9,6 +9,7 @@ public class GemBoardBehaviour : MonoBehaviour
     public Gem gemPrefab;
     public GameObject gemSelectionIndicator;
 
+    public bool hasSelectedGem = false;
     // Start is called before the first frame update
     void Start()
     {
