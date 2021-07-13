@@ -9,8 +9,7 @@ public class GemBoardBehaviour : MonoBehaviour
     public Gem gemPrefab;
     public GameObject gemSelectionIndicator;
 
-    public bool hasSelectedGem = false;
-    public (int row, int col) currentlySelectedGemPosition;
+    public Gem previouslySelectedGem;
 
     // Start is called before the first frame update
     void Start()
@@ -42,78 +41,67 @@ public class GemBoardBehaviour : MonoBehaviour
         
     }
 
-    public void OnGemClicked(int gemRow, int gemCol)
+    public void OnGemClicked(Gem clickedGem)
     {
         // do we already have a gem selected?
-        if (hasSelectedGem)
+        if (previouslySelectedGem)
         {
             // check to see if swapping can be done
             
-            // if the same gem is clicked as the previous, don't do anything
-            if (gemRow == currentlySelectedGemPosition.row && gemCol == currentlySelectedGemPosition.col)
+            // if the same gem is clicked as the previous...
+            if (clickedGem == previouslySelectedGem)
             {
+                // deselect gem
+                previouslySelectedGem = null;
+                gemSelectionIndicator.SetActive(false);
                 return;
             }
 
             // is the gem we selected adjacent to the gem we previously selected?
-            bool isDirectlyAbove = currentlySelectedGemPosition.row + 1 == gemRow && currentlySelectedGemPosition.col == gemCol;
-            bool isDirectlyBelow = currentlySelectedGemPosition.row - 1 == gemRow && currentlySelectedGemPosition.col == gemCol;
-            bool isDirectlyRight = currentlySelectedGemPosition.col + 1 == gemCol && currentlySelectedGemPosition.row == gemRow;
-            bool isDirectlyLeft = currentlySelectedGemPosition.col - 1 == gemCol && currentlySelectedGemPosition.row == gemRow;
+            bool isDirectlyAbove = clickedGem.rowOnBoard + 1 == previouslySelectedGem.rowOnBoard && clickedGem.colOnBoard == previouslySelectedGem.colOnBoard;
+            bool isDirectlyBelow = clickedGem.rowOnBoard - 1 == previouslySelectedGem.rowOnBoard && clickedGem.colOnBoard == previouslySelectedGem.colOnBoard;
+            bool isDirectlyRight = clickedGem.colOnBoard + 1 == previouslySelectedGem.colOnBoard && clickedGem.rowOnBoard == previouslySelectedGem.rowOnBoard;
+            bool isDirectlyLeft = clickedGem.colOnBoard - 1 == previouslySelectedGem.colOnBoard && clickedGem.rowOnBoard == previouslySelectedGem.rowOnBoard;
 
             if (isDirectlyAbove || isDirectlyBelow || isDirectlyRight || isDirectlyLeft)
             {
                 // perform the swap
-                Debug.Log($"Swap to be performed for gems at ({gemRow}, {gemCol}) and ({currentlySelectedGemPosition.row}, {currentlySelectedGemPosition.col})");
+                Debug.Log($"Swap to be performed for gems at ({clickedGem.rowOnBoard}, {clickedGem.colOnBoard}) and ({previouslySelectedGem.rowOnBoard}, {previouslySelectedGem.colOnBoard})");
 
-                Gem currentlySelected = gems[currentlySelectedGemPosition.row, currentlySelectedGemPosition.col];
-                Vector3 currentlySelectedOriginalPosition = gems[currentlySelectedGemPosition.row, currentlySelectedGemPosition.col].transform.position;
+                // swap the object instances
+                gems[clickedGem.rowOnBoard, clickedGem.colOnBoard] = previouslySelectedGem;
+                gems[previouslySelectedGem.rowOnBoard, previouslySelectedGem.colOnBoard] = clickedGem;
 
                 // update positions of the gem so that it appears as swapped
-                gems[currentlySelectedGemPosition.row, currentlySelectedGemPosition.col].transform.position = gems[gemRow, gemCol].transform.position;
-                gems[gemRow, gemCol].transform.position = currentlySelectedOriginalPosition;
+                Vector3 clickedGemOriginalPosition = clickedGem.transform.position;
+                clickedGem.transform.position = previouslySelectedGem.transform.position;
+                previouslySelectedGem.transform.position = clickedGemOriginalPosition;
 
                 // update the stored gem positions so that subsequent swapping with the same gems
                 // won't cause any issues
-                gems[gemRow, gemCol].rowOnBoard = currentlySelected.rowOnBoard;
-                gems[gemRow, gemCol].colOnBoard = currentlySelected.colOnBoard;
-                gems[currentlySelectedGemPosition.row, currentlySelectedGemPosition.col].rowOnBoard = gemRow;
-                gems[currentlySelectedGemPosition.row, currentlySelectedGemPosition.col].colOnBoard = gemCol;
-
-                // swap the object instances of the gem
-                gems[currentlySelectedGemPosition.row, currentlySelectedGemPosition.col] = gems[gemRow, gemCol];
-                gems[gemRow, gemCol] = currentlySelected;
+                (int rowOnBoard, int colOnBoard) clickedGemOriginalBoardPosition = (clickedGem.rowOnBoard, clickedGem.colOnBoard);
+                clickedGem.rowOnBoard = previouslySelectedGem.rowOnBoard;
+                clickedGem.colOnBoard = previouslySelectedGem.colOnBoard;
+                previouslySelectedGem.rowOnBoard = clickedGemOriginalBoardPosition.rowOnBoard;
+                previouslySelectedGem.colOnBoard = clickedGemOriginalBoardPosition.colOnBoard;
 
                 // all gems to be deselected after the swap
-                hasSelectedGem = false;
                 gemSelectionIndicator.SetActive(false);
 
-                CheckForMatch(currentlySelectedGemPosition.row, currentlySelectedGemPosition.col);
-                CheckForMatch(gemRow, gemCol);
+                CheckForMatch(clickedGem.rowOnBoard, clickedGem.colOnBoard);
+                CheckForMatch(previouslySelectedGem.rowOnBoard, previouslySelectedGem.colOnBoard);
             }
-            else
-            {
-                // assume we selected a new gem
-                currentlySelectedGemPosition.row = gemRow;
-                currentlySelectedGemPosition.col = gemCol;
 
-                // display the gem selection indicator at that gem's position
-                gemSelectionIndicator.SetActive(true);
-                gemSelectionIndicator.transform.position = gems[gemRow, gemCol].transform.position;
-            }
+            // swapping done
+            previouslySelectedGem = null;
         }
         else
         {
-            // the gem will clicked on will be the one we select
-            hasSelectedGem = true;
-
-            // keep the row and column values for reference later
-            currentlySelectedGemPosition.row = gemRow;
-            currentlySelectedGemPosition.col = gemCol;
+            previouslySelectedGem = clickedGem;
 
             // display the gem selection indicator at that gem's position
             gemSelectionIndicator.SetActive(true);
-            gemSelectionIndicator.transform.position = gems[gemRow, gemCol].transform.position;
+            gemSelectionIndicator.transform.position = clickedGem.transform.position;
         }
     }
 
