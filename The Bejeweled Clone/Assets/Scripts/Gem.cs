@@ -9,6 +9,9 @@ public class Gem : MonoBehaviour
 
     public GemBoardBehaviour gemBoard;
 
+    public int rowOnBoard;
+    public int colOnBoard;
+
     // Start is called before the first frame update
     void Start()
     {
