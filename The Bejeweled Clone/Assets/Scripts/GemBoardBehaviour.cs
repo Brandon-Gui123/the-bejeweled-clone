@@ -23,7 +23,7 @@ public class GemBoardBehaviour : MonoBehaviour
 
                 // randomly pick a colour
                 gems[currentRow, currentCol].gemType =
-                    (GemTypes)Random.Range(0, System.Enum.GetNames(typeof(GemTypes)).Length - 1);
+                    (GemTypes)Random.Range(0, System.Enum.GetNames(typeof(GemTypes)).Length);
 
                 gems[currentRow, currentCol].transform.position =
                     new Vector3(currentCol + (0.1f * currentCol), -(currentRow + (0.1f * currentRow)));
