@@ -122,6 +122,7 @@ public class GemBoardBehaviour : MonoBehaviour
         bool hasMatchLeft = false;
 
         bool hasMiddleVerticalMatch = false;
+        bool hasMiddleHorizontalMatch = false;
 
         // check 2 gems above - gemRow must be greater than 1
         if (gemRow > 1)
@@ -163,6 +164,14 @@ public class GemBoardBehaviour : MonoBehaviour
                 && gems[gemRow + 1, gemCol].gemType == gems[gemRow, gemCol].gemType;
         }
 
+        // check a gem to the right and a gem to the left - gemCol must be within 1 to 6
+        if (gemCol >= 1 && gemCol <= 6)
+        {
+            hasMiddleHorizontalMatch =
+                gems[gemRow, gemCol - 1].gemType == gems[gemRow, gemCol].gemType
+                && gems[gemRow, gemCol + 1].gemType == gems[gemRow, gemCol].gemType;
+        }
+
         if (hasMatchAbove)
         {
             Debug.Log($"Found match above for gem at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
@@ -186,6 +195,11 @@ public class GemBoardBehaviour : MonoBehaviour
         if (hasMiddleVerticalMatch)
         {
             Debug.Log($"Found vertical middle match at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
+        }
+    
+        if (hasMiddleHorizontalMatch)
+        {
+            Debug.Log($"Found horizontal middle match for gem at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
         }
     }
 }
