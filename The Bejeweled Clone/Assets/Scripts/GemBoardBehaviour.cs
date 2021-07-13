@@ -252,8 +252,16 @@ public class GemBoardBehaviour : MonoBehaviour
                 hasGemsToShrink = true;
                 isShrinkingGems = true;
 
-                gem.transform.DOScale(Vector3.zero, 0.75f).OnComplete(() => isShrinkingGems = false);
-                gem.hasBeenMatched = false;
+                gem.transform.DOScale(Vector3.zero, 0.75f).OnComplete(
+                    () =>
+                    {
+                        isShrinkingGems = false;
+
+                        // will cause null errors but that's because
+                        // we have not generated new gems
+                        Destroy(gem.gameObject);
+                    }
+                );
             }
         }
 
