@@ -74,8 +74,8 @@ public class GemBoardBehaviour : MonoBehaviour
 
                 // update positions of the gem so that it appears as swapped
                 Vector3 clickedGemOriginalPosition = clickedGem.transform.position;
-                clickedGem.transform.position = previouslySelectedGem.transform.position;
-                previouslySelectedGem.transform.position = clickedGemOriginalPosition;
+                clickedGem.transform.DOMove(previouslySelectedGem.transform.position, 0.5f);
+                previouslySelectedGem.transform.DOMove(clickedGemOriginalPosition, 0.5f);
 
                 // update the stored gem positions so that subsequent swapping with the same gems
                 // won't cause any issues
