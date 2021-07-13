@@ -112,6 +112,7 @@ public class GemBoardBehaviour : MonoBehaviour
             // display the gem selection indicator at that gem's position
             gemSelectionIndicator.SetActive(true);
             gemSelectionIndicator.transform.position = clickedGem.transform.position;
+            gemSelectionIndicator.transform.Translate(0f, 0f, -1f, Space.World);
         }
     }
 
