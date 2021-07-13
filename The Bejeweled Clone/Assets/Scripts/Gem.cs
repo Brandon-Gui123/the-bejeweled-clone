@@ -50,6 +50,12 @@ public class Gem : MonoBehaviour
         }
     }
 
+    // Called while the user's cursor is over a collider and the mouse button is pressed down
+    private void OnMouseDown()
+    {
+        gemBoard.OnGemClicked(rowOnBoard, colOnBoard);
+    }
+
     // Update is called once per frame
     void Update()
     {
