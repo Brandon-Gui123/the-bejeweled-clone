@@ -319,6 +319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gemPrefab: {fileID: 8993048193972729116, guid: 37fd4c63837a41d44b7d77f41c828c31, type: 3}
+  gemSelectionIndicator: {fileID: 570208807}
   hasSelectedGem: 0
 --- !u!4 &1472481334
 Transform:
