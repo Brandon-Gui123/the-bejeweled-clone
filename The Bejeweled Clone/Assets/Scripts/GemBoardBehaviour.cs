@@ -299,7 +299,10 @@ public class GemBoardBehaviour : MonoBehaviour
                             gems[i + 1, col].colOnBoard = col;
 
                             // update position of the gem
-                            tempGem.transform.position = new Vector3(tempGem.colOnBoard + (0.1f * tempGem.colOnBoard), -(tempGem.rowOnBoard + (0.1f * tempGem.rowOnBoard)));
+                            tempGem.transform.DOMove(
+                                new Vector3(tempGem.colOnBoard + (0.1f * tempGem.colOnBoard), -(tempGem.rowOnBoard + (0.1f * tempGem.rowOnBoard))),
+                                0.8f
+                            );
                         }
                     }
                 }
