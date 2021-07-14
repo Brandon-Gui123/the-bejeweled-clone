@@ -273,6 +273,38 @@ public class GemBoardBehaviour : MonoBehaviour
             // to wait for Unity to destroy the Gem objects for us
             yield return new WaitForEndOfFrame();
 
+            // bubble sort each column to move empty spaces up and gems down
+            for (int col = 0; col < gems.GetLength(1); col++)
+            {
+                while (!IsEmptySpacesInGemBoardColumnAllUp(gems, col))
+                {
+                    // aids us in visualising
+                    yield return new WaitForSeconds(0.25f);
+
+                    // start at the top of the column
+                    // keep going till we reach right before the last element
+                    for (int i = 0; i < gems.GetLength(0) - 1; i++)
+                    {
+                        // if bottom is an empty space and current isn't
+                        // swap current with bottom
+                        if (gems[i, col] && !gems[i + 1, col])
+                        {
+                            Gem tempGem = gems[i, col];
+
+                            gems[i, col] = gems[i + 1, col];
+                            gems[i + 1, col] = tempGem;
+
+                            // adjust row and column values for the new gem
+                            gems[i + 1, col].rowOnBoard = i + 1;
+                            gems[i + 1, col].colOnBoard = col;
+
+                            // update position of the gem
+                            tempGem.transform.position = new Vector3(tempGem.colOnBoard + (0.1f * tempGem.colOnBoard), -(tempGem.rowOnBoard + (0.1f * tempGem.rowOnBoard)));
+                        }
+                    }
+                }
+            }
+
             // wherever there are null, fill it with new Gem objects
             for (int currentRow = 0; currentRow < gems.GetLength(0); currentRow++)
             {
