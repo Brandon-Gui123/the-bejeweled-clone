@@ -278,9 +278,6 @@ public class GemBoardBehaviour : MonoBehaviour
             {
                 while (!IsEmptySpacesInGemBoardColumnAllUp(gems, col))
                 {
-                    // aids us in visualising
-                    yield return new WaitForSeconds(0.25f);
-
                     // start at the top of the column
                     // keep going till we reach right before the last element
                     for (int i = 0; i < gems.GetLength(0) - 1; i++)
