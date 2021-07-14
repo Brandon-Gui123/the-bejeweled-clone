@@ -301,6 +301,15 @@ public class GemBoardBehaviour : MonoBehaviour
         isSwappingAllowed = true;
     }
 
+    // Used to test the IsEmptySpacesInGemBoardColumnAllUp method.
+    [ContextMenu("Check all columns")]
+    public void CheckAllColumns()
+    {
+        for (int i = 0; i < gems.GetLength(1); i++)
+        {
+            Debug.Log($"Column {i}: {IsEmptySpacesInGemBoardColumnAllUp(gems, i)}");
+        }
+    }
 
     // Returns true if all the empty spaces in the column are above all gems.
     // False if otherwise.
