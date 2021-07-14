@@ -266,6 +266,12 @@ public class GemBoardBehaviour : MonoBehaviour
             }
         }
 
+        bool areGemsDoneFalling = false;
+        bool hasFallingGems = false;
+
+        bool hasGemsToFill = false;
+        bool areGemsDoneFilling = false;
+
         if (hasGemsToShrink)
         {
             yield return new WaitWhile(() => isShrinkingGems);
@@ -278,6 +284,8 @@ public class GemBoardBehaviour : MonoBehaviour
             {
                 while (!IsEmptySpacesInGemBoardColumnAllUp(gems, col))
                 {
+                    hasFallingGems = true;
+
                     // start at the top of the column
                     // keep going till we reach right before the last element
                     for (int i = 0; i < gems.GetLength(0) - 1; i++)
@@ -299,10 +307,15 @@ public class GemBoardBehaviour : MonoBehaviour
                             tempGem.transform.DOMove(
                                 new Vector3(tempGem.colOnBoard + (0.1f * tempGem.colOnBoard), -(tempGem.rowOnBoard + (0.1f * tempGem.rowOnBoard))),
                                 0.8f
-                            );
+                            ).OnComplete(() => areGemsDoneFalling = true);
                         }
                     }
                 }
+            }
+
+            if (hasFallingGems)
+            {
+                yield return new WaitUntil(() => areGemsDoneFalling);
             }
 
             // wherever there are null, fill it with new Gem objects
@@ -312,6 +325,8 @@ public class GemBoardBehaviour : MonoBehaviour
                 {
                     if (!gems[currentRow, currentCol])
                     {
+                        hasGemsToFill = true;
+
                         gems[currentRow, currentCol] = Instantiate(gemPrefab, transform.position, transform.rotation, transform);
 
                         gems[currentRow, currentCol].gemType = (GemTypes)Random.Range(0, System.Enum.GetNames(typeof(GemTypes)).Length);
@@ -323,9 +338,17 @@ public class GemBoardBehaviour : MonoBehaviour
                         gems[currentRow, currentCol].colOnBoard = currentCol;
 
                         gems[currentRow, currentCol].gemBoard = this;
+
+                        gems[currentRow, currentCol].transform.DOScale(0f, 0.5f).From()
+                                                              .OnComplete(() => areGemsDoneFilling = true);
                     }
                 }
             }
+        }
+
+        if (hasGemsToFill)
+        {
+            yield return new WaitUntil(() => areGemsDoneFilling);
         }
 
         clickedGem = null;
