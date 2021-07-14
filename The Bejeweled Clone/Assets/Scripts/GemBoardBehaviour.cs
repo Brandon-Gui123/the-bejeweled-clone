@@ -300,4 +300,37 @@ public class GemBoardBehaviour : MonoBehaviour
         previouslySelectedGem = null;
         isSwappingAllowed = true;
     }
+
+
+    // Returns true if all the empty spaces in the column are above all gems.
+    // False if otherwise.
+    public bool IsEmptySpacesInGemBoardColumnAllUp(Gem[,] gemBoard, int columnIndex)
+    {
+        // is we encounter gems, we shall not encounter blank spaces
+        // if we encounter blank spaces, keep going until we encounter gems,
+        // then check as what is stated above
+        bool hasEncounteredGems = false;
+
+        for (int i = 0; i < gemBoard.GetLength(0); i++)
+        {
+            Gem gem = gemBoard[i, columnIndex];
+
+            if (gem)
+            {
+                hasEncounteredGems = true;
+            }
+
+            if (hasEncounteredGems)
+            {
+                // the column is invalid if we encounter blank spaces
+                // after finding gems above
+                if (!gem)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }
