@@ -116,7 +116,7 @@ public class GemBoardBehaviour : MonoBehaviour
         }
     }
 
-    public void CheckForMatch(Gem gem)
+    public bool CheckForMatch(Gem gem)
     {
         bool hasMatchAbove = false;
         bool hasMatchRight = false;
@@ -230,6 +230,8 @@ public class GemBoardBehaviour : MonoBehaviour
             gems[gemRow, gemCol + 1].hasBeenMatched = true;
             gems[gemRow, gemCol - 1].hasBeenMatched = true;
         }
+
+        return hasMatchAbove || hasMatchBelow || hasMatchLeft || hasMatchRight || hasMiddleHorizontalMatch || hasMiddleVerticalMatch;
     }
 
     public void OnSwappingComplete()
