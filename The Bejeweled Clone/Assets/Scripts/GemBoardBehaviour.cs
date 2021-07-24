@@ -116,7 +116,7 @@ public class GemBoardBehaviour : MonoBehaviour
         }
     }
 
-    public void CheckForMatch(Gem gem)
+    public bool CheckForMatch(Gem gem)
     {
         bool hasMatchAbove = false;
         bool hasMatchRight = false;
@@ -230,6 +230,8 @@ public class GemBoardBehaviour : MonoBehaviour
             gems[gemRow, gemCol + 1].hasBeenMatched = true;
             gems[gemRow, gemCol - 1].hasBeenMatched = true;
         }
+
+        return hasMatchAbove || hasMatchBelow || hasMatchLeft || hasMatchRight || hasMiddleHorizontalMatch || hasMiddleVerticalMatch;
     }
 
     public void OnSwappingComplete()
@@ -239,116 +241,140 @@ public class GemBoardBehaviour : MonoBehaviour
 
     public IEnumerator OnSwappingCompleteRoutine()
     {
-        CheckForMatch(clickedGem);
-        CheckForMatch(previouslySelectedGem);
-
-        bool hasGemsToShrink = false;
-        bool isShrinkingGems = false;
-
-        // process matched gems
-        foreach (Gem gem in gems)
+        if (CheckForMatch(clickedGem) || CheckForMatch(previouslySelectedGem))
         {
-            if (gem.hasBeenMatched)
+            bool hasGemsToShrink = false;
+            bool isShrinkingGems = false;
+
+            // process matched gems
+            foreach (Gem gem in gems)
             {
-                hasGemsToShrink = true;
-                isShrinkingGems = true;
-
-                gem.transform.DOScale(Vector3.zero, 0.75f).OnComplete(
-                    () =>
-                    {
-                        isShrinkingGems = false;
-
-                        // will cause null errors but that's because
-                        // we have not generated new gems
-                        Destroy(gem.gameObject);
-                    }
-                );
-            }
-        }
-
-        bool areGemsDoneFalling = false;
-        bool hasFallingGems = false;
-
-        bool hasGemsToFill = false;
-        bool areGemsDoneFilling = false;
-
-        if (hasGemsToShrink)
-        {
-            yield return new WaitWhile(() => isShrinkingGems);
-
-            // to wait for Unity to destroy the Gem objects for us
-            yield return new WaitForEndOfFrame();
-
-            // bubble sort each column to move empty spaces up and gems down
-            for (int col = 0; col < gems.GetLength(1); col++)
-            {
-                while (!IsEmptySpacesInGemBoardColumnAllUp(gems, col))
+                if (gem.hasBeenMatched)
                 {
-                    hasFallingGems = true;
+                    hasGemsToShrink = true;
+                    isShrinkingGems = true;
 
-                    // start at the top of the column
-                    // keep going till we reach right before the last element
-                    for (int i = 0; i < gems.GetLength(0) - 1; i++)
-                    {
-                        // if bottom is an empty space and current isn't
-                        // swap current with bottom
-                        if (gems[i, col] && !gems[i + 1, col])
+                    gem.transform.DOScale(Vector3.zero, 0.75f).OnComplete(
+                        () =>
                         {
-                            Gem tempGem = gems[i, col];
+                            isShrinkingGems = false;
 
-                            gems[i, col] = gems[i + 1, col];
-                            gems[i + 1, col] = tempGem;
+                            // will cause null errors but that's because
+                            // we have not generated new gems
+                            Destroy(gem.gameObject);
+                        }
+                    );
+                }
+            }
 
-                            // adjust row and column values for the new gem
-                            gems[i + 1, col].rowOnBoard = i + 1;
-                            gems[i + 1, col].colOnBoard = col;
+            bool areGemsDoneFalling = false;
+            bool hasFallingGems = false;
 
-                            // update position of the gem
-                            tempGem.transform.DOMove(
-                                new Vector3(tempGem.colOnBoard + (0.1f * tempGem.colOnBoard), -(tempGem.rowOnBoard + (0.1f * tempGem.rowOnBoard))),
-                                0.8f
-                            ).OnComplete(() => areGemsDoneFalling = true);
+            bool hasGemsToFill = false;
+            bool areGemsDoneFilling = false;
+
+            if (hasGemsToShrink)
+            {
+                yield return new WaitWhile(() => isShrinkingGems);
+
+                // to wait for Unity to destroy the Gem objects for us
+                yield return new WaitForEndOfFrame();
+
+                // bubble sort each column to move empty spaces up and gems down
+                for (int col = 0; col < gems.GetLength(1); col++)
+                {
+                    while (!IsEmptySpacesInGemBoardColumnAllUp(gems, col))
+                    {
+                        hasFallingGems = true;
+
+                        // start at the top of the column
+                        // keep going till we reach right before the last element
+                        for (int i = 0; i < gems.GetLength(0) - 1; i++)
+                        {
+                            // if bottom is an empty space and current isn't
+                            // swap current with bottom
+                            if (gems[i, col] && !gems[i + 1, col])
+                            {
+                                Gem tempGem = gems[i, col];
+
+                                gems[i, col] = gems[i + 1, col];
+                                gems[i + 1, col] = tempGem;
+
+                                // adjust row and column values for the new gem
+                                gems[i + 1, col].rowOnBoard = i + 1;
+                                gems[i + 1, col].colOnBoard = col;
+
+                                // update position of the gem
+                                tempGem.transform.DOMove(
+                                    new Vector3(tempGem.colOnBoard + (0.1f * tempGem.colOnBoard), -(tempGem.rowOnBoard + (0.1f * tempGem.rowOnBoard))),
+                                    0.8f
+                                ).OnComplete(() => areGemsDoneFalling = true);
+                            }
+                        }
+                    }
+                }
+
+                if (hasFallingGems)
+                {
+                    yield return new WaitUntil(() => areGemsDoneFalling);
+                }
+
+                // wherever there are null, fill it with new Gem objects
+                for (int currentRow = 0; currentRow < gems.GetLength(0); currentRow++)
+                {
+                    for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
+                    {
+                        if (!gems[currentRow, currentCol])
+                        {
+                            hasGemsToFill = true;
+
+                            gems[currentRow, currentCol] = Instantiate(gemPrefab, transform.position, transform.rotation, transform);
+
+                            gems[currentRow, currentCol].gemType = (GemTypes)Random.Range(0, System.Enum.GetNames(typeof(GemTypes)).Length);
+
+                            gems[currentRow, currentCol].transform.position =
+                            new Vector3(currentCol + (0.1f * currentCol), -(currentRow + (0.1f * currentRow)));
+
+                            gems[currentRow, currentCol].rowOnBoard = currentRow;
+                            gems[currentRow, currentCol].colOnBoard = currentCol;
+
+                            gems[currentRow, currentCol].gemBoard = this;
+
+                            gems[currentRow, currentCol].transform.DOScale(0f, 0.5f).From()
+                                                                  .OnComplete(() => areGemsDoneFilling = true);
                         }
                     }
                 }
             }
 
-            if (hasFallingGems)
+            if (hasGemsToFill)
             {
-                yield return new WaitUntil(() => areGemsDoneFalling);
-            }
-
-            // wherever there are null, fill it with new Gem objects
-            for (int currentRow = 0; currentRow < gems.GetLength(0); currentRow++)
-            {
-                for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
-                {
-                    if (!gems[currentRow, currentCol])
-                    {
-                        hasGemsToFill = true;
-
-                        gems[currentRow, currentCol] = Instantiate(gemPrefab, transform.position, transform.rotation, transform);
-
-                        gems[currentRow, currentCol].gemType = (GemTypes)Random.Range(0, System.Enum.GetNames(typeof(GemTypes)).Length);
-
-                        gems[currentRow, currentCol].transform.position =
-                        new Vector3(currentCol + (0.1f * currentCol), -(currentRow + (0.1f * currentRow)));
-
-                        gems[currentRow, currentCol].rowOnBoard = currentRow;
-                        gems[currentRow, currentCol].colOnBoard = currentCol;
-
-                        gems[currentRow, currentCol].gemBoard = this;
-
-                        gems[currentRow, currentCol].transform.DOScale(0f, 0.5f).From()
-                                                              .OnComplete(() => areGemsDoneFilling = true);
-                    }
-                }
+                yield return new WaitUntil(() => areGemsDoneFilling);
             }
         }
-
-        if (hasGemsToFill)
+        else
         {
-            yield return new WaitUntil(() => areGemsDoneFilling);
+            // the two gems must be moved back to their original positions
+
+            // first, we swap their object instances in the 2-dimensional array
+            (int row, int col) clickedGemOriginalCoords = (clickedGem.rowOnBoard, clickedGem.colOnBoard);
+            gems[previouslySelectedGem.rowOnBoard, previouslySelectedGem.colOnBoard] = clickedGem;
+            gems[clickedGemOriginalCoords.row, clickedGemOriginalCoords.col] = previouslySelectedGem;
+
+            // next, we update the coords on the Gem objects themselves
+            clickedGem.rowOnBoard = previouslySelectedGem.rowOnBoard;
+            clickedGem.colOnBoard = previouslySelectedGem.colOnBoard;
+            previouslySelectedGem.rowOnBoard = clickedGemOriginalCoords.row;
+            previouslySelectedGem.colOnBoard = clickedGemOriginalCoords.col;
+
+            // now, we translate the two gem GameObjects
+            bool isDoneSwappingBack = false;
+            Vector3 clickedGemOriginalPosition = clickedGem.transform.position;
+            clickedGem.transform.DOMove(previouslySelectedGem.transform.position, 0.5f);
+            previouslySelectedGem.transform.DOMove(clickedGemOriginalPosition, 0.5f).OnComplete(() => isDoneSwappingBack = true);
+
+            // only continue execution after the tweening is done
+            yield return new WaitUntil(() => isDoneSwappingBack);
         }
 
         clickedGem = null;
