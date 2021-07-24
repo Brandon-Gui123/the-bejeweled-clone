@@ -266,12 +266,57 @@ public class GemBoardBehaviour : MonoBehaviour
             }
         }
 
+        bool areGemsDoneFalling = false;
+        bool hasFallingGems = false;
+
+        bool hasGemsToFill = false;
+        bool areGemsDoneFilling = false;
+
         if (hasGemsToShrink)
         {
             yield return new WaitWhile(() => isShrinkingGems);
 
             // to wait for Unity to destroy the Gem objects for us
             yield return new WaitForEndOfFrame();
+
+            // bubble sort each column to move empty spaces up and gems down
+            for (int col = 0; col < gems.GetLength(1); col++)
+            {
+                while (!IsEmptySpacesInGemBoardColumnAllUp(gems, col))
+                {
+                    hasFallingGems = true;
+
+                    // start at the top of the column
+                    // keep going till we reach right before the last element
+                    for (int i = 0; i < gems.GetLength(0) - 1; i++)
+                    {
+                        // if bottom is an empty space and current isn't
+                        // swap current with bottom
+                        if (gems[i, col] && !gems[i + 1, col])
+                        {
+                            Gem tempGem = gems[i, col];
+
+                            gems[i, col] = gems[i + 1, col];
+                            gems[i + 1, col] = tempGem;
+
+                            // adjust row and column values for the new gem
+                            gems[i + 1, col].rowOnBoard = i + 1;
+                            gems[i + 1, col].colOnBoard = col;
+
+                            // update position of the gem
+                            tempGem.transform.DOMove(
+                                new Vector3(tempGem.colOnBoard + (0.1f * tempGem.colOnBoard), -(tempGem.rowOnBoard + (0.1f * tempGem.rowOnBoard))),
+                                0.8f
+                            ).OnComplete(() => areGemsDoneFalling = true);
+                        }
+                    }
+                }
+            }
+
+            if (hasFallingGems)
+            {
+                yield return new WaitUntil(() => areGemsDoneFalling);
+            }
 
             // wherever there are null, fill it with new Gem objects
             for (int currentRow = 0; currentRow < gems.GetLength(0); currentRow++)
@@ -280,6 +325,8 @@ public class GemBoardBehaviour : MonoBehaviour
                 {
                     if (!gems[currentRow, currentCol])
                     {
+                        hasGemsToFill = true;
+
                         gems[currentRow, currentCol] = Instantiate(gemPrefab, transform.position, transform.rotation, transform);
 
                         gems[currentRow, currentCol].gemType = (GemTypes)Random.Range(0, System.Enum.GetNames(typeof(GemTypes)).Length);
@@ -291,13 +338,63 @@ public class GemBoardBehaviour : MonoBehaviour
                         gems[currentRow, currentCol].colOnBoard = currentCol;
 
                         gems[currentRow, currentCol].gemBoard = this;
+
+                        gems[currentRow, currentCol].transform.DOScale(0f, 0.5f).From()
+                                                              .OnComplete(() => areGemsDoneFilling = true);
                     }
                 }
             }
         }
 
+        if (hasGemsToFill)
+        {
+            yield return new WaitUntil(() => areGemsDoneFilling);
+        }
+
         clickedGem = null;
         previouslySelectedGem = null;
         isSwappingAllowed = true;
+    }
+
+    // Used to test the IsEmptySpacesInGemBoardColumnAllUp method.
+    [ContextMenu("Check all columns")]
+    public void CheckAllColumns()
+    {
+        for (int i = 0; i < gems.GetLength(1); i++)
+        {
+            Debug.Log($"Column {i}: {IsEmptySpacesInGemBoardColumnAllUp(gems, i)}");
+        }
+    }
+
+    // Returns true if all the empty spaces in the column are above all gems.
+    // False if otherwise.
+    public bool IsEmptySpacesInGemBoardColumnAllUp(Gem[,] gemBoard, int columnIndex)
+    {
+        // is we encounter gems, we shall not encounter blank spaces
+        // if we encounter blank spaces, keep going until we encounter gems,
+        // then check as what is stated above
+        bool hasEncounteredGems = false;
+
+        for (int i = 0; i < gemBoard.GetLength(0); i++)
+        {
+            Gem gem = gemBoard[i, columnIndex];
+
+            if (gem)
+            {
+                hasEncounteredGems = true;
+            }
+
+            if (hasEncounteredGems)
+            {
+                // the column is invalid if we encounter blank spaces
+                // after finding gems above
+                if (!gem)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }
