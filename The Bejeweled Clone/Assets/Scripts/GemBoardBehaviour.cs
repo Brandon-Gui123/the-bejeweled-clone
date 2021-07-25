@@ -532,6 +532,9 @@ public class GemBoardBehaviour : MonoBehaviour
         return true;
     }
 
+    private Vector3 ComputeGemPositionViaRowAndCol(int gemRow, int gemCol)
+        => new Vector3(gemCol + (0.1f * gemCol), -(gemRow + (0.1f * gemRow)));
+
     [ContextMenu("Reset Gem Types To Use")]
     private void SetGemTypesToUseToDefault()
     {
