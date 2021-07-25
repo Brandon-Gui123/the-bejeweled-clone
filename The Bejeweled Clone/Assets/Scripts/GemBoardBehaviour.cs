@@ -21,6 +21,11 @@ public class GemBoardBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GenerateGemsForBoard();
+    }
+
+    private void GenerateGemsForBoard()
+    {
         for (int currentRow = 0; currentRow < gems.GetLength(0); currentRow++)
         {
             for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
