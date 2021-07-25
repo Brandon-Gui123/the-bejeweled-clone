@@ -548,25 +548,7 @@ public class GemBoardBehaviour : MonoBehaviour
             Destroy(gem);
         }
 
-        // generate gems
-        for (int currentRow = 0; currentRow < gems.GetLength(0); currentRow++)
-        {
-            for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
-            {
-                gems[currentRow, currentCol] = Instantiate(gemPrefab, transform.position, transform.rotation, transform);
-
-                // randomly pick a colour
-                gems[currentRow, currentCol].gemType = gemTypesToUse[Random.Range(0, gemTypesToUse.Length)];
-
-                gems[currentRow, currentCol].transform.position =
-                    new Vector3(currentCol + (0.1f * currentCol), -(currentRow + (0.1f * currentRow)));
-
-                gems[currentRow, currentCol].rowOnBoard = currentRow;
-                gems[currentRow, currentCol].colOnBoard = currentCol;
-
-                gems[currentRow, currentCol].gemBoard = this;
-            }
-        }
+        GenerateGemsForBoard();
     }
 
     [ContextMenu("Print Board Representation to Console")]
