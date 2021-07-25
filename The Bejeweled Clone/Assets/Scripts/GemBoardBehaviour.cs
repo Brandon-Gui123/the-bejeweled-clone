@@ -533,4 +533,34 @@ public class GemBoardBehaviour : MonoBehaviour
         Debug.Log("Successfully reset the gems types to use on the board!", this);
         gemTypesToUse = (GemTypes[])System.Enum.GetValues(typeof(GemTypes));
     }
+
+    [ContextMenu("Regenerate Gem Board")]
+    private void RegenerateGemBoard()
+    {
+        // to remove every single gem on the board
+        foreach (var gem in gems)
+        {
+            Destroy(gem);
+        }
+
+        // generate gems
+        for (int currentRow = 0; currentRow < gems.GetLength(0); currentRow++)
+        {
+            for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
+            {
+                gems[currentRow, currentCol] = Instantiate(gemPrefab, transform.position, transform.rotation, transform);
+
+                // randomly pick a colour
+                gems[currentRow, currentCol].gemType = gemTypesToUse[Random.Range(0, gemTypesToUse.Length)];
+
+                gems[currentRow, currentCol].transform.position =
+                    new Vector3(currentCol + (0.1f * currentCol), -(currentRow + (0.1f * currentRow)));
+
+                gems[currentRow, currentCol].rowOnBoard = currentRow;
+                gems[currentRow, currentCol].colOnBoard = currentCol;
+
+                gems[currentRow, currentCol].gemBoard = this;
+            }
+        }
+    }
 }
