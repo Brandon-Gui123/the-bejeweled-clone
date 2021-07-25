@@ -393,18 +393,13 @@ public class GemBoardBehaviour : MonoBehaviour
                             // swap current with bottom
                             if (gems[i, col] && !gems[i + 1, col])
                             {
-                                Gem tempGem = gems[i, col];
+                                Gem currentGem = gems[i, col];
 
-                                gems[i, col] = gems[i + 1, col];
-                                gems[i + 1, col] = tempGem;
-
-                                // adjust row and column values for the new gem
-                                gems[i + 1, col].rowOnBoard = i + 1;
-                                gems[i + 1, col].colOnBoard = col;
+                                SwapGems(currentGem, gems[i + 1, col]);
 
                                 // update position of the gem
-                                tempGem.transform.DOMove(
-                                    ComputeGemPositionViaRowAndCol(tempGem.rowOnBoard, tempGem.colOnBoard),
+                                currentGem.transform.DOMove(
+                                    ComputeGemPositionViaRowAndCol(currentGem.rowOnBoard, currentGem.colOnBoard),
                                     0.8f
                                 ).OnComplete(() => areGemsDoneFalling = true);
                             }
