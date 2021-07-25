@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -562,5 +562,59 @@ public class GemBoardBehaviour : MonoBehaviour
                 gems[currentRow, currentCol].gemBoard = this;
             }
         }
+    }
+
+    [ContextMenu("Print Board Representation to Console")]
+    private void PrintBoardRepresentationToConsole()
+    {
+        string representation = "Board representation:\n";
+
+        for (int currentRow = 0; currentRow < gems.GetLength(0); currentRow++)
+        {
+            for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
+            {
+                Gem currentGem = gems[currentRow, currentCol];
+
+                Color characterColour = Color.black;
+
+                // colour the character accordingly
+                switch (currentGem.gemType)
+                {
+                    case GemTypes.Red:
+                        characterColour = Color.red;
+                        break;
+
+                    case GemTypes.Orange:
+                        characterColour = new Color(1f, 0.75f, 0f);
+                        break;
+
+                    case GemTypes.Yellow:
+                        characterColour = Color.yellow;
+                        break;
+
+                    case GemTypes.Green:
+                        characterColour = Color.green;
+                        break;
+
+                    case GemTypes.Blue:
+                        characterColour = Color.blue;
+                        break;
+
+                    case GemTypes.Purple:
+                        characterColour = Color.magenta;
+                        break;
+
+                    case GemTypes.White:
+                        characterColour = Color.white;
+                        break;
+                }
+
+                representation += "■".Color(characterColour);
+            }
+
+            representation += "\n";
+        }
+
+        Debug.Log(representation, this);
     }
 }
