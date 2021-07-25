@@ -35,8 +35,7 @@ public class GemBoardBehaviour : MonoBehaviour
                 // randomly pick a colour
                 gems[currentRow, currentCol].gemType = gemTypesToUse[Random.Range(0, gemTypesToUse.Length)];
 
-                gems[currentRow, currentCol].transform.position =
-                    new Vector3(currentCol + (0.1f * currentCol), -(currentRow + (0.1f * currentRow)));
+                gems[currentRow, currentCol].transform.position = ComputeGemPositionViaRowAndCol(currentRow, currentCol);
 
                 gems[currentRow, currentCol].rowOnBoard = currentRow;
                 gems[currentRow, currentCol].colOnBoard = currentCol;
@@ -414,7 +413,7 @@ public class GemBoardBehaviour : MonoBehaviour
 
                                 // update position of the gem
                                 tempGem.transform.DOMove(
-                                    new Vector3(tempGem.colOnBoard + (0.1f * tempGem.colOnBoard), -(tempGem.rowOnBoard + (0.1f * tempGem.rowOnBoard))),
+                                    ComputeGemPositionViaRowAndCol(tempGem.rowOnBoard, tempGem.colOnBoard),
                                     0.8f
                                 ).OnComplete(() => areGemsDoneFalling = true);
                             }
