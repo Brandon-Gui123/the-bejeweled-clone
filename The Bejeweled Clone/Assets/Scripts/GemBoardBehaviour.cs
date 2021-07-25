@@ -338,7 +338,11 @@ public class GemBoardBehaviour : MonoBehaviour
 
     public IEnumerator OnSwappingCompleteRoutine()
     {
-        if (CheckForMatch(clickedGem) || CheckForMatch(previouslySelectedGem))
+        bool hasMatchForClickedGem = CheckForMatch2(clickedGem);
+        bool hasMatchForPreviouslySelectedGem = CheckForMatch2(previouslySelectedGem);
+
+        //if (CheckForMatch(clickedGem) || CheckForMatch(previouslySelectedGem))
+        if (hasMatchForClickedGem || hasMatchForPreviouslySelectedGem)
         {
             bool hasGemsToShrink = false;
             bool isShrinkingGems = false;
