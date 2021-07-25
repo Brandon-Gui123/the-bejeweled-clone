@@ -234,6 +234,103 @@ public class GemBoardBehaviour : MonoBehaviour
         return hasMatchAbove || hasMatchBelow || hasMatchLeft || hasMatchRight || hasMiddleHorizontalMatch || hasMiddleVerticalMatch;
     }
 
+    public bool CheckForMatch2(Gem gem)
+    {
+        // our list will initially contain the target gem so that it can be
+        // marked as matched if we do find a match
+        List<Gem> verticalGems = new List<Gem> { gem };
+        List<Gem> horizontalGems = new List<Gem> { gem };
+
+        int numVerticallyMatchedGems = 1;
+        int numHorizontallyMatchedGems = 1;
+
+        // start checking vertically first
+        // from the current gem upwards
+        for (int currentRow = gem.rowOnBoard; currentRow > 0; currentRow--)
+        {
+            if (gems[currentRow - 1, gem.colOnBoard].gemType == gem.gemType)
+            {
+                // gem above same as current
+                numVerticallyMatchedGems++;
+                verticalGems.Add(gems[currentRow - 1, gem.colOnBoard]);
+            }
+            else
+            {
+                // gem above different as current
+                break;
+            }
+        }
+
+        // now from the current gem downwards
+        for (int currentRow = gem.rowOnBoard; currentRow < 8 - 1; currentRow++)
+        {
+            if (gems[currentRow + 1, gem.colOnBoard].gemType == gem.gemType)
+            {
+                // gem below same as current
+                numVerticallyMatchedGems++;
+                verticalGems.Add(gems[currentRow + 1, gem.colOnBoard]);
+            }
+            else
+            {
+                // gem below different as current
+                break;
+            }
+        }
+
+        // now to check horizontal
+        // from the current gem and going towards the left
+        for (int currentCol = gem.colOnBoard; currentCol > 0; currentCol--)
+        {
+            if (gems[gem.rowOnBoard, currentCol - 1].gemType == gem.gemType)
+            {
+                // gem to the left of current is the same as current
+                numHorizontallyMatchedGems++;
+                horizontalGems.Add(gems[gem.rowOnBoard, currentCol - 1]);
+            }
+            else
+            {
+                // gem to the left different from current
+                break;
+            }
+        }
+
+        // from the current gem and going towards the right
+        for (int currentCol = gem.colOnBoard; currentCol < 8 - 1; currentCol++)
+        {
+            if (gems[gem.rowOnBoard, currentCol + 1].gemType == gem.gemType)
+            {
+                // gem to the left of current is the same as current
+                numHorizontallyMatchedGems++;
+                horizontalGems.Add(gems[gem.rowOnBoard, currentCol + 1]);
+            }
+            else
+            {
+                // gem to the left different from current
+                break;
+            }
+        }
+
+        // gems in vertical match
+        if (numVerticallyMatchedGems >= 3)
+        {
+            foreach (var g in verticalGems)
+            {
+                g.hasBeenMatched = true;
+            }
+        }
+
+        // gems in horizontal match
+        if (numHorizontallyMatchedGems >= 3)
+        {
+            foreach (var g in horizontalGems)
+            {
+                g.hasBeenMatched = true;
+            }
+        }
+
+        return numHorizontallyMatchedGems >= 3 || numVerticallyMatchedGems >= 3;
+    }
+
     public void OnSwappingComplete()
     {
         StartCoroutine(OnSwappingCompleteRoutine());
@@ -241,7 +338,11 @@ public class GemBoardBehaviour : MonoBehaviour
 
     public IEnumerator OnSwappingCompleteRoutine()
     {
-        if (CheckForMatch(clickedGem) || CheckForMatch(previouslySelectedGem))
+        bool hasMatchForClickedGem = CheckForMatch2(clickedGem);
+        bool hasMatchForPreviouslySelectedGem = CheckForMatch2(previouslySelectedGem);
+
+        //if (CheckForMatch(clickedGem) || CheckForMatch(previouslySelectedGem))
+        if (hasMatchForClickedGem || hasMatchForPreviouslySelectedGem)
         {
             bool hasGemsToShrink = false;
             bool isShrinkingGems = false;
