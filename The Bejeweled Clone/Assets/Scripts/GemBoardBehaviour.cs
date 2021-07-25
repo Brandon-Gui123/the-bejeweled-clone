@@ -526,4 +526,11 @@ public class GemBoardBehaviour : MonoBehaviour
 
         return true;
     }
+
+    [ContextMenu("Reset Gem Types To Use")]
+    private void SetGemTypesToUseToDefault()
+    {
+        Debug.Log("Successfully reset the gems types to use on the board!", this);
+        gemTypesToUse = (GemTypes[])System.Enum.GetValues(typeof(GemTypes));
+    }
 }
