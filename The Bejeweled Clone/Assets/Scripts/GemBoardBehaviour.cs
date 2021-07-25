@@ -28,8 +28,7 @@ public class GemBoardBehaviour : MonoBehaviour
                 gems[currentRow, currentCol] = Instantiate(gemPrefab, transform.position, transform.rotation, transform);
 
                 // randomly pick a colour
-                gems[currentRow, currentCol].gemType =
-                    (GemTypes)Random.Range(0, System.Enum.GetNames(typeof(GemTypes)).Length);
+                gems[currentRow, currentCol].gemType = gemTypesToUse[Random.Range(0, gemTypesToUse.Length)];
 
                 gems[currentRow, currentCol].transform.position =
                     new Vector3(currentCol + (0.1f * currentCol), -(currentRow + (0.1f * currentRow)));
@@ -434,7 +433,7 @@ public class GemBoardBehaviour : MonoBehaviour
 
                             gems[currentRow, currentCol] = Instantiate(gemPrefab, transform.position, transform.rotation, transform);
 
-                            gems[currentRow, currentCol].gemType = (GemTypes)Random.Range(0, System.Enum.GetNames(typeof(GemTypes)).Length);
+                            gems[currentRow, currentCol].gemType = gemTypesToUse[Random.Range(0, gemTypesToUse.Length)];
 
                             gems[currentRow, currentCol].transform.position =
                             new Vector3(currentCol + (0.1f * currentCol), -(currentRow + (0.1f * currentRow)));
