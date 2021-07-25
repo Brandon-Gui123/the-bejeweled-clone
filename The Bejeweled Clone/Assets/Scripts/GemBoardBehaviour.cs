@@ -15,6 +15,9 @@ public class GemBoardBehaviour : MonoBehaviour
     public bool isSwappingAllowed = true;
     public Gem clickedGem;
 
+    // the default for this field is to use all of the gem types
+    public GemTypes[] gemTypesToUse = (GemTypes[])System.Enum.GetValues(typeof(GemTypes));
+
     // Start is called before the first frame update
     void Start()
     {
