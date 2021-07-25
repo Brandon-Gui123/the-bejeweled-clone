@@ -574,42 +574,8 @@ public class GemBoardBehaviour : MonoBehaviour
             for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
             {
                 Gem currentGem = gems[currentRow, currentCol];
-
-                Color characterColour = Color.black;
-
-                // colour the character accordingly
-                switch (currentGem.gemType)
-                {
-                    case GemTypes.Red:
-                        characterColour = Color.red;
-                        break;
-
-                    case GemTypes.Orange:
-                        characterColour = new Color(1f, 0.75f, 0f);
-                        break;
-
-                    case GemTypes.Yellow:
-                        characterColour = Color.yellow;
-                        break;
-
-                    case GemTypes.Green:
-                        characterColour = Color.green;
-                        break;
-
-                    case GemTypes.Blue:
-                        characterColour = Color.blue;
-                        break;
-
-                    case GemTypes.Purple:
-                        characterColour = Color.magenta;
-                        break;
-
-                    case GemTypes.White:
-                        characterColour = Color.white;
-                        break;
-                }
-
-                representation += "■".Color(characterColour);
+                Color characterColor = GemUtils.GetColorBasedOnGemType(currentGem.gemType);
+                representation += "■".Color(characterColor);
             }
 
             representation += "\n";
