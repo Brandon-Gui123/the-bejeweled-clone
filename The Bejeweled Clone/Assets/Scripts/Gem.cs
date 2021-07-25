@@ -17,39 +17,13 @@ public class Gem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ColorizeGemSprite();
+    }
+
+    private void ColorizeGemSprite()
+    {
         gemSprite = GetComponent<SpriteRenderer>();
-        
-        // colour the gem accordingly
-        switch (gemType)
-        {
-            case GemTypes.Red:
-                gemSprite.color = Color.red;
-                break;
-
-            case GemTypes.Orange:
-                gemSprite.color = new Color(1f, 0.75f, 0f);
-                break;
-
-            case GemTypes.Yellow:
-                gemSprite.color = Color.yellow;
-                break;
-
-            case GemTypes.Green:
-                gemSprite.color = Color.green;
-                break;
-
-            case GemTypes.Blue:
-                gemSprite.color = Color.blue;
-                break;
-
-            case GemTypes.Purple:
-                gemSprite.color = Color.magenta;
-                break;
-
-            case GemTypes.White:
-                gemSprite.color = Color.white;
-                break;
-        }
+        gemSprite.color = GemUtils.GetColorBasedOnGemType(gemType);
     }
 
     // Called while the user's cursor is over a collider and the mouse button is pressed down
