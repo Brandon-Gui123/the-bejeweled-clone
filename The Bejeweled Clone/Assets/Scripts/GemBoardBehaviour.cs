@@ -534,6 +534,28 @@ public class GemBoardBehaviour : MonoBehaviour
     private Vector3 ComputeGemPositionViaRowAndCol(int gemRow, int gemCol)
         => new Vector3(gemCol + (0.1f * gemCol), -(gemRow + (0.1f * gemRow)));
 
+    private void SwapGems(Gem first, Gem second)
+    {
+        // this swaps the gem instances on the board
+        // and updates the row and column values on the
+        // gems themselves
+
+        // swap gem object instances on the board
+        gems[first.rowOnBoard, first.colOnBoard] = second;
+        gems[second.rowOnBoard, second.colOnBoard] = first;
+
+        // store first gem's row and column values so we don't lose
+        // the original values when we change it to the second's
+        int initialFirstGemRow = first.rowOnBoard;
+        int initialFirstGemCol = first.colOnBoard;
+
+        // update row and column values for both gems
+        first.rowOnBoard = second.rowOnBoard;
+        first.colOnBoard = second.colOnBoard;
+        second.rowOnBoard = initialFirstGemRow;
+        second.colOnBoard = initialFirstGemCol;
+    }
+
     [ContextMenu("Reset Gem Types To Use")]
     private void SetGemTypesToUseToDefault()
     {
