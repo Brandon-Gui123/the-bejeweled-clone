@@ -430,8 +430,7 @@ public class GemBoardBehaviour : MonoBehaviour
 
                             gems[currentRow, currentCol].gemType = gemTypesToUse[Random.Range(0, gemTypesToUse.Length)];
 
-                            gems[currentRow, currentCol].transform.position =
-                            new Vector3(currentCol + (0.1f * currentCol), -(currentRow + (0.1f * currentRow)));
+                            gems[currentRow, currentCol].transform.position = ComputeGemPositionViaRowAndCol(currentRow, currentCol);
 
                             gems[currentRow, currentCol].rowOnBoard = currentRow;
                             gems[currentRow, currentCol].colOnBoard = currentCol;
