@@ -90,22 +90,13 @@ public class GemBoardBehaviour : MonoBehaviour
                 // do not allow other gems to be swapped while one is happening
                 isSwappingAllowed = false;
 
-                // swap the object instances
-                gems[clickedGem.rowOnBoard, clickedGem.colOnBoard] = previouslySelectedGem;
-                gems[previouslySelectedGem.rowOnBoard, previouslySelectedGem.colOnBoard] = clickedGem;
+                // swap gem instances on the board
+                SwapGems(clickedGem, previouslySelectedGem);
 
                 // update positions of the gem so that it appears as swapped
                 Vector3 clickedGemOriginalPosition = clickedGem.transform.position;
                 clickedGem.transform.DOMove(previouslySelectedGem.transform.position, 0.5f).OnComplete(OnSwappingComplete);
                 previouslySelectedGem.transform.DOMove(clickedGemOriginalPosition, 0.5f);
-
-                // update the stored gem positions so that subsequent swapping with the same gems
-                // won't cause any issues
-                (int rowOnBoard, int colOnBoard) clickedGemOriginalBoardPosition = (clickedGem.rowOnBoard, clickedGem.colOnBoard);
-                clickedGem.rowOnBoard = previouslySelectedGem.rowOnBoard;
-                clickedGem.colOnBoard = previouslySelectedGem.colOnBoard;
-                previouslySelectedGem.rowOnBoard = clickedGemOriginalBoardPosition.rowOnBoard;
-                previouslySelectedGem.colOnBoard = clickedGemOriginalBoardPosition.colOnBoard;
 
                 // all gems to be deselected after the swap
                 gemSelectionIndicator.SetActive(false);
@@ -463,16 +454,8 @@ public class GemBoardBehaviour : MonoBehaviour
         {
             // the two gems must be moved back to their original positions
 
-            // first, we swap their object instances in the 2-dimensional array
-            (int row, int col) clickedGemOriginalCoords = (clickedGem.rowOnBoard, clickedGem.colOnBoard);
-            gems[previouslySelectedGem.rowOnBoard, previouslySelectedGem.colOnBoard] = clickedGem;
-            gems[clickedGemOriginalCoords.row, clickedGemOriginalCoords.col] = previouslySelectedGem;
-
-            // next, we update the coords on the Gem objects themselves
-            clickedGem.rowOnBoard = previouslySelectedGem.rowOnBoard;
-            clickedGem.colOnBoard = previouslySelectedGem.colOnBoard;
-            previouslySelectedGem.rowOnBoard = clickedGemOriginalCoords.row;
-            previouslySelectedGem.colOnBoard = clickedGemOriginalCoords.col;
+            // swap the gem instances back
+            SwapGems(clickedGem, previouslySelectedGem);
 
             // now, we translate the two gem GameObjects
             bool isDoneSwappingBack = false;
@@ -533,6 +516,28 @@ public class GemBoardBehaviour : MonoBehaviour
 
     private Vector3 ComputeGemPositionViaRowAndCol(int gemRow, int gemCol)
         => new Vector3(gemCol + (0.1f * gemCol), -(gemRow + (0.1f * gemRow)));
+
+    private void SwapGems(Gem first, Gem second)
+    {
+        // this swaps the gem instances on the board
+        // and updates the row and column values on the
+        // gems themselves
+
+        // swap gem object instances on the board
+        gems[first.rowOnBoard, first.colOnBoard] = second;
+        gems[second.rowOnBoard, second.colOnBoard] = first;
+
+        // store first gem's row and column values so we don't lose
+        // the original values when we change it to the second's
+        int initialFirstGemRow = first.rowOnBoard;
+        int initialFirstGemCol = first.colOnBoard;
+
+        // update row and column values for both gems
+        first.rowOnBoard = second.rowOnBoard;
+        first.colOnBoard = second.colOnBoard;
+        second.rowOnBoard = initialFirstGemRow;
+        second.colOnBoard = initialFirstGemCol;
+    }
 
     [ContextMenu("Reset Gem Types To Use")]
     private void SetGemTypesToUseToDefault()
