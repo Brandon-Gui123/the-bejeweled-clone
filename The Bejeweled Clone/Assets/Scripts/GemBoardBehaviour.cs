@@ -483,6 +483,22 @@ public class GemBoardBehaviour : MonoBehaviour
         second.colOnBoard = initialFirstGemCol;
     }
 
+    private Gem CreateGemForRowAndCol(Gem gemPrefab, int row, int col, GemTypes gemType)
+    {
+        Gem gemInstance = Instantiate(gemPrefab);
+
+        gemInstance.rowOnBoard = row;
+        gemInstance.colOnBoard = col;
+        gemInstance.gemType = gemType;
+        gemInstance.gemBoard = this;
+
+        gemInstance.transform.position = ComputeGemPositionViaRowAndCol(row, col);
+        gemInstance.transform.rotation = Quaternion.identity;
+        gemInstance.transform.SetParent(transform, true);
+
+        return gemInstance;
+    }
+
     private IEnumerator ShrinkMatchedGemsRoutine()
     {
         int numGemsToShrink = 0;
