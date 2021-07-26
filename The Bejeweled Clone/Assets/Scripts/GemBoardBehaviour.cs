@@ -53,14 +53,14 @@ public class GemBoardBehaviour : MonoBehaviour
 
     public void OnGemClicked(Gem clickedGem)
     {
-        // since we want to process matches outside the scope of this function
-        this.clickedGem = clickedGem;
-
         // do nothing if swapping isn't allowed
         if (!isSwappingAllowed)
         {
             return;
         }
+
+        // since we want to process matches outside the scope of this function
+        this.clickedGem = clickedGem;
 
         // do we already have a gem selected?
         if (previouslySelectedGem)
