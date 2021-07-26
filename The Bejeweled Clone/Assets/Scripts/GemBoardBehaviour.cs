@@ -30,17 +30,9 @@ public class GemBoardBehaviour : MonoBehaviour
         {
             for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
             {
-                gems[currentRow, currentCol] = Instantiate(gemPrefab, transform.position, transform.rotation, transform);
+                Gem createdGem = CreateGemForRowAndCol(gemPrefab, currentRow, currentCol, gemTypesToUse[Random.Range(0, gemTypesToUse.Length)]);
 
-                // randomly pick a colour
-                gems[currentRow, currentCol].gemType = gemTypesToUse[Random.Range(0, gemTypesToUse.Length)];
-
-                gems[currentRow, currentCol].transform.position = ComputeGemPositionViaRowAndCol(currentRow, currentCol);
-
-                gems[currentRow, currentCol].rowOnBoard = currentRow;
-                gems[currentRow, currentCol].colOnBoard = currentCol;
-
-                gems[currentRow, currentCol].gemBoard = this;
+                gems[currentRow, currentCol] = createdGem;
             }
         }
     }
@@ -379,20 +371,9 @@ public class GemBoardBehaviour : MonoBehaviour
                 {
                     if (!gems[currentRow, currentCol])
                     {
-                        gems[currentRow, currentCol] = Instantiate(
-                            gemPrefab,
-                            ComputeGemPositionViaRowAndCol(currentRow, currentCol),
-                            transform.rotation,
-                            transform
-                        );
+                        Gem newGem = CreateGemForRowAndCol(gemPrefab, currentRow, currentCol, gemTypesToUse[Random.Range(0, gemTypesToUse.Length)]);
 
-                        Gem newGem = gems[currentRow, currentCol];
-                        newGem.rowOnBoard = currentRow;
-                        newGem.colOnBoard = currentCol;
-
-                        newGem.gemType = gemTypesToUse[Random.Range(0, gemTypesToUse.Length)];
-                        newGem.gemBoard = this;
-
+                        gems[currentRow, currentCol] = newGem;
                         generatedGems.Add(newGem);
                     }
                 }
