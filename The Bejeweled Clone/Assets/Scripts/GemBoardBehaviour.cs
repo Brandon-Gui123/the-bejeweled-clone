@@ -327,69 +327,81 @@ public class GemBoardBehaviour : MonoBehaviour
 
     public IEnumerator OnSwappingCompleteRoutine()
     {
-        bool hasMatchForClickedGem = CheckForMatch2(clickedGem);
-        bool hasMatchForPreviouslySelectedGem = CheckForMatch2(previouslySelectedGem);
+        bool hasMatchAvailable = false;
+        bool hasMatchedBefore = false;
 
-        //if (CheckForMatch(clickedGem) || CheckForMatch(previouslySelectedGem))
-        if (hasMatchForClickedGem || hasMatchForPreviouslySelectedGem)
+        do
         {
-            // shrink matched gems (animation)
-            yield return ShrinkMatchedGemsRoutine();
-
-            // destroy and clear matched gems (waits for one frame to let Unity clean it up)
-            yield return DestroyMatchedGemsRoutine();
-
-            // move gem instances downward if required, ensuring that the gaps are all above
-            // to do that, we bubble sort each column
-            for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
+            hasMatchAvailable = false;
+            foreach (var gem in gems)
             {
-                while (!IsEmptySpacesInGemBoardColumnAllUp(gems, currentCol))
+                bool currentGemHasMatch = CheckForMatch2(gem);
+                hasMatchAvailable = currentGemHasMatch || hasMatchAvailable;
+            }
+            
+            hasMatchedBefore = hasMatchedBefore || hasMatchAvailable;
+
+            if (hasMatchAvailable)
+            {
+                // shrink matched gems (animation)
+                yield return ShrinkMatchedGemsRoutine();
+
+                // destroy and clear matched gems (waits for one frame to let Unity clean it up)
+                yield return DestroyMatchedGemsRoutine();
+
+                // move gem instances downward if required, ensuring that the gaps are all above
+                // to do that, we bubble sort each column
+                for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
                 {
-                    // start at the top of the column, then keep going down
-                    // the -1 is essential to prevent us from going out of bounds when
-                    // looking at the gem BELOW the current
-                    for (int currentRow = 0; currentRow < gems.GetLength(0) - 1; currentRow++)
+                    while (!IsEmptySpacesInGemBoardColumnAllUp(gems, currentCol))
                     {
-                        // is the current gem NOT a space and the gem below a space?
-                        if (gems[currentRow, currentCol] && !gems[currentRow + 1, currentCol])
+                        // start at the top of the column, then keep going down
+                        // the -1 is essential to prevent us from going out of bounds when
+                        // looking at the gem BELOW the current
+                        for (int currentRow = 0; currentRow < gems.GetLength(0) - 1; currentRow++)
                         {
-                            // swap gem instances
-                            SwapGems(gems[currentRow, currentCol], gems[currentRow + 1, currentCol]);
+                            // is the current gem NOT a space and the gem below a space?
+                            if (gems[currentRow, currentCol] && !gems[currentRow + 1, currentCol])
+                            {
+                                // swap gem instances
+                                SwapGems(gems[currentRow, currentCol], gems[currentRow + 1, currentCol]);
+                            }
                         }
                     }
                 }
-            }
 
-            // move gem downwards (animation)
-            yield return MoveFallingGemsDown();
+                // move gem downwards (animation)
+                yield return MoveFallingGemsDown();
 
-            // generate new gems at the blank spots
-            List<Gem> generatedGems = new List<Gem>();
-            for (int currentRow = 0; currentRow < gems.GetLength(0); currentRow++)
-            {
-                for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
+                // generate new gems at the blank spots
+                List<Gem> generatedGems = new List<Gem>();
+                for (int currentRow = 0; currentRow < gems.GetLength(0); currentRow++)
                 {
-                    if (!gems[currentRow, currentCol])
+                    for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
                     {
-                        Gem newGem = CreateGemForRowAndCol(gemPrefab, currentRow, currentCol, gemTypesToUse[Random.Range(0, gemTypesToUse.Length)]);
+                        if (!gems[currentRow, currentCol])
+                        {
+                            Gem newGem = CreateGemForRowAndCol(gemPrefab, currentRow, currentCol, gemTypesToUse[Random.Range(0, gemTypesToUse.Length)]);
 
-                        gems[currentRow, currentCol] = newGem;
-                        generatedGems.Add(newGem);
+                            gems[currentRow, currentCol] = newGem;
+                            generatedGems.Add(newGem);
+                        }
                     }
                 }
+
+                // animate gems growing at the blank spots
+                yield return GrowGemsAtBlankSpots(generatedGems);
             }
+            else if (!hasMatchedBefore)
+            {
+                // an invalid match has been made, so we have to swap the 2 gems back
+                SwapGems(clickedGem, previouslySelectedGem);
 
-            // animate gems growing at the blank spots
-            yield return GrowGemsAtBlankSpots(generatedGems);
+                // animate swapping back
+                yield return SwapGemsBack(clickedGem, previouslySelectedGem);
+            }
         }
-        else
-        {
-            // an invalid match has been made, so we have to swap the 2 gems back
-            SwapGems(clickedGem, previouslySelectedGem);
-
-            // animate swapping back
-            yield return SwapGemsBack(clickedGem, previouslySelectedGem);
-        }
+        while (hasMatchAvailable);
 
         // allow player's next turn
         clickedGem = null;
