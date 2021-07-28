@@ -40,4 +40,28 @@ public class Gem : MonoBehaviour
     {
 
     }
+
+    // This function is called every fixed framerate frame, if the MonoBehaviour is enabled
+    private void FixedUpdate()
+    {
+        RaycastHit2D hitInfo = Physics2D.Raycast(groundCheckTransform.position, -groundCheckTransform.up, 0.2f);
+
+        if (hitInfo.collider)
+        {
+            if (hitInfo.collider.TryGetComponent(out Gem otherGem))
+            {
+                // only considered grounded if the other gem is grounded
+                isGrounded = otherGem.isGrounded;
+            }
+            else
+            {
+                // we're landed on some other collider
+                isGrounded = true;
+            }
+        }
+        else
+        {
+            isGrounded = false;
+        }
+    }
 }
