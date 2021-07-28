@@ -109,7 +109,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 1.1}
   m_EdgeRadius: 0
 --- !u!114 &8993048193972729116
 MonoBehaviour:
@@ -125,3 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gemType: 0
   gemSprite: {fileID: 8993048193972729117}
+  gemBoard: {fileID: 0}
+  rowOnBoard: 0
+  colOnBoard: 0
+  hasBeenMatched: 0
