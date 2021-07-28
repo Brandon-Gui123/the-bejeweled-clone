@@ -502,8 +502,12 @@ public class GemBoardBehaviour : MonoBehaviour
             if (gem.hasBeenMatched)
             {
                 numGemsToShrink++;
-                gem.transform.DOScale(Vector3.zero, 0.75f)
-                             .OnComplete(() => numGemsToShrink--);
+
+                var sequence = DOTween.Sequence();
+
+                sequence.Append(gem.gemSpriteGameObject.transform.DOScale(Vector3.one * 1.15f, 0.15f))
+                        .Append(gem.gemSpriteGameObject.transform.DOScale(Vector3.zero, 0.3f))
+                        .OnComplete(() => numGemsToShrink--);
             }
         }
 
