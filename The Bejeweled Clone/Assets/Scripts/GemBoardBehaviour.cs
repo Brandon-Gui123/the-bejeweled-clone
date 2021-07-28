@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System.Linq;
 
 public class GemBoardBehaviour : MonoBehaviour
 {
@@ -327,6 +328,7 @@ public class GemBoardBehaviour : MonoBehaviour
 
     public IEnumerator OnSwappingCompleteRoutine()
     {
+        bool isCascading = false;
         bool hasMatchAvailable = false;
         bool hasMatchedBefore = false;
 
@@ -344,7 +346,7 @@ public class GemBoardBehaviour : MonoBehaviour
             if (hasMatchAvailable)
             {
                 // shrink matched gems (animation)
-                yield return ShrinkMatchedGemsRoutine();
+                yield return ShrinkMatchedGemsRoutine(isCascading);
 
                 // destroy and clear matched gems (waits for one frame to let Unity clean it up)
                 yield return DestroyMatchedGemsRoutine();
@@ -370,9 +372,6 @@ public class GemBoardBehaviour : MonoBehaviour
                     }
                 }
 
-                // move gem downwards (animation)
-                yield return MoveFallingGemsDown();
-
                 // generate new gems at the blank spots
                 List<Gem> generatedGems = new List<Gem>();
                 for (int currentRow = 0; currentRow < gems.GetLength(0); currentRow++)
@@ -385,12 +384,15 @@ public class GemBoardBehaviour : MonoBehaviour
 
                             gems[currentRow, currentCol] = newGem;
                             generatedGems.Add(newGem);
+
+                            // created gems need to be placed above the board so that it can fall into place
+                            newGem.transform.Translate(0f, 4f, 0f, Space.World);
                         }
                     }
                 }
 
-                // animate gems growing at the blank spots
-                yield return GrowGemsAtBlankSpots(generatedGems);
+                // wait until all the generated gems fall into place, then continue
+                yield return new WaitUntil(() => generatedGems.All(gem => gem.isGrounded));
             }
             else if (!hasMatchedBefore)
             {
@@ -400,6 +402,8 @@ public class GemBoardBehaviour : MonoBehaviour
                 // animate swapping back
                 yield return SwapGemsBack(clickedGem, previouslySelectedGem);
             }
+
+            isCascading = true;
         }
         while (hasMatchAvailable);
 
@@ -492,7 +496,7 @@ public class GemBoardBehaviour : MonoBehaviour
         return gemInstance;
     }
 
-    private IEnumerator ShrinkMatchedGemsRoutine()
+    private IEnumerator ShrinkMatchedGemsRoutine(bool isCascading)
     {
         int numGemsToShrink = 0;
 
@@ -501,8 +505,21 @@ public class GemBoardBehaviour : MonoBehaviour
             if (gem.hasBeenMatched)
             {
                 numGemsToShrink++;
-                gem.transform.DOScale(Vector3.zero, 0.75f)
-                             .OnComplete(() => numGemsToShrink--);
+
+                var sequence = DOTween.Sequence();
+
+                if (isCascading)
+                {
+                    sequence.Append(gem.gemSpriteGameObject.transform.DOScale(Vector3.one * 1.2f, 0.4f))
+                            .Append(gem.gemSpriteGameObject.transform.DOScale(Vector3.zero, 0.3f))
+                            .OnComplete(() => numGemsToShrink--);
+                }
+                else
+                {
+                    sequence.Append(gem.gemSpriteGameObject.transform.DOScale(Vector3.one * 1.15f, 0.15f))
+                            .Append(gem.gemSpriteGameObject.transform.DOScale(Vector3.zero, 0.3f))
+                            .OnComplete(() => numGemsToShrink--);
+                }
             }
         }
 
