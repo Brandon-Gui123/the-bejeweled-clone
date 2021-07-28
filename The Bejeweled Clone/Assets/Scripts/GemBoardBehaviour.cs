@@ -371,9 +371,6 @@ public class GemBoardBehaviour : MonoBehaviour
                     }
                 }
 
-                // move gem downwards (animation)
-                yield return MoveFallingGemsDown();
-
                 // generate new gems at the blank spots
                 List<Gem> generatedGems = new List<Gem>();
                 for (int currentRow = 0; currentRow < gems.GetLength(0); currentRow++)
