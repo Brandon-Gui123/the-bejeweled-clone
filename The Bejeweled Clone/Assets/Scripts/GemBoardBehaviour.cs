@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System.Linq;
 
 public class GemBoardBehaviour : MonoBehaviour
 {
@@ -385,12 +386,15 @@ public class GemBoardBehaviour : MonoBehaviour
 
                             gems[currentRow, currentCol] = newGem;
                             generatedGems.Add(newGem);
+
+                            // created gems need to be placed above the board so that it can fall into place
+                            newGem.transform.Translate(0f, 4f, 0f, Space.World);
                         }
                     }
                 }
 
-                // animate gems growing at the blank spots
-                yield return GrowGemsAtBlankSpots(generatedGems);
+                // wait until all the generated gems fall into place, then continue
+                yield return new WaitUntil(() => generatedGems.All(gem => gem.isGrounded));
             }
             else if (!hasMatchedBefore)
             {
