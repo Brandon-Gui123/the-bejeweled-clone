@@ -64,4 +64,11 @@ public class Gem : MonoBehaviour
             isGrounded = false;
         }
     }
+
+    // Implement this OnDrawGizmos if you want to draw gizmos that are also pickable and always drawn
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = isGrounded ? Color.cyan : Color.grey;
+        Gizmos.DrawSphere(transform.position, 0.2f);
+    }
 }
