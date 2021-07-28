@@ -328,6 +328,7 @@ public class GemBoardBehaviour : MonoBehaviour
 
     public IEnumerator OnSwappingCompleteRoutine()
     {
+        bool isCascading = false;
         bool hasMatchAvailable = false;
         bool hasMatchedBefore = false;
 
@@ -345,7 +346,7 @@ public class GemBoardBehaviour : MonoBehaviour
             if (hasMatchAvailable)
             {
                 // shrink matched gems (animation)
-                yield return ShrinkMatchedGemsRoutine();
+                yield return ShrinkMatchedGemsRoutine(isCascading);
 
                 // destroy and clear matched gems (waits for one frame to let Unity clean it up)
                 yield return DestroyMatchedGemsRoutine();
@@ -401,6 +402,8 @@ public class GemBoardBehaviour : MonoBehaviour
                 // animate swapping back
                 yield return SwapGemsBack(clickedGem, previouslySelectedGem);
             }
+
+            isCascading = true;
         }
         while (hasMatchAvailable);
 
@@ -493,7 +496,7 @@ public class GemBoardBehaviour : MonoBehaviour
         return gemInstance;
     }
 
-    private IEnumerator ShrinkMatchedGemsRoutine()
+    private IEnumerator ShrinkMatchedGemsRoutine(bool isCascading)
     {
         int numGemsToShrink = 0;
 
@@ -505,9 +508,18 @@ public class GemBoardBehaviour : MonoBehaviour
 
                 var sequence = DOTween.Sequence();
 
-                sequence.Append(gem.gemSpriteGameObject.transform.DOScale(Vector3.one * 1.15f, 0.15f))
-                        .Append(gem.gemSpriteGameObject.transform.DOScale(Vector3.zero, 0.3f))
-                        .OnComplete(() => numGemsToShrink--);
+                if (isCascading)
+                {
+                    sequence.Append(gem.gemSpriteGameObject.transform.DOScale(Vector3.one * 1.2f, 0.4f))
+                            .Append(gem.gemSpriteGameObject.transform.DOScale(Vector3.zero, 0.3f))
+                            .OnComplete(() => numGemsToShrink--);
+                }
+                else
+                {
+                    sequence.Append(gem.gemSpriteGameObject.transform.DOScale(Vector3.one * 1.15f, 0.15f))
+                            .Append(gem.gemSpriteGameObject.transform.DOScale(Vector3.zero, 0.3f))
+                            .OnComplete(() => numGemsToShrink--);
+                }
             }
         }
 
