@@ -6,6 +6,7 @@ public class Gem : MonoBehaviour
 {
     public GemTypes gemType;
     public SpriteRenderer gemSprite;
+    public GameObject gemSpriteGameObject;
 
     public GemBoardBehaviour gemBoard;
 
