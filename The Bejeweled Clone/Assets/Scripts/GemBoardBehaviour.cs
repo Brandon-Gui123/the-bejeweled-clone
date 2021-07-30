@@ -391,8 +391,14 @@ public class GemBoardBehaviour : MonoBehaviour
                     }
                 }
 
-                // wait until all the generated gems fall into place, then continue
-                yield return new WaitUntil(() => generatedGems.All(gem => gem.isGrounded));
+                foreach (var gem in gems)
+                {
+                    gem.fallDestination = ComputeGemPositionViaRowAndCol(gem.rowOnBoard, gem.colOnBoard);
+                    gem.isFalling = true;
+                }
+
+                // wait until all the gems fall into place, then continue
+                yield return new WaitUntil(() => generatedGems.All(gem => !gem.isFalling));
             }
             else if (!hasMatchedBefore)
             {
