@@ -90,6 +90,13 @@ public class GemBoardBehaviour : MonoBehaviour
                 // all gems to be deselected after the swap
                 gemSelectionIndicator.SetActive(false);
             }
+            else
+            {
+                // the new gem we clicked on will be selected
+                previouslyClickedGem = clickedGem;
+                gemSelectionIndicator.transform.position = previouslyClickedGem.transform.position;
+                gemSelectionIndicator.transform.Translate(0f, 0f, -1f, Space.World);
+            }
         }
         else
         {
