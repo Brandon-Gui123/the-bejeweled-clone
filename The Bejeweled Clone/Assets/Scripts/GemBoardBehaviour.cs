@@ -19,6 +19,8 @@ public class GemBoardBehaviour : MonoBehaviour
     // the default for this field is to use all of the gem types
     public GemTypes[] gemTypesToUse = (GemTypes[])System.Enum.GetValues(typeof(GemTypes));
 
+    public Transform gemSpawnArea;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -374,9 +376,11 @@ public class GemBoardBehaviour : MonoBehaviour
 
                 // generate new gems at the blank spots
                 List<Gem> generatedGems = new List<Gem>();
-                for (int currentRow = 0; currentRow < gems.GetLength(0); currentRow++)
+                for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
                 {
-                    for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
+                    int gemsToFillThisRow = 0;
+
+                    for (int currentRow = gems.GetLength(0) - 1; currentRow >= 0; currentRow--)
                     {
                         if (!gems[currentRow, currentCol])
                         {
@@ -385,8 +389,11 @@ public class GemBoardBehaviour : MonoBehaviour
                             gems[currentRow, currentCol] = newGem;
                             generatedGems.Add(newGem);
 
-                            // created gems need to be placed above the board so that it can fall into place
-                            newGem.transform.Translate(0f, 4f, 0f, Space.World);
+                            gemsToFillThisRow++;
+
+                            Vector3 newGemPosition = newGem.transform.position;
+                            newGemPosition.y = gemSpawnArea.position.y + (1.1f * (gemsToFillThisRow - 1));
+                            newGem.transform.position = newGemPosition;
                         }
                     }
                 }
