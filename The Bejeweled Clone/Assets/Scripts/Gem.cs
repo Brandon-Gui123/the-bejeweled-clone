@@ -42,7 +42,21 @@ public class Gem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isFalling)
+        {
+            // acceleration due to gravity
+            currentVelocity += new Vector3(0f, -10f * Time.deltaTime, 0f);
 
+            transform.Translate(currentVelocity * Time.deltaTime);
+
+            if (transform.position.y <= fallDestination.y)
+            {
+                transform.position = fallDestination;
+                currentVelocity = Vector3.zero;
+                isFalling = false;
+                fallDestination = Vector3.zero;
+            }
+        }
     }
 
     // This function is called every fixed framerate frame, if the MonoBehaviour is enabled
