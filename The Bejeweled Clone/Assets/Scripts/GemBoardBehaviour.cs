@@ -11,7 +11,7 @@ public class GemBoardBehaviour : MonoBehaviour
     public Gem gemPrefab;
     public GameObject gemSelectionIndicator;
 
-    public Gem previouslySelectedGem;
+    public Gem previouslyClickedGem;
 
     public bool isSwappingAllowed = true;
     public Gem clickedGem;
@@ -58,34 +58,34 @@ public class GemBoardBehaviour : MonoBehaviour
         this.clickedGem = clickedGem;
 
         // do we already have a gem selected?
-        if (previouslySelectedGem)
+        if (previouslyClickedGem)
         {
             // check to see if swapping can be done
             
             // if the same gem is clicked as the previous...
-            if (clickedGem == previouslySelectedGem)
+            if (clickedGem == previouslyClickedGem)
             {
                 // deselect gem
-                previouslySelectedGem = null;
+                previouslyClickedGem = null;
                 gemSelectionIndicator.SetActive(false);
                 return;
             }
 
-            if (AreGemsNeighbours(previouslySelectedGem, clickedGem))
+            if (AreGemsNeighbours(previouslyClickedGem, clickedGem))
             {
                 // perform the swap
-                Debug.Log($"Swap to be performed for gems at ({clickedGem.rowOnBoard}, {clickedGem.colOnBoard}) and ({previouslySelectedGem.rowOnBoard}, {previouslySelectedGem.colOnBoard})");
+                Debug.Log($"Swap to be performed for gems at ({clickedGem.rowOnBoard}, {clickedGem.colOnBoard}) and ({previouslyClickedGem.rowOnBoard}, {previouslyClickedGem.colOnBoard})");
 
                 // do not allow other gems to be swapped while one is happening
                 isSwappingAllowed = false;
 
                 // swap gem instances on the board
-                SwapGems(clickedGem, previouslySelectedGem);
+                SwapGems(clickedGem, previouslyClickedGem);
 
                 // update positions of the gem so that it appears as swapped
                 Vector3 clickedGemOriginalPosition = clickedGem.transform.position;
-                clickedGem.transform.DOMove(previouslySelectedGem.transform.position, 0.5f).OnComplete(OnSwappingComplete);
-                previouslySelectedGem.transform.DOMove(clickedGemOriginalPosition, 0.5f);
+                clickedGem.transform.DOMove(previouslyClickedGem.transform.position, 0.5f).OnComplete(OnSwappingComplete);
+                previouslyClickedGem.transform.DOMove(clickedGemOriginalPosition, 0.5f);
 
                 // all gems to be deselected after the swap
                 gemSelectionIndicator.SetActive(false);
@@ -93,7 +93,7 @@ public class GemBoardBehaviour : MonoBehaviour
         }
         else
         {
-            previouslySelectedGem = clickedGem;
+            previouslyClickedGem = clickedGem;
 
             // display the gem selection indicator at that gem's position
             gemSelectionIndicator.SetActive(true);
@@ -404,10 +404,10 @@ public class GemBoardBehaviour : MonoBehaviour
             else if (!hasMatchedBefore)
             {
                 // an invalid match has been made, so we have to swap the 2 gems back
-                SwapGems(clickedGem, previouslySelectedGem);
+                SwapGems(clickedGem, previouslyClickedGem);
 
                 // animate swapping back
-                yield return SwapGemsBack(clickedGem, previouslySelectedGem);
+                yield return SwapGemsBack(clickedGem, previouslyClickedGem);
             }
 
             isCascading = true;
@@ -416,7 +416,7 @@ public class GemBoardBehaviour : MonoBehaviour
 
         // allow player's next turn
         clickedGem = null;
-        previouslySelectedGem = null;
+        previouslyClickedGem = null;
         isSwappingAllowed = true;
     }
 
