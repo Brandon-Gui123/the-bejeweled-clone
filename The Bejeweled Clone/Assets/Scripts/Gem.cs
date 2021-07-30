@@ -18,6 +18,8 @@ public class Gem : MonoBehaviour
     public Transform groundCheckTransform;
     public bool isGrounded = false;
 
+    public bool isFalling = false;
+
     // Start is called before the first frame update
     void Start()
     {
