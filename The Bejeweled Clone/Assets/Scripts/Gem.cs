@@ -15,9 +15,6 @@ public class Gem : MonoBehaviour
 
     public bool hasBeenMatched = false;
 
-    public Transform groundCheckTransform;
-    public bool isGrounded = false;
-
     public Vector3 fallDestination;
     public bool isFalling = false;
     public Vector3 currentVelocity;
