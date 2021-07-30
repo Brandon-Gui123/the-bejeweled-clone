@@ -71,13 +71,7 @@ public class GemBoardBehaviour : MonoBehaviour
                 return;
             }
 
-            // is the gem we selected adjacent to the gem we previously selected?
-            bool isDirectlyAbove = clickedGem.rowOnBoard + 1 == previouslySelectedGem.rowOnBoard && clickedGem.colOnBoard == previouslySelectedGem.colOnBoard;
-            bool isDirectlyBelow = clickedGem.rowOnBoard - 1 == previouslySelectedGem.rowOnBoard && clickedGem.colOnBoard == previouslySelectedGem.colOnBoard;
-            bool isDirectlyRight = clickedGem.colOnBoard + 1 == previouslySelectedGem.colOnBoard && clickedGem.rowOnBoard == previouslySelectedGem.rowOnBoard;
-            bool isDirectlyLeft = clickedGem.colOnBoard - 1 == previouslySelectedGem.colOnBoard && clickedGem.rowOnBoard == previouslySelectedGem.rowOnBoard;
-
-            if (isDirectlyAbove || isDirectlyBelow || isDirectlyRight || isDirectlyLeft)
+            if (AreGemsNeighbours(previouslySelectedGem, clickedGem))
             {
                 // perform the swap
                 Debug.Log($"Swap to be performed for gems at ({clickedGem.rowOnBoard}, {clickedGem.colOnBoard}) and ({previouslySelectedGem.rowOnBoard}, {previouslySelectedGem.colOnBoard})");
@@ -466,6 +460,19 @@ public class GemBoardBehaviour : MonoBehaviour
         }
 
         return true;
+    }
+
+    public bool AreGemsNeighbours(Gem first, Gem second)
+    {
+        // two gems are considered neighbours if:
+        // 1. Either both gems are on the same row, but one on a column to the right or the left of the other gem;
+        // 2. Or both gems are on the same column, but one on a row above or below the other gem.
+
+        // since we are finding out if the gems are beside each other, it means either their row or column values must differ by 1
+        bool isVerticalNeighbour = first.colOnBoard == second.colOnBoard && (Mathf.Abs(first.rowOnBoard - second.rowOnBoard) == 1);
+        bool isHorizontalNeighbour = first.rowOnBoard == second.rowOnBoard && (Mathf.Abs(first.colOnBoard - second.colOnBoard) == 1);
+
+        return isVerticalNeighbour || isHorizontalNeighbour;
     }
 
     private Vector3 ComputeGemPositionViaRowAndCol(int gemRow, int gemCol)
