@@ -624,7 +624,7 @@ public class GemBoardBehaviour : MonoBehaviour
         // to remove every single gem on the board
         foreach (var gem in gems)
         {
-            Destroy(gem);
+            Destroy(gem.gameObject);
         }
 
         GenerateGemsForBoard();
