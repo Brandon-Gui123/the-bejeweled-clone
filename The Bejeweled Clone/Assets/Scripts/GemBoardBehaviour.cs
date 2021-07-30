@@ -468,6 +468,19 @@ public class GemBoardBehaviour : MonoBehaviour
         return true;
     }
 
+    public bool AreGemsNeighbours(Gem first, Gem second)
+    {
+        // two gems are considered neighbours if:
+        // 1. Either both gems are on the same row, but one on a column to the right or the left of the other gem;
+        // 2. Or both gems are on the same column, but one on a row above or below the other gem.
+
+        // since we are finding out if the gems are beside each other, it means either their row or column values must differ by 1
+        bool isVerticalNeighbour = first.colOnBoard == second.colOnBoard && (Mathf.Abs(first.rowOnBoard - second.rowOnBoard) == 1);
+        bool isHorizontalNeighbour = first.rowOnBoard == second.rowOnBoard && (Mathf.Abs(first.colOnBoard - second.colOnBoard) == 1);
+
+        return isVerticalNeighbour || isHorizontalNeighbour;
+    }
+
     private Vector3 ComputeGemPositionViaRowAndCol(int gemRow, int gemCol)
         => new Vector3(gemCol + (0.1f * gemCol), -(gemRow + (0.1f * gemRow)));
 
