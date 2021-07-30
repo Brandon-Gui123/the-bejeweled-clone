@@ -182,7 +182,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8993048193972729119}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -216,3 +216,6 @@ MonoBehaviour:
   hasBeenMatched: 0
   groundCheckTransform: {fileID: 8446229660631541214}
   isGrounded: 0
+  fallDestination: {x: 0, y: 0, z: 0}
+  isFalling: 0
+  currentVelocity: {x: 0, y: 0, z: 0}
