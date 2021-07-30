@@ -392,7 +392,7 @@ public class GemBoardBehaviour : MonoBehaviour
                             gemsToFillThisRow++;
 
                             Vector3 newGemPosition = newGem.transform.position;
-                            newGemPosition.y = 8f + (1.1f * (gemsToFillThisRow - 1));
+                            newGemPosition.y = gemSpawnArea.position.y + (1.1f * (gemsToFillThisRow - 1));
                             newGem.transform.position = newGemPosition;
                         }
                     }
