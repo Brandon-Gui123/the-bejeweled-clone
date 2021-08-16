@@ -542,6 +542,9 @@ public class GemBoardBehaviour : MonoBehaviour
                 if (gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType
                     && gemBoard[currentRow + 1, currentCol + 1].gemType == gemBoard[currentRow + 2, currentCol].gemType)
                 {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 2, currentCol]);
                     numMatchesFound++;
                 }
 
@@ -551,6 +554,9 @@ public class GemBoardBehaviour : MonoBehaviour
                 if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 1, currentCol].gemType
                     && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 2, currentCol + 1].gemType)
                 {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 2, currentCol + 1]);
                     numMatchesFound++;
                 }
 
@@ -560,6 +566,9 @@ public class GemBoardBehaviour : MonoBehaviour
                 if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType
                     && gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 2, currentCol].gemType)
                 {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 2, currentCol]);
                     numMatchesFound++;
                 }
 
@@ -569,6 +578,9 @@ public class GemBoardBehaviour : MonoBehaviour
                 if (gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol].gemType
                     && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 2, currentCol + 1].gemType)
                 {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 2, currentCol + 1]);
                     numMatchesFound++;
                 }
             }
