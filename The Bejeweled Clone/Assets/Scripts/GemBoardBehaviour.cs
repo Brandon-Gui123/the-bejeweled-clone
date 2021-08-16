@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -521,6 +521,57 @@ public class GemBoardBehaviour : MonoBehaviour
         gemInstance.transform.SetParent(transform, true);
 
         return gemInstance;
+    }
+
+    private int GetNumberOfMatchesAvailable(Gem[,] gemBoard)
+    {
+        int numMatchesFound = 0;
+
+        // scans a 3x2 area on the gem board
+        for (int currentRow = 0; currentRow <= gemBoard.GetLength(0) - 3; currentRow++)
+        {
+            for (int currentCol = 0; currentCol <= gemBoard.GetLength(1) - 2; currentCol++)
+            {
+                // pattern legend (? denotes gem of any type, X denotes gem of a specific type)
+                // ? X
+                // ? X
+                // X ?
+                if (gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType
+                    && gemBoard[currentRow + 1, currentCol + 1].gemType == gemBoard[currentRow + 2, currentCol].gemType)
+                {
+                    numMatchesFound++;
+                }
+
+                // X ?
+                // X ?
+                // ? X
+                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 1, currentCol].gemType
+                    && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 2, currentCol + 1].gemType)
+                {
+                    numMatchesFound++;
+                }
+
+                // X ?
+                // ? X
+                // X ?
+                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType
+                    && gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 2, currentCol].gemType)
+                {
+                    numMatchesFound++;
+                }
+
+                // ? X
+                // X ?
+                // ? X
+                if (gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol].gemType
+                    && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 2, currentCol + 1].gemType)
+                {
+                    numMatchesFound++;
+                }
+            }
+        }
+
+        return numMatchesFound;
     }
 
     private IEnumerator ShrinkMatchedGemsRoutine(bool isCascading)
