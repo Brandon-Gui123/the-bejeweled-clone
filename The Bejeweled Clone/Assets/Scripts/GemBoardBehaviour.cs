@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -556,6 +556,30 @@ public class GemBoardBehaviour : MonoBehaviour
                 {
                     DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
                     DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 2, currentCol + 1]);
+                    numMatchesFound++;
+                }
+
+                // ? X
+                // X ?
+                // X ?
+                if (gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol].gemType
+                    && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 2, currentCol].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 2, currentCol]);
+                    numMatchesFound++;
+                }
+
+                // X ?
+                // ? X
+                // ? X
+                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType
+                    && gemBoard[currentRow + 1, currentCol + 1].gemType == gemBoard[currentRow + 2, currentCol + 1].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol + 1]);
                     DisplayMatchIndicationAtGem(gemBoard[currentRow + 2, currentCol + 1]);
                     numMatchesFound++;
                 }
