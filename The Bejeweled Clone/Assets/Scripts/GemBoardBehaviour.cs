@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -20,6 +20,9 @@ public class GemBoardBehaviour : MonoBehaviour
     public GemTypes[] gemTypesToUse = (GemTypes[])System.Enum.GetValues(typeof(GemTypes));
 
     public Transform gemSpawnArea;
+
+    public GameObject matchIndicatorPrefab;
+    public float matchShowDuration = 8f;
 
     // Start is called before the first frame update
     void Start()
