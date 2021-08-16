@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -43,7 +43,7 @@ public class GemBoardBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void OnGemClicked(Gem clickedGem)
@@ -61,7 +61,7 @@ public class GemBoardBehaviour : MonoBehaviour
         if (previouslyClickedGem)
         {
             // check to see if swapping can be done
-            
+
             // if the same gem is clicked as the previous...
             if (clickedGem == previouslyClickedGem)
             {
@@ -153,7 +153,7 @@ public class GemBoardBehaviour : MonoBehaviour
                 gems[gemRow, gemCol - 2].gemType == gems[gemRow, gemCol].gemType
                 && gems[gemRow, gemCol - 1].gemType == gems[gemRow, gemCol].gemType;
         }
-    
+
         // check a gem above and a gem below - gemRow must be within 1 to 6
         if (gemRow >= 1 && gemRow <= 6)
         {
@@ -205,7 +205,7 @@ public class GemBoardBehaviour : MonoBehaviour
             gems[gemRow, gemCol - 2].hasBeenMatched = true;
             gems[gemRow, gemCol - 1].hasBeenMatched = true;
         }
-    
+
         if (hasMiddleVerticalMatch)
         {
             Debug.Log($"Found vertical middle match at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
@@ -214,7 +214,7 @@ public class GemBoardBehaviour : MonoBehaviour
             gems[gemRow - 1, gemCol].hasBeenMatched = true;
             gems[gemRow + 1, gemCol].hasBeenMatched = true;
         }
-    
+
         if (hasMiddleHorizontalMatch)
         {
             Debug.Log($"Found horizontal middle match for gem at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
@@ -343,7 +343,7 @@ public class GemBoardBehaviour : MonoBehaviour
                 bool currentGemHasMatch = CheckForMatch2(gem);
                 hasMatchAvailable = currentGemHasMatch || hasMatchAvailable;
             }
-            
+
             hasMatchedBefore = hasMatchedBefore || hasMatchAvailable;
 
             if (hasMatchAvailable)
@@ -699,5 +699,11 @@ public class GemBoardBehaviour : MonoBehaviour
         }
 
         Debug.Log(representation, this);
+    }
+
+    [ContextMenu("Log Number of Possible Matches")]
+    private void LogNumberOfPossibleMatches()
+    {
+        Debug.Log(GetNumberOfMatchesAvailable(gems));
     }
 }
