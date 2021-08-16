@@ -350,11 +350,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gemPrefab: {fileID: 8993048193972729116, guid: 37fd4c63837a41d44b7d77f41c828c31, type: 3}
   gemSelectionIndicator: {fileID: 570208807}
-  previouslySelectedGem: {fileID: 0}
+  previouslyClickedGem: {fileID: 0}
   isSwappingAllowed: 1
   clickedGem: {fileID: 0}
   gemTypesToUse: 00000000010000000200000003000000040000000500000006000000
   gemSpawnArea: {fileID: 433567535}
+  matchIndicatorPrefab: {fileID: 4903877345647161324, guid: 94613fe4c441ed64ca95a38fb2a8a4b7, type: 3}
+  matchShowDuration: 8
 --- !u!4 &1472481334
 Transform:
   m_ObjectHideFlags: 0
