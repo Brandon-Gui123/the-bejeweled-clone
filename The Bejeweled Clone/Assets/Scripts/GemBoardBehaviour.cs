@@ -564,7 +564,7 @@ public class GemBoardBehaviour : MonoBehaviour
                 // ? X
                 // X ?
                 if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType
-                    && gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 2, currentCol].gemType)
+                    && gemBoard[currentRow + 1, currentCol + 1].gemType == gemBoard[currentRow + 2, currentCol].gemType)
                 {
                     DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
                     DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol + 1]);
@@ -598,7 +598,7 @@ public class GemBoardBehaviour : MonoBehaviour
                 if (gemBoard[currentRow, currentCol + 2].gemType == gemBoard[currentRow + 1, currentCol].gemType
                     && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType)
                 {
-                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 2]);
                     DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol]);
                     DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol + 1]);
                     numMatchesFound++;
