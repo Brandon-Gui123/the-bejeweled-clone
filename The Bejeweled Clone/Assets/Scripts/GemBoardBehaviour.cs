@@ -671,6 +671,34 @@ public class GemBoardBehaviour : MonoBehaviour
                 }
             }
         }
+
+        // scans a 1x4 area on the board
+        for (int currentRow = 0; currentRow <= gemBoard.GetLength(0) - 1; currentRow++)
+        {
+            for (int currentCol = 0; currentCol <= gemBoard.GetLength(1) - 4; currentCol++)
+            {
+                // X ? X X
+                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow, currentCol + 2].gemType
+                    && gemBoard[currentRow, currentCol + 2].gemType == gemBoard[currentRow, currentCol + 3].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 2]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 3]);
+                    numMatchesFound++;
+                }
+
+                // X X ? X
+                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow, currentCol + 1].gemType
+                    && gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow, currentCol + 3].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 3]);
+                    numMatchesFound++;
+                }
+            }
+        }
+
         return numMatchesFound;
     }
 
