@@ -615,6 +615,28 @@ public class GemBoardBehaviour : MonoBehaviour
                     numMatchesFound++;
                 }
 
+                // X ? ?
+                // ? X X
+                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType
+                    && gemBoard[currentRow + 1, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol + 2].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol + 2]);
+                    numMatchesFound++;
+                }
+
+                // ? X X
+                // X ? ?
+                if (gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow, currentCol + 2].gemType
+                    && gemBoard[currentRow, currentCol + 2].gemType == gemBoard[currentRow + 1, currentCol].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 2]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol]);
+                    numMatchesFound++;
+                }
+
                 // X ? X
                 // ? X ?
                 if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow, currentCol + 2].gemType
