@@ -665,6 +665,12 @@ public class GemBoardBehaviour : MonoBehaviour
         yield return new WaitUntil(() => isFirstDoneMoving && isSecondDoneMoving);
     }
 
+    private void DisplayMatchIndicationAtGem(Gem gem)
+    {
+        GameObject matchIndicatorInstance = Instantiate(matchIndicatorPrefab, gem.transform.position, Quaternion.identity);
+        Destroy(matchIndicatorInstance, matchShowDuration);
+    }
+
     [ContextMenu("Reset Gem Types To Use")]
     private void SetGemTypesToUseToDefault()
     {
