@@ -1247,6 +1247,7 @@ GameObject:
   - component: {fileID: 1472481334}
   - component: {fileID: 1472481333}
   - component: {fileID: 1472481335}
+  - component: {fileID: 1472481336}
   m_Layer: 0
   m_Name: Gem Board
   m_TagString: Untagged
@@ -1305,6 +1306,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movesAvailableCounter: {fileID: 114367712}
+--- !u!114 &1472481336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472481332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3649f4668eb577b43a3b2fc7ae759580, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  matchesCounter: {fileID: 811749495}
 --- !u!1 &1523501300
 GameObject:
   m_ObjectHideFlags: 0
