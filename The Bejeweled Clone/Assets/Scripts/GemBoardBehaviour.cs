@@ -363,6 +363,15 @@ public class GemBoardBehaviour : MonoBehaviour
 
             if (hasMatchAvailable)
             {
+                // all gems in a match are to be added to a counter
+                foreach (var gem in gems)
+                {
+                    if (gem.hasBeenMatched)
+                    {
+                        matchesTracker.SetMatchCount(matchesTracker.numMatchesMade + 1);
+                    }
+                }
+
                 // shrink matched gems (animation)
                 yield return ShrinkMatchedGemsRoutine(isCascading);
 
