@@ -23,11 +23,22 @@ public class GemBoardBehaviour : MonoBehaviour
 
     public GameObject matchIndicatorPrefab;
     public float matchShowDuration = 8f;
+    public GemMovesAvailableChecker availableMovesChecker;
+
+    public GameObject noMoreMovesDisplay;
 
     // Start is called before the first frame update
     void Start()
     {
         GenerateGemsForBoard();
+
+        availableMovesChecker.UpdateMovesAvailableCounter(gems);
+
+        if (availableMovesChecker.GetNumberOfMatchesAvailable(gems) <= 0)
+        {
+            noMoreMovesDisplay.SetActive(true);
+            isSwappingAllowed = false;
+        }
     }
 
     private void GenerateGemsForBoard()
@@ -423,6 +434,15 @@ public class GemBoardBehaviour : MonoBehaviour
             isCascading = true;
         }
         while (hasMatchAvailable);
+
+        // check for available moves
+        availableMovesChecker.UpdateMovesAvailableCounter(gems);
+
+        if (availableMovesChecker.GetNumberOfMatchesAvailable(gems) <= 0)
+        {
+            noMoreMovesDisplay.SetActive(true);
+            yield break;
+        }
 
         // allow player's next turn
         clickedGem = null;
