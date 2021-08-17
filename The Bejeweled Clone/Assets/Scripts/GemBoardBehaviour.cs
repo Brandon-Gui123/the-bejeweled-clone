@@ -26,6 +26,7 @@ public class GemBoardBehaviour : MonoBehaviour
     public GemMovesAvailableChecker availableMovesChecker;
 
     public GameObject noMoreMovesDisplay;
+    public GemMatchesTracker matchesTracker;
 
     // Start is called before the first frame update
     void Start()
