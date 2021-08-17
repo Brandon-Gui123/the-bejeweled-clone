@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -24,6 +24,8 @@ public class GemBoardBehaviour : MonoBehaviour
     public GameObject matchIndicatorPrefab;
     public float matchShowDuration = 8f;
     public GemMovesAvailableChecker availableMovesChecker;
+
+    public GameObject noMoreMovesDisplay;
 
     // Start is called before the first frame update
     void Start()
