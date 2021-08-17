@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -437,6 +437,12 @@ public class GemBoardBehaviour : MonoBehaviour
 
         // check for available moves
         availableMovesChecker.UpdateMovesAvailableCounter(gems);
+
+        if (availableMovesChecker.GetNumberOfMatchesAvailable(gems) <= 0)
+        {
+            noMoreMovesDisplay.SetActive(true);
+            yield break;
+        }
 
         // allow player's next turn
         clickedGem = null;
