@@ -29,6 +29,8 @@ public class GemBoardBehaviour : MonoBehaviour
     void Start()
     {
         GenerateGemsForBoard();
+
+        availableMovesChecker.UpdateMovesAvailableCounter(gems);
     }
 
     private void GenerateGemsForBoard()
