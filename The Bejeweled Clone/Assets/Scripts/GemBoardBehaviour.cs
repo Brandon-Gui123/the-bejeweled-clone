@@ -33,6 +33,12 @@ public class GemBoardBehaviour : MonoBehaviour
         GenerateGemsForBoard();
 
         availableMovesChecker.UpdateMovesAvailableCounter(gems);
+
+        if (availableMovesChecker.GetNumberOfMatchesAvailable(gems) <= 0)
+        {
+            noMoreMovesDisplay.SetActive(true);
+            isSwappingAllowed = false;
+        }
     }
 
     private void GenerateGemsForBoard()
