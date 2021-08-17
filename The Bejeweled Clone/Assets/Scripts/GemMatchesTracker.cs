@@ -14,4 +14,10 @@ public class GemMatchesTracker : MonoBehaviour
         numMatchesMade = 0;
         matchesCounter.text = numMatchesMade.ToString();
     }
+
+    public void SetMatchCount(int value)
+    {
+        numMatchesMade = value;
+        matchesCounter.text = numMatchesMade.ToString();
+    }
 }
