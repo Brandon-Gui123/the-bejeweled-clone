@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -426,6 +426,9 @@ public class GemBoardBehaviour : MonoBehaviour
             isCascading = true;
         }
         while (hasMatchAvailable);
+
+        // check for available moves
+        availableMovesChecker.UpdateMovesAvailableCounter(gems);
 
         // allow player's next turn
         clickedGem = null;
