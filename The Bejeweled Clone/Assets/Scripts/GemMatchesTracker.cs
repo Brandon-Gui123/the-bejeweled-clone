@@ -5,7 +5,7 @@ using TMPro;
 
 public class GemMatchesTracker : MonoBehaviour
 {
-    int numMatchesMade = 0;
+    public int numMatchesMade = 0;
     public TextMeshProUGUI matchesCounter;
 
     // Start is called before the first frame update
