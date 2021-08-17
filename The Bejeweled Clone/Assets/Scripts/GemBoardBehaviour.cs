@@ -21,6 +21,9 @@ public class GemBoardBehaviour : MonoBehaviour
 
     public Transform gemSpawnArea;
 
+    public GameObject matchIndicatorPrefab;
+    public float matchShowDuration = 8f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,7 +46,7 @@ public class GemBoardBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void OnGemClicked(Gem clickedGem)
@@ -61,7 +64,7 @@ public class GemBoardBehaviour : MonoBehaviour
         if (previouslyClickedGem)
         {
             // check to see if swapping can be done
-            
+
             // if the same gem is clicked as the previous...
             if (clickedGem == previouslyClickedGem)
             {
@@ -153,7 +156,7 @@ public class GemBoardBehaviour : MonoBehaviour
                 gems[gemRow, gemCol - 2].gemType == gems[gemRow, gemCol].gemType
                 && gems[gemRow, gemCol - 1].gemType == gems[gemRow, gemCol].gemType;
         }
-    
+
         // check a gem above and a gem below - gemRow must be within 1 to 6
         if (gemRow >= 1 && gemRow <= 6)
         {
@@ -205,7 +208,7 @@ public class GemBoardBehaviour : MonoBehaviour
             gems[gemRow, gemCol - 2].hasBeenMatched = true;
             gems[gemRow, gemCol - 1].hasBeenMatched = true;
         }
-    
+
         if (hasMiddleVerticalMatch)
         {
             Debug.Log($"Found vertical middle match at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
@@ -214,7 +217,7 @@ public class GemBoardBehaviour : MonoBehaviour
             gems[gemRow - 1, gemCol].hasBeenMatched = true;
             gems[gemRow + 1, gemCol].hasBeenMatched = true;
         }
-    
+
         if (hasMiddleHorizontalMatch)
         {
             Debug.Log($"Found horizontal middle match for gem at ({gemRow}, {gemCol})", gems[gemRow, gemCol]);
@@ -343,7 +346,7 @@ public class GemBoardBehaviour : MonoBehaviour
                 bool currentGemHasMatch = CheckForMatch2(gem);
                 hasMatchAvailable = currentGemHasMatch || hasMatchAvailable;
             }
-            
+
             hasMatchedBefore = hasMatchedBefore || hasMatchAvailable;
 
             if (hasMatchAvailable)
@@ -523,6 +526,228 @@ public class GemBoardBehaviour : MonoBehaviour
         return gemInstance;
     }
 
+    private int GetNumberOfMatchesAvailable(Gem[,] gemBoard)
+    {
+        int numMatchesFound = 0;
+
+        // scans a 3x2 area on the gem board
+        for (int currentRow = 0; currentRow <= gemBoard.GetLength(0) - 3; currentRow++)
+        {
+            for (int currentCol = 0; currentCol <= gemBoard.GetLength(1) - 2; currentCol++)
+            {
+                // pattern legend (? denotes gem of any type, X denotes gem of a specific type)
+                // ? X
+                // ? X
+                // X ?
+                if (gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType
+                    && gemBoard[currentRow + 1, currentCol + 1].gemType == gemBoard[currentRow + 2, currentCol].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 2, currentCol]);
+                    numMatchesFound++;
+                }
+
+                // X ?
+                // X ?
+                // ? X
+                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 1, currentCol].gemType
+                    && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 2, currentCol + 1].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 2, currentCol + 1]);
+                    numMatchesFound++;
+                }
+
+                // ? X
+                // X ?
+                // X ?
+                if (gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol].gemType
+                    && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 2, currentCol].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 2, currentCol]);
+                    numMatchesFound++;
+                }
+
+                // X ?
+                // ? X
+                // ? X
+                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType
+                    && gemBoard[currentRow + 1, currentCol + 1].gemType == gemBoard[currentRow + 2, currentCol + 1].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 2, currentCol + 1]);
+                    numMatchesFound++;
+                }
+
+                // X ?
+                // ? X
+                // X ?
+                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType
+                    && gemBoard[currentRow + 1, currentCol + 1].gemType == gemBoard[currentRow + 2, currentCol].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 2, currentCol]);
+                    numMatchesFound++;
+                }
+
+                // ? X
+                // X ?
+                // ? X
+                if (gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol].gemType
+                    && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 2, currentCol + 1].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 2, currentCol + 1]);
+                    numMatchesFound++;
+                }
+            }
+        }
+
+        // scans a 2x3 area on the gem board
+        for (int currentRow = 0; currentRow <= gemBoard.GetLength(0) - 2; currentRow++)
+        {
+            for (int currentCol = 0; currentCol <= gemBoard.GetLength(1) - 3; currentCol++)
+            {
+                // pattern legend (? denotes gem of any type, X denotes gem of a specific type)
+
+                // ? ? X
+                // X X ?
+                if (gemBoard[currentRow, currentCol + 2].gemType == gemBoard[currentRow + 1, currentCol].gemType
+                    && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 2]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol + 1]);
+                    numMatchesFound++;
+                }
+
+                // X X ?
+                // ? ? X
+                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow, currentCol + 1].gemType
+                    && gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol + 2].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol + 2]);
+                    numMatchesFound++;
+                }
+
+                // X ? ?
+                // ? X X
+                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType
+                    && gemBoard[currentRow + 1, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol + 2].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol + 2]);
+                    numMatchesFound++;
+                }
+
+                // ? X X
+                // X ? ?
+                if (gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow, currentCol + 2].gemType
+                    && gemBoard[currentRow, currentCol + 2].gemType == gemBoard[currentRow + 1, currentCol].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 2]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol]);
+                    numMatchesFound++;
+                }
+
+                // X ? X
+                // ? X ?
+                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow, currentCol + 2].gemType
+                    && gemBoard[currentRow, currentCol + 2].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 2]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol + 1]);
+                    numMatchesFound++;
+                }
+
+                // ? X ?
+                // X ? X
+                if (gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol].gemType
+                    && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 1, currentCol + 2].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol + 2]);
+                    numMatchesFound++;
+                }
+            }
+        }
+
+        // scans a 4x1 area on the gem board
+        for (int currentRow = 0; currentRow <= gemBoard.GetLength(0) - 4; currentRow++)
+        {
+            for (int currentCol = 0; currentCol <= gemBoard.GetLength(0) - 1; currentCol++)
+            {
+                // X
+                // X
+                // ?
+                // X
+                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 1, currentCol].gemType
+                    && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 3, currentCol].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 1, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 3, currentCol]);
+                    numMatchesFound++;
+                }
+
+                // X
+                // ?
+                // X
+                // X
+                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 2, currentCol].gemType
+                    && gemBoard[currentRow + 2, currentCol].gemType == gemBoard[currentRow + 3, currentCol].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 2, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow + 3, currentCol]);
+                    numMatchesFound++;
+                }
+            }
+        }
+
+        // scans a 1x4 area on the board
+        for (int currentRow = 0; currentRow <= gemBoard.GetLength(0) - 1; currentRow++)
+        {
+            for (int currentCol = 0; currentCol <= gemBoard.GetLength(1) - 4; currentCol++)
+            {
+                // X ? X X
+                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow, currentCol + 2].gemType
+                    && gemBoard[currentRow, currentCol + 2].gemType == gemBoard[currentRow, currentCol + 3].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 2]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 3]);
+                    numMatchesFound++;
+                }
+
+                // X X ? X
+                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow, currentCol + 1].gemType
+                    && gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow, currentCol + 3].gemType)
+                {
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 1]);
+                    DisplayMatchIndicationAtGem(gemBoard[currentRow, currentCol + 3]);
+                    numMatchesFound++;
+                }
+            }
+        }
+
+        return numMatchesFound;
+    }
+
     private IEnumerator ShrinkMatchedGemsRoutine(bool isCascading)
     {
         int numGemsToShrink = 0;
@@ -611,6 +836,12 @@ public class GemBoardBehaviour : MonoBehaviour
         yield return new WaitUntil(() => isFirstDoneMoving && isSecondDoneMoving);
     }
 
+    private void DisplayMatchIndicationAtGem(Gem gem)
+    {
+        GameObject matchIndicatorInstance = Instantiate(matchIndicatorPrefab, gem.transform.position, Quaternion.identity);
+        Destroy(matchIndicatorInstance, matchShowDuration);
+    }
+
     [ContextMenu("Reset Gem Types To Use")]
     private void SetGemTypesToUseToDefault()
     {
@@ -648,5 +879,11 @@ public class GemBoardBehaviour : MonoBehaviour
         }
 
         Debug.Log(representation, this);
+    }
+
+    [ContextMenu("Log Number of Possible Matches")]
+    private void LogNumberOfPossibleMatches()
+    {
+        Debug.Log(GetNumberOfMatchesAvailable(gems));
     }
 }
