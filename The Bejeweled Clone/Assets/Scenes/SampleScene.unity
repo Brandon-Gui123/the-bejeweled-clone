@@ -659,6 +659,7 @@ MonoBehaviour:
   gemSpawnArea: {fileID: 433567535}
   matchIndicatorPrefab: {fileID: 4903877345647161324, guid: 94613fe4c441ed64ca95a38fb2a8a4b7, type: 3}
   matchShowDuration: 8
+  availableMovesChecker: {fileID: 1472481335}
 --- !u!4 &1472481334
 Transform:
   m_ObjectHideFlags: 0
