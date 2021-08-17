@@ -531,7 +531,7 @@ GameObject:
   - component: {fileID: 811749496}
   - component: {fileID: 811749495}
   m_Layer: 5
-  m_Name: Matches Count
+  m_Name: Gems Matched Counter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1114,7 +1114,7 @@ GameObject:
   - component: {fileID: 1402476696}
   - component: {fileID: 1402476695}
   m_Layer: 5
-  m_Name: Matches Made Text
+  m_Name: Gems Matched Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1159,7 +1159,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Matches Made:'
+  m_text: 'Gems Matched:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1278,6 +1278,7 @@ MonoBehaviour:
   matchShowDuration: 8
   availableMovesChecker: {fileID: 1472481335}
   noMoreMovesDisplay: {fileID: 883289823}
+  matchesTracker: {fileID: 0}
 --- !u!4 &1472481334
 Transform:
   m_ObjectHideFlags: 0
