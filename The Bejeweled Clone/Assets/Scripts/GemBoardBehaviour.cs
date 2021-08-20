@@ -857,13 +857,11 @@ public class GemBoardBehaviour : MonoBehaviour
         Vector3 firstGemPosition = first.transform.position;
         Vector3 secondGemPosition = second.transform.position;
 
-        bool isFirstDoneMoving = false;
-        bool isSecondDoneMoving = false;
+        var sequence = DOTween.Sequence()
+                              .Insert(0f, first.transform.DOMove(secondGemPosition, 0.5f))
+                              .Insert(0f, second.transform.DOMove(firstGemPosition, 0.5f));
 
-        first.transform.DOMove(secondGemPosition, 0.5f).OnComplete(() => isFirstDoneMoving = true);
-        second.transform.DOMove(firstGemPosition, 0.5f).OnComplete(() => isSecondDoneMoving = true);
-
-        yield return new WaitUntil(() => isFirstDoneMoving && isSecondDoneMoving);
+        yield return sequence.WaitForCompletion();
     }
 
     private void DisplayMatchIndicationAtGem(Gem gem)
