@@ -55,6 +55,12 @@ public class GemBoardBehaviour : MonoBehaviour
         }
     }
 
+    // Ensures that the board will not have 3 or more adjacent gems
+    private void EnsureNoMatches()
+    {
+
+    }
+
     // Update is called once per frame
     void Update()
     {
