@@ -168,6 +168,19 @@ public class GemBoardBehaviour : MonoBehaviour
                             }
                         }
                     }
+
+                    // randomly choose a gem type for the gem to use
+                    GemTypes chosenGemType = applicableGemTypes[Random.Range(0, applicableGemTypes.Count)];
+
+                    // log to console so we know what changed
+                    string originalColourString = $"{targetGem.gemType}".Color(GemUtils.GetColorBasedOnGemType(targetGem.gemType));
+                    string newColourString = $"{chosenGemType}".Color(GemUtils.GetColorBasedOnGemType(chosenGemType));
+
+                    $"The gem at ({targetGem.rowOnBoard}, {targetGem.colOnBoard}) will be changed from {originalColourString} to {newColourString}"
+                        .Log(targetGem);
+                    
+                    targetGem.gemType = chosenGemType;
+                    targetGem.UpdateGemColor();
                 }
             }
         }
