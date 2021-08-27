@@ -75,12 +75,6 @@ public class GemBoardBehaviour : MonoBehaviour
                     // that will be removed
                     Gem targetGem = rightOfCurrentGem;
 
-                    // we'll log this so that we can take note of it
-                    // +1 so that first row/col is 1 and not 0, for readability purposes
-                    $"The gem at ({rightOfCurrentGem.rowOnBoard + 1}, {rightOfCurrentGem.colOnBoard + 1}) will be altered"
-                        .Color(GemUtils.GetColorBasedOnGemType(rightOfCurrentGem.gemType))
-                        .Log(rightOfCurrentGem);
-
                     // a list of gem types that the gem can become
                     // this will be changed as we look around
                     List<GemTypes> applicableGemTypes = gemTypesToUse.ToList();
