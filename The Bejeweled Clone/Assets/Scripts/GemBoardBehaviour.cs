@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -32,6 +32,7 @@ public class GemBoardBehaviour : MonoBehaviour
     void Start()
     {
         GenerateGemsForBoard();
+        EnsureNoMatches();
 
         availableMovesChecker.UpdateMovesAvailableCounter(gems);
 
@@ -58,7 +59,29 @@ public class GemBoardBehaviour : MonoBehaviour
     // Ensures that the board will not have 3 or more adjacent gems
     private void EnsureNoMatches()
     {
+        // we'll start off with finding matches horizontally
+        for (int currentRow = 0; currentRow < gems.GetLength(0); currentRow++)
+        {
+            for (int currentCol = 0; currentCol < gems.GetLength(1) - 2; currentCol++)
+            {
+                Gem currentGem = gems[currentRow, currentCol];
+                Gem rightOfCurrentGem = gems[currentRow, currentCol + 1];
+                Gem rightOfRightGem = gems[currentRow, currentCol + 2];
 
+                if (currentGem.gemType == rightOfCurrentGem.gemType && rightOfCurrentGem.gemType == rightOfRightGem.gemType)
+                {
+                    // since we're starting off with no randomness,
+                    // we'll choose on the gem to the right of the current
+                    // that will be removed
+
+                    // we'll log this so that we can take note of it
+                    // +1 so that first row/col is 1 and not 0, for readability purposes
+                    $"The gem at ({rightOfCurrentGem.rowOnBoard + 1}, {rightOfCurrentGem.colOnBoard + 1}) will be altered"
+                        .Color(GemUtils.GetColorBasedOnGemType(rightOfCurrentGem.gemType))
+                        .Log(rightOfCurrentGem);
+                }
+            }
+        }
     }
 
     // Update is called once per frame
