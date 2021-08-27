@@ -1,8 +1,8 @@
 // See https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/StyledText.html for an intro to rich text in Unity
 
 /// <summary>
-/// A set of extension methods for the <see cref="string"/> class to provide fast stylizing
-/// and logging functionalities for use in Unity.
+/// A set of extension methods for the <see cref="string"/> class
+/// to make it fast and easy for you to stylize and log text.
 /// </summary>
 public static class StringExtensionsForUnity
 {
