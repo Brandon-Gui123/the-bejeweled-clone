@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -73,12 +73,101 @@ public class GemBoardBehaviour : MonoBehaviour
                     // since we're starting off with no randomness,
                     // we'll choose on the gem to the right of the current
                     // that will be removed
+                    Gem targetGem = rightOfCurrentGem;
 
                     // we'll log this so that we can take note of it
                     // +1 so that first row/col is 1 and not 0, for readability purposes
                     $"The gem at ({rightOfCurrentGem.rowOnBoard + 1}, {rightOfCurrentGem.colOnBoard + 1}) will be altered"
                         .Color(GemUtils.GetColorBasedOnGemType(rightOfCurrentGem.gemType))
                         .Log(rightOfCurrentGem);
+
+                    // a list of gem types that the gem can become
+                    // this will be changed as we look around
+                    List<GemTypes> applicableGemTypes = gemTypesToUse.ToList();
+
+                    // the current gem type shall be removed from the list
+                    // since this has been the type we've been avoiding all the while
+                    // we also make use of the return value to log us additional messages
+                    // if things go wrong
+                    if (!applicableGemTypes.Remove(targetGem.gemType))
+                    {
+                        $"Unable to remove the gem type {rightOfCurrentGem.gemType}!".LogAsError(rightOfCurrentGem);
+                    }
+
+                    // the gems detected in horizontal matches shall only check upwards and downwards
+
+                    if (rightOfCurrentGem.rowOnBoard >= 2)
+                    {
+                        Gem aboveTargeted = gems[targetGem.rowOnBoard - 1, targetGem.colOnBoard];
+                        Gem aboveAboveTargeted = gems[targetGem.rowOnBoard - 2, targetGem.colOnBoard];
+
+                        if (aboveTargeted.gemType == aboveAboveTargeted.gemType)
+                        {
+                            // this is not the gem colour we want to change to
+                            // placed in conditional so we can log if things go wrong
+                            if (!applicableGemTypes.Remove(aboveTargeted.gemType))
+                            {
+                                $"Unable to remove the gem type {aboveTargeted.gemType}!".LogAsError(targetGem);
+                            }
+                            else
+                            {
+                                string colouredGemTypeString = aboveTargeted.gemType.ToString().Color(GemUtils.GetColorBasedOnGemType(aboveTargeted.gemType));
+
+                                $"The target gem cannot be {colouredGemTypeString} because the two gems above are {colouredGemTypeString}"
+                                    .Log(targetGem);
+                            }
+                        }
+                    }
+
+                    if (rightOfCurrentGem.rowOnBoard < gems.GetLength(0) - 2)
+                    {
+                        Gem belowTargeted = gems[targetGem.rowOnBoard + 1, targetGem.colOnBoard];
+                        Gem belowBelowTargeted = gems[targetGem.rowOnBoard + 2, targetGem.colOnBoard];
+
+                        if (belowTargeted.gemType == belowBelowTargeted.gemType)
+                        {
+                            // this is not the gem colour we want to change to
+                            // placed in conditional so we can log if things go wrong
+                            if (!applicableGemTypes.Remove(belowTargeted.gemType))
+                            {
+                                $"Unable to remove the gem type {belowTargeted.gemType}!".LogAsError(targetGem);
+                            }
+                            else
+                            {
+                                string colouredGemTypeString = belowTargeted.gemType.ToString().Color(GemUtils.GetColorBasedOnGemType(belowTargeted.gemType));
+
+                                $"The target gem cannot be {colouredGemTypeString} because the two gems below are {colouredGemTypeString}"
+                                    .Log(targetGem);
+                            }
+                        }
+                    }
+
+                    if (rightOfCurrentGem.rowOnBoard >= 1 && rightOfCurrentGem.rowOnBoard < gems.GetLength(0) - 1)
+                    {
+                        // can look up and down by 1 space
+                        // if these 2 gems are the same type, a match will occur, so we also need to
+                        // consider this situation
+
+                        Gem aboveTargeted = gems[targetGem.rowOnBoard - 1, targetGem.colOnBoard];
+                        Gem belowTargeted = gems[targetGem.rowOnBoard + 1, targetGem.colOnBoard];
+
+                        if (aboveTargeted.gemType == belowTargeted.gemType)
+                        {
+                            // this is not the gem colour we want to change to
+                            // placed in conditional so we can log if things go wrong
+                            if (!applicableGemTypes.Remove(belowTargeted.gemType))
+                            {
+                                $"Unable to remove the gem type {belowTargeted.gemType}!".LogAsError(targetGem);
+                            }
+                            else
+                            {
+                                string colouredGemTypeString = aboveTargeted.gemType.ToString().Color(GemUtils.GetColorBasedOnGemType(aboveTargeted.gemType));
+
+                                $"The target gem cannot be {colouredGemTypeString} because the gem above and below are {colouredGemTypeString}"
+                                    .Log(targetGem);
+                            }
+                        }
+                    }
                 }
             }
         }
