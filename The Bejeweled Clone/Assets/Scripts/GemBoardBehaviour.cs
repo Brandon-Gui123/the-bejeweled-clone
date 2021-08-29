@@ -171,18 +171,29 @@ public class GemBoardBehaviour : MonoBehaviour
                         }
                     }
 
-                    // randomly choose a gem type for the gem to use
-                    GemTypes chosenGemType = applicableGemTypes[Random.Range(0, applicableGemTypes.Count)];
+                    if (applicableGemTypes.Count >= 1)
+                    {
+                        // randomly choose a gem type for the gem to use
+                        GemTypes chosenGemType = applicableGemTypes[Random.Range(0, applicableGemTypes.Count)];
 
-                    // log to console so we know what changed
-                    string originalColourString = $"{targetGem.gemType}".Color(GemUtils.GetColorBasedOnGemType(targetGem.gemType));
-                    string newColourString = $"{chosenGemType}".Color(GemUtils.GetColorBasedOnGemType(chosenGemType));
+                        // log to console so we know what changed
+                        string originalColourString = $"{targetGem.gemType}".Color(GemUtils.GetColorBasedOnGemType(targetGem.gemType));
+                        string newColourString = $"{chosenGemType}".Color(GemUtils.GetColorBasedOnGemType(chosenGemType));
 
-                    $"Horizontal matching: The gem at ({targetGem.rowOnBoard}, {targetGem.colOnBoard}) will be changed from {originalColourString} to {newColourString}"
-                        .Log(targetGem);
-                    
-                    targetGem.gemType = chosenGemType;
-                    targetGem.UpdateGemColor();
+                        $"Horizontal matching: The gem at ({targetGem.rowOnBoard}, {targetGem.colOnBoard}) will be changed from {originalColourString} to {newColourString}"
+                            .Log(targetGem);
+
+                        targetGem.gemType = chosenGemType;
+                        targetGem.UpdateGemColor();
+                    }
+                    else
+                    {
+                        // we don't have anything we can choose to stop the match from occurring
+                        // for simplicity's sake, we don't alter the gem and just log this
+                        ($"Horizontal matching: Unable to find a suitable gem type to change to for the gem at ({targetGem.rowOnBoard}, {targetGem.colOnBoard})!\n"
+                            + $"This can happen if we exhaust the list of applicable gem types for the gem to change to.")
+                            .Log(targetGem);
+                    }
                 }
             }
         }
@@ -213,7 +224,7 @@ public class GemBoardBehaviour : MonoBehaviour
                     {
                         ($"Vertical matching: Unable to remove the gem type of the target gem itself ({targetGem.gemType})!\n"
                             + $"This may happen if the list of applicable gem types differ from the gem types available during gem generation.")
-                            .Log(targetGem);
+                            .LogAsWarning(targetGem);
                     }
 
                     // gems detected in vertical matches shall be checked for other possible
@@ -291,18 +302,29 @@ public class GemBoardBehaviour : MonoBehaviour
                         }
                     }
 
-                    // randomly choose a gem type for the gem to use
-                    GemTypes chosenGemType = applicableGemTypes[Random.Range(0, applicableGemTypes.Count)];
+                    if (applicableGemTypes.Count >= 1)
+                    {
+                        // randomly choose a gem type for the gem to use
+                        GemTypes chosenGemType = applicableGemTypes[Random.Range(0, applicableGemTypes.Count)];
 
-                    // log to console so we know what changed
-                    string originalColourString = $"{targetGem.gemType}".Color(GemUtils.GetColorBasedOnGemType(targetGem.gemType));
-                    string newColourString = $"{chosenGemType}".Color(GemUtils.GetColorBasedOnGemType(chosenGemType));
+                        // log to console so we know what changed
+                        string originalColourString = $"{targetGem.gemType}".Color(GemUtils.GetColorBasedOnGemType(targetGem.gemType));
+                        string newColourString = $"{chosenGemType}".Color(GemUtils.GetColorBasedOnGemType(chosenGemType));
 
-                    $"Vertical matching: The gem at ({targetGem.rowOnBoard}, {targetGem.colOnBoard}) will be changed from {originalColourString} to {newColourString}"
-                        .Log(targetGem);
+                        $"Vertical matching: The gem at ({targetGem.rowOnBoard}, {targetGem.colOnBoard}) will be changed from {originalColourString} to {newColourString}"
+                            .Log(targetGem);
 
-                    targetGem.gemType = chosenGemType;
-                    targetGem.UpdateGemColor();
+                        targetGem.gemType = chosenGemType;
+                        targetGem.UpdateGemColor();
+                    }
+                    else
+                    {
+                        // we don't have anything we can choose to stop the match from occurring
+                        // for simplicity's sake, we don't alter the gem and just log this
+                        ($"Vertical matching: Unable to find a suitable gem type to change to for the gem at ({targetGem.rowOnBoard}, {targetGem.colOnBoard})!\n"
+                            + $"This can happen if we exhaust the list of applicable gem types for the gem to change to.")
+                            .LogAsWarning(targetGem);
+                    }
                 }
             }
         }
