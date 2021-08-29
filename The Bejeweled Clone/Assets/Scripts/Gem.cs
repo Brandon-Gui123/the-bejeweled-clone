@@ -25,6 +25,11 @@ public class Gem : MonoBehaviour
         ColorizeGemSprite();
     }
 
+    public void UpdateGemColor()
+    {
+        ColorizeGemSprite();
+    }
+
     private void ColorizeGemSprite()
     {
         gemSprite.color = GemUtils.GetColorBasedOnGemType(gemType);

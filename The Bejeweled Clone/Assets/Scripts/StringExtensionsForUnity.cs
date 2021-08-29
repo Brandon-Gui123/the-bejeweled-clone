@@ -1,8 +1,8 @@
 // See https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/StyledText.html for an intro to rich text in Unity
 
 /// <summary>
-/// A set of extension methods for the <see cref="string"/> class to provide fast stylizing
-/// and logging functionalities for use in Unity.
+/// A set of extension methods for the <see cref="string"/> class
+/// to make it fast and easy for you to stylize and log text.
 /// </summary>
 public static class StringExtensionsForUnity
 {
@@ -50,4 +50,37 @@ public static class StringExtensionsForUnity
 
     /// <summary>Logs the given string to the Unity logger as an error.</summary>
     public static void LogAsError(this string str) => UnityEngine.Debug.LogError(str);
+
+    /// <summary>
+    /// Logs the given string to the Unity logger, with a context to which
+    /// this message applies to.
+    /// </summary>
+    /// <param name="context">
+    /// A <see cref="UnityEngine.Object"/> to which this message applies to.
+    /// Refer to the Unity documentation on <a href="https://docs.unity3d.com/ScriptReference/Debug.Log.com">Debug.Log</a>
+    /// for more information on using a <see cref="UnityEngine.Object"/> as context.
+    /// </param>
+    public static void Log(this string str, UnityEngine.Object context) => UnityEngine.Debug.Log(str, context);
+
+    /// <summary>
+    /// Logs the given string to the Unity logger as a warning, with a context to which
+    /// this message applies to.
+    /// </summary>
+    /// <param name="context">
+    /// A <see cref="UnityEngine.Object"/> to which this warning applies to.
+    /// Refer to the Unity documentation on <a href="https://docs.unity3d.com/ScriptReference/Debug.Log.com">Debug.Log</a>
+    /// for more information on using a <see cref="UnityEngine.Object"/> as context.
+    /// </param>
+    public static void LogAsWarning(this string str, UnityEngine.Object context) => UnityEngine.Debug.LogWarning(str, context);
+
+    /// <summary>
+    /// Logs the given string to the Unity logger as an error, with a context to which
+    /// this message applies to.
+    /// </summary>
+    /// <param name="context">
+    /// A <see cref="UnityEngine.Object"/> to which this error applies to.
+    /// Refer to the Unity documentation on <a href="https://docs.unity3d.com/ScriptReference/Debug.Log.com">Debug.Log</a>
+    /// for more information on using a <see cref="UnityEngine.Object"/> as context.
+    /// </param>
+    public static void LogAsError(this string str, UnityEngine.Object context) => UnityEngine.Debug.LogError(str, context);
 }
