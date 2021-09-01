@@ -7,7 +7,7 @@ public class GemMovesAvailableChecker : MonoBehaviour
 {
     public TextMeshProUGUI movesAvailableCounter;
 
-    public int GetNumberOfMatchesAvailable(Gem[,] gemBoard)
+    public int GetNumberOfMatchesAvailable(GemBehaviour[,] gemBoard)
     {
         int numMatchesFound = 0;
 
@@ -182,7 +182,7 @@ public class GemMovesAvailableChecker : MonoBehaviour
         return numMatchesFound;
     }
 
-    public void UpdateMovesAvailableCounter(Gem[,] gemBoard)
+    public void UpdateMovesAvailableCounter(GemBehaviour[,] gemBoard)
     {
         movesAvailableCounter.text = GetNumberOfMatchesAvailable(gemBoard).ToString();
     }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gem : MonoBehaviour
+public class GemBehaviour : MonoBehaviour
 {
     public GemTypes gemType;
     public SpriteRenderer gemSprite;
