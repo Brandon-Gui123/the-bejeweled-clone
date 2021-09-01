@@ -1,4 +1,8 @@
-public class GemBoard
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+public class GemBoard : IEnumerable<Gem>
 {
     private Gem[,] gems;
 
@@ -15,4 +19,7 @@ public class GemBoard
 
     public int Rows => gems.GetLength(0);
     public int Columns => gems.GetLength(1);
+
+    public IEnumerator<Gem> GetEnumerator() => gems.Cast<Gem>().GetEnumerator();
+    IEnumerator IEnumerable.GetEnumerator() => gems.GetEnumerator();
 }
