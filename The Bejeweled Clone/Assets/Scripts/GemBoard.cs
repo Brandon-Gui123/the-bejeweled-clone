@@ -14,4 +14,5 @@ public class GemBoard
     }
 
     public int Rows => gems.GetLength(0);
+    public int Columns => gems.GetLength(1);
 }
