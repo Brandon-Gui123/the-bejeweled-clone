@@ -6,4 +6,10 @@ public class GemBoard
     {
         gems = new Gem[rows, columns];
     }
+
+    public Gem this[int row, int column]
+    {
+        get => gems[row, column];
+        set => gems[row, column] = value;
+    }
 }
