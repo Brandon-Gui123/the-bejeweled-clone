@@ -16,6 +16,12 @@ public class Gem
         set => GemBehaviour.hasBeenMatched = value;
     }
 
+    public int rowOnBoard
+    {
+        get => GemBehaviour.rowOnBoard;
+        set => GemBehaviour.rowOnBoard = value;
+    }
+
     // TODO To be removed once all scripts have explicitly accessed the GemBehaviour via its property
     public static implicit operator GemBehaviour(Gem gem) => gem.GemBehaviour;
 }
