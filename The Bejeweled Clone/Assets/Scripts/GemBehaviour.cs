@@ -19,6 +19,8 @@ public class GemBehaviour : MonoBehaviour
     public bool isFalling = false;
     public Vector3 currentVelocity;
 
+    public Gem gem;
+
     // Start is called before the first frame update
     void Start()
     {
