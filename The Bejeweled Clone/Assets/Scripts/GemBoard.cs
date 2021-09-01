@@ -12,4 +12,6 @@ public class GemBoard
         get => gems[row, column];
         set => gems[row, column] = value;
     }
+
+    public int Rows => gems.GetLength(0);
 }
