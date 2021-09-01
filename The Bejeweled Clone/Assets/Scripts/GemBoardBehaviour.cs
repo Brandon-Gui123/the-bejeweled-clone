@@ -6,15 +6,15 @@ using System.Linq;
 
 public class GemBoardBehaviour : MonoBehaviour
 {
-    public Gem[,] gems = new Gem[8, 8];
+    public GemBehaviour[,] gems = new GemBehaviour[8, 8];
 
-    public Gem gemPrefab;
+    public GemBehaviour gemPrefab;
     public GameObject gemSelectionIndicator;
 
-    public Gem previouslyClickedGem;
+    public GemBehaviour previouslyClickedGem;
 
     public bool isSwappingAllowed = true;
-    public Gem clickedGem;
+    public GemBehaviour clickedGem;
 
     // the default for this field is to use all of the gem types
     public GemTypes[] gemTypesToUse = (GemTypes[])System.Enum.GetValues(typeof(GemTypes));
@@ -49,7 +49,7 @@ public class GemBoardBehaviour : MonoBehaviour
         {
             for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
             {
-                Gem createdGem = CreateGemForRowAndCol(gemPrefab, currentRow, currentCol, gemTypesToUse[Random.Range(0, gemTypesToUse.Length)]);
+                GemBehaviour createdGem = CreateGemForRowAndCol(gemPrefab, currentRow, currentCol, gemTypesToUse[Random.Range(0, gemTypesToUse.Length)]);
 
                 gems[currentRow, currentCol] = createdGem;
             }
@@ -64,16 +64,16 @@ public class GemBoardBehaviour : MonoBehaviour
         {
             for (int currentCol = 0; currentCol < gems.GetLength(1) - 2; currentCol++)
             {
-                Gem currentGem = gems[currentRow, currentCol];
-                Gem rightOfCurrentGem = gems[currentRow, currentCol + 1];
-                Gem rightOfRightGem = gems[currentRow, currentCol + 2];
+                GemBehaviour currentGem = gems[currentRow, currentCol];
+                GemBehaviour rightOfCurrentGem = gems[currentRow, currentCol + 1];
+                GemBehaviour rightOfRightGem = gems[currentRow, currentCol + 2];
 
                 if (currentGem.gemType == rightOfCurrentGem.gemType && rightOfCurrentGem.gemType == rightOfRightGem.gemType)
                 {
                     // since we're starting off with no randomness,
                     // we'll choose on the gem to the right of the current
                     // that will be removed
-                    Gem targetGem = rightOfCurrentGem;
+                    GemBehaviour targetGem = rightOfCurrentGem;
 
                     // a list of gem types that the gem can become
                     // this will be changed as we look around
@@ -94,8 +94,8 @@ public class GemBoardBehaviour : MonoBehaviour
 
                     if (rightOfCurrentGem.rowOnBoard >= 2)
                     {
-                        Gem aboveTargeted = gems[targetGem.rowOnBoard - 1, targetGem.colOnBoard];
-                        Gem aboveAboveTargeted = gems[targetGem.rowOnBoard - 2, targetGem.colOnBoard];
+                        GemBehaviour aboveTargeted = gems[targetGem.rowOnBoard - 1, targetGem.colOnBoard];
+                        GemBehaviour aboveAboveTargeted = gems[targetGem.rowOnBoard - 2, targetGem.colOnBoard];
 
                         if (aboveTargeted.gemType == aboveAboveTargeted.gemType)
                         {
@@ -119,8 +119,8 @@ public class GemBoardBehaviour : MonoBehaviour
 
                     if (rightOfCurrentGem.rowOnBoard < gems.GetLength(0) - 2)
                     {
-                        Gem belowTargeted = gems[targetGem.rowOnBoard + 1, targetGem.colOnBoard];
-                        Gem belowBelowTargeted = gems[targetGem.rowOnBoard + 2, targetGem.colOnBoard];
+                        GemBehaviour belowTargeted = gems[targetGem.rowOnBoard + 1, targetGem.colOnBoard];
+                        GemBehaviour belowBelowTargeted = gems[targetGem.rowOnBoard + 2, targetGem.colOnBoard];
 
                         if (belowTargeted.gemType == belowBelowTargeted.gemType)
                         {
@@ -148,8 +148,8 @@ public class GemBoardBehaviour : MonoBehaviour
                         // if these 2 gems are the same type, a match will occur, so we also need to
                         // consider this situation
 
-                        Gem aboveTargeted = gems[targetGem.rowOnBoard - 1, targetGem.colOnBoard];
-                        Gem belowTargeted = gems[targetGem.rowOnBoard + 1, targetGem.colOnBoard];
+                        GemBehaviour aboveTargeted = gems[targetGem.rowOnBoard - 1, targetGem.colOnBoard];
+                        GemBehaviour belowTargeted = gems[targetGem.rowOnBoard + 1, targetGem.colOnBoard];
 
                         if (aboveTargeted.gemType == belowTargeted.gemType)
                         {
@@ -203,14 +203,14 @@ public class GemBoardBehaviour : MonoBehaviour
         {
             for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
             {
-                Gem currentGem = gems[currentRow, currentCol];
-                Gem bottomOfCurrentGem = gems[currentRow + 1, currentCol];
-                Gem bottomOfBottomGem = gems[currentRow + 2, currentCol];
+                GemBehaviour currentGem = gems[currentRow, currentCol];
+                GemBehaviour bottomOfCurrentGem = gems[currentRow + 1, currentCol];
+                GemBehaviour bottomOfBottomGem = gems[currentRow + 2, currentCol];
 
                 if (currentGem.gemType == bottomOfCurrentGem.gemType && currentGem.gemType == bottomOfBottomGem.gemType)
                 {
                     // same as above, we'll chose the gem just 1 space below the current
-                    Gem targetGem = bottomOfCurrentGem;
+                    GemBehaviour targetGem = bottomOfCurrentGem;
 
                     // this is a list of gem types that the gem can become
                     // note that this list will be changed as we progress
@@ -233,8 +233,8 @@ public class GemBoardBehaviour : MonoBehaviour
                     // the 2 gems to the left of the target gem, where applicable
                     if (targetGem.colOnBoard >= 2)
                     {
-                        Gem leftOfTargetGem = gems[targetGem.rowOnBoard, targetGem.colOnBoard - 1];
-                        Gem leftOfLeftGem = gems[targetGem.rowOnBoard, targetGem.colOnBoard - 2];
+                        GemBehaviour leftOfTargetGem = gems[targetGem.rowOnBoard, targetGem.colOnBoard - 1];
+                        GemBehaviour leftOfLeftGem = gems[targetGem.rowOnBoard, targetGem.colOnBoard - 2];
 
                         if (targetGem.gemType == leftOfTargetGem.gemType && targetGem.gemType == leftOfLeftGem.gemType)
                         {
@@ -257,8 +257,8 @@ public class GemBoardBehaviour : MonoBehaviour
                     // the 2 gems to the right of the target gem, where applicable
                     if (targetGem.colOnBoard < gems.GetLength(1) - 2)
                     {
-                        Gem rightOfTargetGem = gems[targetGem.rowOnBoard, targetGem.colOnBoard + 1];
-                        Gem rightOfRightGem = gems[targetGem.rowOnBoard, targetGem.colOnBoard + 2];
+                        GemBehaviour rightOfTargetGem = gems[targetGem.rowOnBoard, targetGem.colOnBoard + 1];
+                        GemBehaviour rightOfRightGem = gems[targetGem.rowOnBoard, targetGem.colOnBoard + 2];
 
                         if (targetGem.gemType == rightOfTargetGem.gemType && targetGem.gemType == rightOfRightGem.gemType)
                         {
@@ -281,8 +281,8 @@ public class GemBoardBehaviour : MonoBehaviour
                     // the gem to the left and the gem to the right, where applicable
                     if (targetGem.colOnBoard >= 1 && targetGem.colOnBoard < gems.GetLength(1) - 1)
                     {
-                        Gem leftOfTargetGem = gems[targetGem.rowOnBoard, targetGem.colOnBoard - 1];
-                        Gem rightOfTargetGem = gems[targetGem.rowOnBoard, targetGem.colOnBoard + 1];
+                        GemBehaviour leftOfTargetGem = gems[targetGem.rowOnBoard, targetGem.colOnBoard - 1];
+                        GemBehaviour rightOfTargetGem = gems[targetGem.rowOnBoard, targetGem.colOnBoard + 1];
 
                         if (targetGem.gemType == leftOfTargetGem.gemType && targetGem.gemType == rightOfTargetGem.gemType)
                         {
@@ -336,7 +336,7 @@ public class GemBoardBehaviour : MonoBehaviour
 
     }
 
-    public void OnGemClicked(Gem clickedGem)
+    public void OnGemClicked(GemBehaviour clickedGem)
     {
         // do nothing if swapping isn't allowed
         if (!isSwappingAllowed)
@@ -399,7 +399,7 @@ public class GemBoardBehaviour : MonoBehaviour
         }
     }
 
-    public bool CheckForMatch(Gem gem)
+    public bool CheckForMatch(GemBehaviour gem)
     {
         bool hasMatchAbove = false;
         bool hasMatchRight = false;
@@ -517,12 +517,12 @@ public class GemBoardBehaviour : MonoBehaviour
         return hasMatchAbove || hasMatchBelow || hasMatchLeft || hasMatchRight || hasMiddleHorizontalMatch || hasMiddleVerticalMatch;
     }
 
-    public bool CheckForMatch2(Gem gem)
+    public bool CheckForMatch2(GemBehaviour gem)
     {
         // our list will initially contain the target gem so that it can be
         // marked as matched if we do find a match
-        List<Gem> verticalGems = new List<Gem> { gem };
-        List<Gem> horizontalGems = new List<Gem> { gem };
+        List<GemBehaviour> verticalGems = new List<GemBehaviour> { gem };
+        List<GemBehaviour> horizontalGems = new List<GemBehaviour> { gem };
 
         int numVerticallyMatchedGems = 1;
         int numHorizontallyMatchedGems = 1;
@@ -675,7 +675,7 @@ public class GemBoardBehaviour : MonoBehaviour
                 }
 
                 // generate new gems at the blank spots
-                List<Gem> generatedGems = new List<Gem>();
+                List<GemBehaviour> generatedGems = new List<GemBehaviour>();
                 for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
                 {
                     int gemsToFillThisRow = 0;
@@ -684,7 +684,7 @@ public class GemBoardBehaviour : MonoBehaviour
                     {
                         if (!gems[currentRow, currentCol])
                         {
-                            Gem newGem = CreateGemForRowAndCol(gemPrefab, currentRow, currentCol, gemTypesToUse[Random.Range(0, gemTypesToUse.Length)]);
+                            GemBehaviour newGem = CreateGemForRowAndCol(gemPrefab, currentRow, currentCol, gemTypesToUse[Random.Range(0, gemTypesToUse.Length)]);
 
                             gems[currentRow, currentCol] = newGem;
                             generatedGems.Add(newGem);
@@ -747,7 +747,7 @@ public class GemBoardBehaviour : MonoBehaviour
 
     // Returns true if all the empty spaces in the column are above all gems.
     // False if otherwise.
-    public bool IsEmptySpacesInGemBoardColumnAllUp(Gem[,] gemBoard, int columnIndex)
+    public bool IsEmptySpacesInGemBoardColumnAllUp(GemBehaviour[,] gemBoard, int columnIndex)
     {
         // is we encounter gems, we shall not encounter blank spaces
         // if we encounter blank spaces, keep going until we encounter gems,
@@ -756,7 +756,7 @@ public class GemBoardBehaviour : MonoBehaviour
 
         for (int i = 0; i < gemBoard.GetLength(0); i++)
         {
-            Gem gem = gemBoard[i, columnIndex];
+            GemBehaviour gem = gemBoard[i, columnIndex];
 
             if (gem)
             {
@@ -777,7 +777,7 @@ public class GemBoardBehaviour : MonoBehaviour
         return true;
     }
 
-    public bool AreGemsNeighbours(Gem first, Gem second)
+    public bool AreGemsNeighbours(GemBehaviour first, GemBehaviour second)
     {
         // two gems are considered neighbours if:
         // 1. Either both gems are on the same row, but one on a column to the right or the left of the other gem;
@@ -793,7 +793,7 @@ public class GemBoardBehaviour : MonoBehaviour
     private Vector3 ComputeGemPositionViaRowAndCol(int gemRow, int gemCol)
         => new Vector3(gemCol + (0.1f * gemCol), -(gemRow + (0.1f * gemRow)));
 
-    private void SwapGems(Gem first, Gem second)
+    private void SwapGems(GemBehaviour first, GemBehaviour second)
     {
         // this swaps the gem instances on the board
         // and updates the row and column values on the
@@ -815,9 +815,9 @@ public class GemBoardBehaviour : MonoBehaviour
         second.colOnBoard = initialFirstGemCol;
     }
 
-    private Gem CreateGemForRowAndCol(Gem gemPrefab, int row, int col, GemTypes gemType)
+    private GemBehaviour CreateGemForRowAndCol(GemBehaviour gemPrefab, int row, int col, GemTypes gemType)
     {
-        Gem gemInstance = Instantiate(gemPrefab);
+        GemBehaviour gemInstance = Instantiate(gemPrefab);
 
         gemInstance.rowOnBoard = row;
         gemInstance.colOnBoard = col;
@@ -831,7 +831,7 @@ public class GemBoardBehaviour : MonoBehaviour
         return gemInstance;
     }
 
-    private int GetNumberOfMatchesAvailable(Gem[,] gemBoard)
+    private int GetNumberOfMatchesAvailable(GemBehaviour[,] gemBoard)
     {
         int numMatchesFound = 0;
 
@@ -1114,7 +1114,7 @@ public class GemBoardBehaviour : MonoBehaviour
         yield return new WaitUntil(() => gemsLeft <= 0);
     }
 
-    private IEnumerator GrowGemsAtBlankSpots(List<Gem> gemsToGrow)
+    private IEnumerator GrowGemsAtBlankSpots(List<GemBehaviour> gemsToGrow)
     {
         int numGemsToGrow = gemsToGrow.Count;
 
@@ -1127,7 +1127,7 @@ public class GemBoardBehaviour : MonoBehaviour
         yield return new WaitUntil(() => numGemsToGrow <= 0);
     }
 
-    private IEnumerator SwapGemsBack(Gem first, Gem second)
+    private IEnumerator SwapGemsBack(GemBehaviour first, GemBehaviour second)
     {
         Vector3 firstGemPosition = first.transform.position;
         Vector3 secondGemPosition = second.transform.position;
@@ -1139,7 +1139,7 @@ public class GemBoardBehaviour : MonoBehaviour
         yield return sequence.WaitForCompletion();
     }
 
-    private void DisplayMatchIndicationAtGem(Gem gem)
+    private void DisplayMatchIndicationAtGem(GemBehaviour gem)
     {
         GameObject matchIndicatorInstance = Instantiate(matchIndicatorPrefab, gem.transform.position, Quaternion.identity);
         Destroy(matchIndicatorInstance, matchShowDuration);
@@ -1173,7 +1173,7 @@ public class GemBoardBehaviour : MonoBehaviour
         {
             for (int currentCol = 0; currentCol < gems.GetLength(1); currentCol++)
             {
-                Gem currentGem = gems[currentRow, currentCol];
+                GemBehaviour currentGem = gems[currentRow, currentCol];
                 Color characterColor = GemUtils.GetColorBasedOnGemType(currentGem.gemType);
                 representation += "■".Color(characterColor);
             }
