@@ -404,124 +404,6 @@ public class GemBoardBehaviour : MonoBehaviour
 
     public bool CheckForMatch(GemBehaviour gem)
     {
-        bool hasMatchAbove = false;
-        bool hasMatchRight = false;
-        bool hasMatchBelow = false;
-        bool hasMatchLeft = false;
-
-        bool hasMiddleVerticalMatch = false;
-        bool hasMiddleHorizontalMatch = false;
-
-        int gemRow = gem.rowOnBoard;
-        int gemCol = gem.colOnBoard;
-
-        // check 2 gems above - gemRow must be greater than 1
-        if (gemRow > 1)
-        {
-            hasMatchAbove =
-                gemBoard[gemRow - 2, gemCol].gemType == gemBoard[gemRow, gemCol].gemType
-                && gemBoard[gemRow - 1, gemCol].gemType == gemBoard[gemRow, gemCol].gemType;
-        }
-
-        // check 2 gems to the right - gemCol must be less than 6
-        if (gemCol < 6)
-        {
-            hasMatchRight =
-                gemBoard[gemRow, gemCol + 2].gemType == gemBoard[gemRow, gemCol].gemType
-                && gemBoard[gemRow, gemCol + 1].gemType == gemBoard[gemRow, gemCol].gemType;
-        }
-
-        // check 2 gems below - gemRow must be less than 6
-        if (gemRow < 6)
-        {
-            hasMatchBelow =
-                gemBoard[gemRow + 2, gemCol].gemType == gemBoard[gemRow, gemCol].gemType
-                && gemBoard[gemRow + 1, gemCol].gemType == gemBoard[gemRow, gemCol].gemType;
-        }
-
-        // check 2 gems to the left - gemCol must be greater than 1
-        if (gemCol > 1)
-        {
-            hasMatchLeft =
-                gemBoard[gemRow, gemCol - 2].gemType == gemBoard[gemRow, gemCol].gemType
-                && gemBoard[gemRow, gemCol - 1].gemType == gemBoard[gemRow, gemCol].gemType;
-        }
-
-        // check a gem above and a gem below - gemRow must be within 1 to 6
-        if (gemRow >= 1 && gemRow <= 6)
-        {
-            hasMiddleVerticalMatch =
-                gemBoard[gemRow - 1, gemCol].gemType == gemBoard[gemRow, gemCol].gemType
-                && gemBoard[gemRow + 1, gemCol].gemType == gemBoard[gemRow, gemCol].gemType;
-        }
-
-        // check a gem to the right and a gem to the left - gemCol must be within 1 to 6
-        if (gemCol >= 1 && gemCol <= 6)
-        {
-            hasMiddleHorizontalMatch =
-                gemBoard[gemRow, gemCol - 1].gemType == gemBoard[gemRow, gemCol].gemType
-                && gemBoard[gemRow, gemCol + 1].gemType == gemBoard[gemRow, gemCol].gemType;
-        }
-
-        if (hasMatchAbove)
-        {
-            Debug.Log($"Found match above for gem at ({gemRow}, {gemCol})", gemBoard[gemRow, gemCol]);
-
-            gem.hasBeenMatched = true;
-            gemBoard[gemRow - 1, gemCol].hasBeenMatched = true;
-            gemBoard[gemRow - 2, gemCol].hasBeenMatched = true;
-        }
-
-        if (hasMatchRight)
-        {
-            Debug.Log($"Found match to the right for gem at ({gemRow}, {gemCol})", gemBoard[gemRow, gemCol]);
-
-            gem.hasBeenMatched = true;
-            gemBoard[gemRow, gemCol + 2].hasBeenMatched = true;
-            gemBoard[gemRow, gemCol + 1].hasBeenMatched = true;
-        }
-
-        if (hasMatchBelow)
-        {
-            Debug.Log($"Found match below for gem at ({gemRow}, {gemCol})", gemBoard[gemRow, gemCol]);
-
-            gem.hasBeenMatched = true;
-            gemBoard[gemRow + 2, gemCol].hasBeenMatched = true;
-            gemBoard[gemRow + 1, gemCol].hasBeenMatched = true;
-        }
-
-        if (hasMatchLeft)
-        {
-            Debug.Log($"Found match to the left for gem at ({gemRow}, {gemCol})", gemBoard[gemRow, gemCol]);
-
-            gem.hasBeenMatched = true;
-            gemBoard[gemRow, gemCol - 2].hasBeenMatched = true;
-            gemBoard[gemRow, gemCol - 1].hasBeenMatched = true;
-        }
-
-        if (hasMiddleVerticalMatch)
-        {
-            Debug.Log($"Found vertical middle match at ({gemRow}, {gemCol})", gemBoard[gemRow, gemCol]);
-
-            gem.hasBeenMatched = true;
-            gemBoard[gemRow - 1, gemCol].hasBeenMatched = true;
-            gemBoard[gemRow + 1, gemCol].hasBeenMatched = true;
-        }
-
-        if (hasMiddleHorizontalMatch)
-        {
-            Debug.Log($"Found horizontal middle match for gem at ({gemRow}, {gemCol})", gemBoard[gemRow, gemCol]);
-
-            gem.hasBeenMatched = true;
-            gemBoard[gemRow, gemCol + 1].hasBeenMatched = true;
-            gemBoard[gemRow, gemCol - 1].hasBeenMatched = true;
-        }
-
-        return hasMatchAbove || hasMatchBelow || hasMatchLeft || hasMatchRight || hasMiddleHorizontalMatch || hasMiddleVerticalMatch;
-    }
-
-    public bool CheckForMatch2(GemBehaviour gem)
-    {
         // our list will initially contain the target gem so that it can be
         // marked as matched if we do find a match
         List<GemBehaviour> verticalGems = new List<GemBehaviour> { gem };
@@ -633,7 +515,7 @@ public class GemBoardBehaviour : MonoBehaviour
             hasMatchAvailable = false;
             foreach (var gem in gemBoard)
             {
-                bool currentGemHasMatch = CheckForMatch2(gem);
+                bool currentGemHasMatch = CheckForMatch(gem);
                 hasMatchAvailable = currentGemHasMatch || hasMatchAvailable;
             }
 
