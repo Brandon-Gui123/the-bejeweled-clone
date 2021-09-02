@@ -402,7 +402,7 @@ public class GemBoardBehaviour : MonoBehaviour
         }
     }
 
-    public bool CheckForMatch2(GemBehaviour gem)
+    public bool CheckForMatch(GemBehaviour gem)
     {
         // our list will initially contain the target gem so that it can be
         // marked as matched if we do find a match
@@ -515,7 +515,7 @@ public class GemBoardBehaviour : MonoBehaviour
             hasMatchAvailable = false;
             foreach (var gem in gemBoard)
             {
-                bool currentGemHasMatch = CheckForMatch2(gem);
+                bool currentGemHasMatch = CheckForMatch(gem);
                 hasMatchAvailable = currentGemHasMatch || hasMatchAvailable;
             }
 
