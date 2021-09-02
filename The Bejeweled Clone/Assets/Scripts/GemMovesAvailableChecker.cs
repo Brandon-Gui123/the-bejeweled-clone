@@ -184,6 +184,6 @@ public class GemMovesAvailableChecker : MonoBehaviour
 
     public void UpdateMovesAvailableCounter(GemBoard gemBoard)
     {
-        movesAvailableCounter.text = GetNumberOfMatchesAvailable(gemBoard).ToString();
+        movesAvailableCounter.text = GemBoardUtils.GetNumberOfMovesAvailable(gemBoard).ToString();
     }
 }
