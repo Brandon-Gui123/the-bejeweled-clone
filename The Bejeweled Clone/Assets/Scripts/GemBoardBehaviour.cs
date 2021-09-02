@@ -36,7 +36,7 @@ public class GemBoardBehaviour : MonoBehaviour
 
         availableMovesChecker.UpdateMovesAvailableCounter(gemBoard);
 
-        if (availableMovesChecker.GetNumberOfMatchesAvailable(gemBoard) <= 0)
+        if (GemBoardUtils.GetNumberOfMovesAvailable(gemBoard) <= 0)
         {
             noMoreMovesDisplay.SetActive(true);
             isSwappingAllowed = false;
@@ -608,7 +608,7 @@ public class GemBoardBehaviour : MonoBehaviour
         // check for available moves
         availableMovesChecker.UpdateMovesAvailableCounter(gemBoard);
 
-        if (availableMovesChecker.GetNumberOfMatchesAvailable(gemBoard) <= 0)
+        if (GemBoardUtils.GetNumberOfMovesAvailable(gemBoard) <= 0)
         {
             noMoreMovesDisplay.SetActive(true);
             yield break;
@@ -862,6 +862,6 @@ public class GemBoardBehaviour : MonoBehaviour
     [ContextMenu("Log Number of Possible Matches")]
     private void LogNumberOfPossibleMatches()
     {
-        Debug.Log(GetNumberOfMatchesAvailable(gemBoard));
+        Debug.Log(GemBoardUtils.GetNumberOfMovesAvailable(gemBoard));
     }
 }
