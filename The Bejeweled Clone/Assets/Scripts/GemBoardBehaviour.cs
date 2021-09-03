@@ -32,7 +32,7 @@ public class GemBoardBehaviour : MonoBehaviour
     void Start()
     {
         GenerateGemsForBoard();
-        EnsureNoMatches();
+        GemBoardUtils.EnsureNoMatches(gemBoard, gemTypesToUse);
 
         availableMovesChecker.UpdateMovesAvailableCounter(gemBoard);
 
