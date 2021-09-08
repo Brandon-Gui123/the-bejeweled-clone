@@ -4,6 +4,7 @@ public class Gem
     public int RowOnBoard { get; set; }
     public int ColOnBoard { get; set; }
     public bool HasBeenMatched { get; set; }
+    public bool IsEmpty { get; set; }
 
     public GemBehaviour GemBehaviour { get; set; }
 

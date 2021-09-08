@@ -281,7 +281,7 @@ public class GemBoardBehaviour : MonoBehaviour
                         for (int currentRow = 0; currentRow < gemBoard.Rows - 1; currentRow++)
                         {
                             // is the current gem NOT a space and the gem below a space?
-                            if (gemBoard[currentRow, currentCol].GemBehaviour && !gemBoard[currentRow + 1, currentCol].GemBehaviour)
+                            if (!gemBoard[currentRow, currentCol].IsEmpty && gemBoard[currentRow + 1, currentCol].IsEmpty)
                             {
                                 // swap gem instances
                                 SwapGems(gemBoard[currentRow, currentCol], gemBoard[currentRow + 1, currentCol]);
@@ -374,7 +374,7 @@ public class GemBoardBehaviour : MonoBehaviour
         {
             Gem gem = gemBoard[i, columnIndex];
 
-            if (gem.GemBehaviour)
+            if (!gem.IsEmpty)
             {
                 hasEncounteredGems = true;
             }
@@ -383,7 +383,7 @@ public class GemBoardBehaviour : MonoBehaviour
             {
                 // the column is invalid if we encounter blank spaces
                 // after finding gems above
-                if (!gem.GemBehaviour)
+                if (gem.IsEmpty)
                 {
                     return false;
                 }
@@ -479,6 +479,7 @@ public class GemBoardBehaviour : MonoBehaviour
                 if (gemBoard[i, j].HasBeenMatched)
                 {
                     Destroy(gemBoard[i, j].GemBehaviour.gameObject);
+                    gemBoard[i, j].IsEmpty = true;
                 }
             }
         }
