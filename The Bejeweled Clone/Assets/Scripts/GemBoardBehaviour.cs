@@ -147,7 +147,7 @@ public class GemBoardBehaviour : MonoBehaviour
         // from the current gem upwards
         for (int currentRow = gem.gem.RowOnBoard; currentRow > 0; currentRow--)
         {
-            if (gemBoard[currentRow - 1, gem.gem.ColOnBoard].gemType == gem.gemType)
+            if (gemBoard[currentRow - 1, gem.gem.ColOnBoard].GemType == gem.gemType)
             {
                 // gem above same as current
                 numVerticallyMatchedGems++;
@@ -163,7 +163,7 @@ public class GemBoardBehaviour : MonoBehaviour
         // now from the current gem downwards
         for (int currentRow = gem.gem.RowOnBoard; currentRow < 8 - 1; currentRow++)
         {
-            if (gemBoard[currentRow + 1, gem.gem.ColOnBoard].gemType == gem.gemType)
+            if (gemBoard[currentRow + 1, gem.gem.ColOnBoard].GemType == gem.gemType)
             {
                 // gem below same as current
                 numVerticallyMatchedGems++;
@@ -180,7 +180,7 @@ public class GemBoardBehaviour : MonoBehaviour
         // from the current gem and going towards the left
         for (int currentCol = gem.gem.ColOnBoard; currentCol > 0; currentCol--)
         {
-            if (gemBoard[gem.gem.RowOnBoard, currentCol - 1].gemType == gem.gemType)
+            if (gemBoard[gem.gem.RowOnBoard, currentCol - 1].GemType == gem.gemType)
             {
                 // gem to the left of current is the same as current
                 numHorizontallyMatchedGems++;
@@ -196,7 +196,7 @@ public class GemBoardBehaviour : MonoBehaviour
         // from the current gem and going towards the right
         for (int currentCol = gem.gem.ColOnBoard; currentCol < 8 - 1; currentCol++)
         {
-            if (gemBoard[gem.gem.RowOnBoard, currentCol + 1].gemType == gem.gemType)
+            if (gemBoard[gem.gem.RowOnBoard, currentCol + 1].GemType == gem.gemType)
             {
                 // gem to the left of current is the same as current
                 numHorizontallyMatchedGems++;
