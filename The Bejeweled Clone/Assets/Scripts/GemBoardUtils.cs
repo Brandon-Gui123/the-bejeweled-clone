@@ -452,4 +452,17 @@ public static class GemBoardUtils
             }
         }
     }
+
+    public static bool AreGemsNeighbours(Gem first, Gem second)
+    {
+        // two gems are considered neighbours if:
+        // 1. Either both gems are on the same row, but one on a column to the right or the left of the other gem;
+        // 2. Or both gems are on the same column, but one on a row above or below the other gem.
+
+        // since we are finding out if the gems are beside each other, it means either their row or column values must differ by 1
+        bool isVerticalNeighbour = first.ColOnBoard == second.ColOnBoard && (Mathf.Abs(first.RowOnBoard - second.RowOnBoard) == 1);
+        bool isHorizontalNeighbour = first.RowOnBoard == second.RowOnBoard && (Mathf.Abs(first.ColOnBoard - second.ColOnBoard) == 1);
+
+        return isVerticalNeighbour || isHorizontalNeighbour;
+    }
 }
