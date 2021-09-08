@@ -566,8 +566,8 @@ public class GemBoardBehaviour : MonoBehaviour
         {
             for (int currentCol = 0; currentCol < gemBoard.Columns; currentCol++)
             {
-                GemBehaviour currentGem = gemBoard[currentRow, currentCol];
-                Color characterColor = GemUtils.GetColorBasedOnGemType(currentGem.gemType);
+                Gem currentGem = gemBoard[currentRow, currentCol];
+                Color characterColor = GemUtils.GetColorBasedOnGemType(currentGem.GemType);
                 representation += "■".Color(characterColor);
             }
 
