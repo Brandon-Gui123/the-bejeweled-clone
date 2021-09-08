@@ -49,10 +49,15 @@ public class GemBoardBehaviour : MonoBehaviour
         {
             for (int currentCol = 0; currentCol < gemBoard.Columns; currentCol++)
             {
+                GemTypes gemTypeToUse = gemTypesToUse[Random.Range(0, gemTypesToUse.Length)];
                 GemBehaviour createdGem = CreateGemForRowAndCol(gemPrefab, currentRow, currentCol, gemTypesToUse[Random.Range(0, gemTypesToUse.Length)]);
 
                 gemBoard[currentRow, currentCol] = new Gem
                 {
+                    GemType = gemTypeToUse,
+                    RowOnBoard = currentRow,
+                    ColOnBoard = currentCol,
+
                     GemBehaviour = createdGem
                 };
             }
