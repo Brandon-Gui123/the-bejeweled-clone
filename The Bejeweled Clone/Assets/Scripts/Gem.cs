@@ -1,5 +1,7 @@
 public class Gem
 {
+    public GemTypes GemType { get; set; }
+
     public GemBehaviour GemBehaviour { get; set; }
 
     // TODO To be removed once all scripts have explicitly accessed the GemType of the Gem
