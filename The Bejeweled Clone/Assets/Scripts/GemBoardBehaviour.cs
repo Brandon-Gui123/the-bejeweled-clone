@@ -459,7 +459,7 @@ public class GemBoardBehaviour : MonoBehaviour
 
         foreach (GemBehaviour gem in gemBoard)
         {
-            if (gem.hasBeenMatched)
+            if (gem.gem.HasBeenMatched)
             {
                 numGemsToShrink++;
 
