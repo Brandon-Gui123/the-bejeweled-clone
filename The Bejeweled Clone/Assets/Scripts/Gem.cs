@@ -6,13 +6,6 @@ public class Gem
 
     public GemBehaviour GemBehaviour { get; set; }
 
-    // TODO To be removed once all scripts have explicitly accessed the GemType of the Gem
-    public GemTypes gemType
-    {
-        get => GemBehaviour.gemType;
-        set => GemBehaviour.gemType = value;
-    }
-
     // TODO To be removed once all scripts have explicit access to hasBeenMatched on this Gem
     public bool hasBeenMatched
     {
