@@ -257,7 +257,7 @@ public class GemBoardBehaviour : MonoBehaviour
                 // all gems in a match are to be added to a counter
                 foreach (var gem in gemBoard)
                 {
-                    if (gem.hasBeenMatched)
+                    if (gem.HasBeenMatched)
                     {
                         matchesTracker.SetMatchCount(matchesTracker.numMatchesMade + 1);
                     }
@@ -489,7 +489,7 @@ public class GemBoardBehaviour : MonoBehaviour
         {
             for (int j = 0; j < gemBoard.Columns; j++)
             {
-                if (gemBoard[i, j].hasBeenMatched)
+                if (gemBoard[i, j].HasBeenMatched)
                 {
                     Destroy(gemBoard[i, j].GemBehaviour.gameObject);
                 }
