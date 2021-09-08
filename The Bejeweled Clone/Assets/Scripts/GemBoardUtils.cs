@@ -438,7 +438,7 @@ public static class GemBoardUtils
                             .Log(targetGem);
 
                         targetGem.gemType = chosenGemType;
-                        targetGem.UpdateGemColor();
+                        //targetGem.UpdateGemColor();
                     }
                     else
                     {
