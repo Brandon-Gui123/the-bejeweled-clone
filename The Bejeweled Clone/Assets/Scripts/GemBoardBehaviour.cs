@@ -31,7 +31,7 @@ public class GemBoardBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GenerateGemsForBoard();
+        GemBoardUtils.GenerateGemsForBoard(gemBoard, gemTypesToUse);
         GemBoardUtils.EnsureNoMatches(gemBoard, gemTypesToUse);
 
         availableMovesChecker.UpdateMovesAvailableCounter(gemBoard);
