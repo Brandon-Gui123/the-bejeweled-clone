@@ -374,7 +374,7 @@ public class GemBoardBehaviour : MonoBehaviour
         {
             Gem gem = gemBoard[i, columnIndex];
 
-            if (gem.GemBehaviour)
+            if (!gem.IsEmpty)
             {
                 hasEncounteredGems = true;
             }
@@ -383,7 +383,7 @@ public class GemBoardBehaviour : MonoBehaviour
             {
                 // the column is invalid if we encounter blank spaces
                 // after finding gems above
-                if (!gem.GemBehaviour)
+                if (gem.IsEmpty)
                 {
                     return false;
                 }
