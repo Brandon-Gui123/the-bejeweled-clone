@@ -1,6 +1,8 @@
 public class Gem
 {
     public GemTypes GemType { get; set; }
+    public int RowOnBoard { get; set; }
+    public int ColOnBoard { get; set; }
 
     public GemBehaviour GemBehaviour { get; set; }
 
