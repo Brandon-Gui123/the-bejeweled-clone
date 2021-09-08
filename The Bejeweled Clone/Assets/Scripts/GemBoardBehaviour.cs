@@ -479,6 +479,7 @@ public class GemBoardBehaviour : MonoBehaviour
                 if (gemBoard[i, j].HasBeenMatched)
                 {
                     Destroy(gemBoard[i, j].GemBehaviour.gameObject);
+                    gemBoard[i, j].IsEmpty = true;
                 }
             }
         }
