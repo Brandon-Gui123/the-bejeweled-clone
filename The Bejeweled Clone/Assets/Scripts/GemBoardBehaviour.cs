@@ -133,7 +133,7 @@ public class GemBoardBehaviour : MonoBehaviour
         }
     }
 
-    public bool CheckForMatch(GemBehaviour gem)
+    public bool CheckForMatch(Gem gem)
     {
         // our list will initially contain the target gem so that it can be
         // marked as matched if we do find a match
@@ -145,13 +145,13 @@ public class GemBoardBehaviour : MonoBehaviour
 
         // start checking vertically first
         // from the current gem upwards
-        for (int currentRow = gem.gem.RowOnBoard; currentRow > 0; currentRow--)
+        for (int currentRow = gem.RowOnBoard; currentRow > 0; currentRow--)
         {
-            if (gemBoard[currentRow - 1, gem.gem.ColOnBoard].GemType == gem.gemType)
+            if (gemBoard[currentRow - 1, gem.ColOnBoard].GemType == gem.GemType)
             {
                 // gem above same as current
                 numVerticallyMatchedGems++;
-                verticalGems.Add(gemBoard[currentRow - 1, gem.gem.ColOnBoard]);
+                verticalGems.Add(gemBoard[currentRow - 1, gem.ColOnBoard]);
             }
             else
             {
@@ -161,13 +161,13 @@ public class GemBoardBehaviour : MonoBehaviour
         }
 
         // now from the current gem downwards
-        for (int currentRow = gem.gem.RowOnBoard; currentRow < 8 - 1; currentRow++)
+        for (int currentRow = gem.RowOnBoard; currentRow < 8 - 1; currentRow++)
         {
-            if (gemBoard[currentRow + 1, gem.gem.ColOnBoard].GemType == gem.gemType)
+            if (gemBoard[currentRow + 1, gem.ColOnBoard].GemType == gem.GemType)
             {
                 // gem below same as current
                 numVerticallyMatchedGems++;
-                verticalGems.Add(gemBoard[currentRow + 1, gem.gem.ColOnBoard]);
+                verticalGems.Add(gemBoard[currentRow + 1, gem.ColOnBoard]);
             }
             else
             {
@@ -178,13 +178,13 @@ public class GemBoardBehaviour : MonoBehaviour
 
         // now to check horizontal
         // from the current gem and going towards the left
-        for (int currentCol = gem.gem.ColOnBoard; currentCol > 0; currentCol--)
+        for (int currentCol = gem.ColOnBoard; currentCol > 0; currentCol--)
         {
-            if (gemBoard[gem.gem.RowOnBoard, currentCol - 1].GemType == gem.gemType)
+            if (gemBoard[gem.RowOnBoard, currentCol - 1].GemType == gem.GemType)
             {
                 // gem to the left of current is the same as current
                 numHorizontallyMatchedGems++;
-                horizontalGems.Add(gemBoard[gem.gem.RowOnBoard, currentCol - 1]);
+                horizontalGems.Add(gemBoard[gem.RowOnBoard, currentCol - 1]);
             }
             else
             {
@@ -194,13 +194,13 @@ public class GemBoardBehaviour : MonoBehaviour
         }
 
         // from the current gem and going towards the right
-        for (int currentCol = gem.gem.ColOnBoard; currentCol < 8 - 1; currentCol++)
+        for (int currentCol = gem.ColOnBoard; currentCol < 8 - 1; currentCol++)
         {
-            if (gemBoard[gem.gem.RowOnBoard, currentCol + 1].GemType == gem.gemType)
+            if (gemBoard[gem.RowOnBoard, currentCol + 1].GemType == gem.GemType)
             {
                 // gem to the left of current is the same as current
                 numHorizontallyMatchedGems++;
-                horizontalGems.Add(gemBoard[gem.gem.RowOnBoard, currentCol + 1]);
+                horizontalGems.Add(gemBoard[gem.RowOnBoard, currentCol + 1]);
             }
             else
             {
