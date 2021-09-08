@@ -316,7 +316,7 @@ public class GemBoardBehaviour : MonoBehaviour
 
                 foreach (var gem in gemBoard)
                 {
-                    gem.GemBehaviour.fallDestination = ComputeGemPositionViaRowAndCol(gem.rowOnBoard, gem.colOnBoard);
+                    gem.GemBehaviour.fallDestination = ComputeGemPositionViaRowAndCol(gem.RowOnBoard, gem.ColOnBoard);
                     gem.GemBehaviour.isFalling = true;
                 }
 
@@ -416,19 +416,19 @@ public class GemBoardBehaviour : MonoBehaviour
         // gems themselves
 
         // swap gem object instances on the board
-        gemBoard[first.rowOnBoard, first.colOnBoard] = second;
-        gemBoard[second.rowOnBoard, second.colOnBoard] = first;
+        gemBoard[first.RowOnBoard, first.ColOnBoard] = second;
+        gemBoard[second.RowOnBoard, second.ColOnBoard] = first;
 
         // store first gem's row and column values so we don't lose
         // the original values when we change it to the second's
-        int initialFirstGemRow = first.rowOnBoard;
-        int initialFirstGemCol = first.colOnBoard;
+        int initialFirstGemRow = first.RowOnBoard;
+        int initialFirstGemCol = first.ColOnBoard;
 
         // update row and column values for both gems
-        first.rowOnBoard = second.rowOnBoard;
-        first.colOnBoard = second.colOnBoard;
-        second.rowOnBoard = initialFirstGemRow;
-        second.colOnBoard = initialFirstGemCol;
+        first.RowOnBoard = second.RowOnBoard;
+        first.ColOnBoard = second.ColOnBoard;
+        second.RowOnBoard = initialFirstGemRow;
+        second.ColOnBoard = initialFirstGemCol;
     }
 
     private GemBehaviour CreateGemForRowAndCol(GemBehaviour gemPrefab, int row, int col, GemTypes gemType)
