@@ -465,4 +465,24 @@ public static class GemBoardUtils
 
         return isVerticalNeighbour || isHorizontalNeighbour;
     }
+
+    public static void GenerateGemsForBoard(GemBoard gemBoard, GemTypes[] gemTypesToUse)
+    {
+        for (int row = 0; row < gemBoard.Rows; row++)
+        {
+            for (int col = 0; col < gemBoard.Columns; col++)
+            {
+                var gemTypeToUse = gemTypesToUse[Random.Range(0, gemTypesToUse.Length)];
+
+                var createdGem = new Gem
+                {
+                    RowOnBoard = row,
+                    ColOnBoard = col,
+                    GemType = gemTypeToUse
+                };
+
+                gemBoard[row, col] = createdGem;
+            }
+        }
+    }
 }
