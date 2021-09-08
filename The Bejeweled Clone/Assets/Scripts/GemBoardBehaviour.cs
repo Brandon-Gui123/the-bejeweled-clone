@@ -281,7 +281,7 @@ public class GemBoardBehaviour : MonoBehaviour
                         for (int currentRow = 0; currentRow < gemBoard.Rows - 1; currentRow++)
                         {
                             // is the current gem NOT a space and the gem below a space?
-                            if (gemBoard[currentRow, currentCol].GemBehaviour && !gemBoard[currentRow + 1, currentCol].GemBehaviour)
+                            if (!gemBoard[currentRow, currentCol].IsEmpty && gemBoard[currentRow + 1, currentCol].IsEmpty)
                             {
                                 // swap gem instances
                                 SwapGems(gemBoard[currentRow, currentCol], gemBoard[currentRow + 1, currentCol]);
