@@ -215,10 +215,10 @@ public static class GemBoardUtils
 
                     // the gems detected in horizontal matches shall only check upwards and downwards
 
-                    if (rightOfCurrentGem.rowOnBoard >= 2)
+                    if (rightOfCurrentGem.gem.RowOnBoard >= 2)
                     {
-                        GemBehaviour aboveTargeted = gemBoard[targetGem.rowOnBoard - 1, targetGem.colOnBoard];
-                        GemBehaviour aboveAboveTargeted = gemBoard[targetGem.rowOnBoard - 2, targetGem.colOnBoard];
+                        GemBehaviour aboveTargeted = gemBoard[targetGem.gem.RowOnBoard - 1, targetGem.gem.ColOnBoard];
+                        GemBehaviour aboveAboveTargeted = gemBoard[targetGem.gem.RowOnBoard - 2, targetGem.gem.ColOnBoard];
 
                         if (aboveTargeted.gemType == aboveAboveTargeted.gemType)
                         {
@@ -240,10 +240,10 @@ public static class GemBoardUtils
                         }
                     }
 
-                    if (rightOfCurrentGem.rowOnBoard < gemBoard.Rows - 2)
+                    if (rightOfCurrentGem.gem.RowOnBoard < gemBoard.Rows - 2)
                     {
-                        GemBehaviour belowTargeted = gemBoard[targetGem.rowOnBoard + 1, targetGem.colOnBoard];
-                        GemBehaviour belowBelowTargeted = gemBoard[targetGem.rowOnBoard + 2, targetGem.colOnBoard];
+                        GemBehaviour belowTargeted = gemBoard[targetGem.gem.RowOnBoard + 1, targetGem.gem.ColOnBoard];
+                        GemBehaviour belowBelowTargeted = gemBoard[targetGem.gem.RowOnBoard + 2, targetGem.gem.ColOnBoard];
 
                         if (belowTargeted.gemType == belowBelowTargeted.gemType)
                         {
@@ -265,14 +265,14 @@ public static class GemBoardUtils
                         }
                     }
 
-                    if (rightOfCurrentGem.rowOnBoard >= 1 && rightOfCurrentGem.rowOnBoard < gemBoard.Rows - 1)
+                    if (rightOfCurrentGem.gem.RowOnBoard >= 1 && rightOfCurrentGem.gem.RowOnBoard < gemBoard.Rows - 1)
                     {
                         // can look up and down by 1 space
                         // if these 2 gems are the same type, a match will occur, so we also need to
                         // consider this situation
 
-                        GemBehaviour aboveTargeted = gemBoard[targetGem.rowOnBoard - 1, targetGem.colOnBoard];
-                        GemBehaviour belowTargeted = gemBoard[targetGem.rowOnBoard + 1, targetGem.colOnBoard];
+                        GemBehaviour aboveTargeted = gemBoard[targetGem.gem.RowOnBoard - 1, targetGem.gem.ColOnBoard];
+                        GemBehaviour belowTargeted = gemBoard[targetGem.gem.RowOnBoard + 1, targetGem.gem.ColOnBoard];
 
                         if (aboveTargeted.gemType == belowTargeted.gemType)
                         {
@@ -303,7 +303,7 @@ public static class GemBoardUtils
                         string originalColourString = $"{targetGem.gemType}".Color(GemUtils.GetColorBasedOnGemType(targetGem.gemType));
                         string newColourString = $"{chosenGemType}".Color(GemUtils.GetColorBasedOnGemType(chosenGemType));
 
-                        $"Horizontal matching: The gem at ({targetGem.rowOnBoard}, {targetGem.colOnBoard}) will be changed from {originalColourString} to {newColourString}"
+                        $"Horizontal matching: The gem at ({targetGem.gem.RowOnBoard}, {targetGem.gem.ColOnBoard}) will be changed from {originalColourString} to {newColourString}"
                             .Log(targetGem);
 
                         targetGem.gemType = chosenGemType;
@@ -313,7 +313,7 @@ public static class GemBoardUtils
                     {
                         // we don't have anything we can choose to stop the match from occurring
                         // for simplicity's sake, we don't alter the gem and just log this
-                        ($"Horizontal matching: Unable to find a suitable gem type to change to for the gem at ({targetGem.rowOnBoard}, {targetGem.colOnBoard})!\n"
+                        ($"Horizontal matching: Unable to find a suitable gem type to change to for the gem at ({targetGem.gem.RowOnBoard}, {targetGem.gem.ColOnBoard})!\n"
                             + $"This can happen if we exhaust the list of applicable gem types for the gem to change to.")
                             .Log(targetGem);
                     }
@@ -354,10 +354,10 @@ public static class GemBoardUtils
                     // matches horizontal to them
 
                     // the 2 gems to the left of the target gem, where applicable
-                    if (targetGem.colOnBoard >= 2)
+                    if (targetGem.gem.ColOnBoard >= 2)
                     {
-                        GemBehaviour leftOfTargetGem = gemBoard[targetGem.rowOnBoard, targetGem.colOnBoard - 1];
-                        GemBehaviour leftOfLeftGem = gemBoard[targetGem.rowOnBoard, targetGem.colOnBoard - 2];
+                        GemBehaviour leftOfTargetGem = gemBoard[targetGem.gem.RowOnBoard, targetGem.gem.ColOnBoard - 1];
+                        GemBehaviour leftOfLeftGem = gemBoard[targetGem.gem.RowOnBoard, targetGem.gem.ColOnBoard - 2];
 
                         if (targetGem.gemType == leftOfTargetGem.gemType && targetGem.gemType == leftOfLeftGem.gemType)
                         {
@@ -378,10 +378,10 @@ public static class GemBoardUtils
                     }
 
                     // the 2 gems to the right of the target gem, where applicable
-                    if (targetGem.colOnBoard < gemBoard.Columns - 2)
+                    if (targetGem.gem.ColOnBoard < gemBoard.Columns - 2)
                     {
-                        GemBehaviour rightOfTargetGem = gemBoard[targetGem.rowOnBoard, targetGem.colOnBoard + 1];
-                        GemBehaviour rightOfRightGem = gemBoard[targetGem.rowOnBoard, targetGem.colOnBoard + 2];
+                        GemBehaviour rightOfTargetGem = gemBoard[targetGem.gem.RowOnBoard, targetGem.gem.ColOnBoard + 1];
+                        GemBehaviour rightOfRightGem = gemBoard[targetGem.gem.RowOnBoard, targetGem.gem.ColOnBoard + 2];
 
                         if (targetGem.gemType == rightOfTargetGem.gemType && targetGem.gemType == rightOfRightGem.gemType)
                         {
@@ -402,10 +402,10 @@ public static class GemBoardUtils
                     }
 
                     // the gem to the left and the gem to the right, where applicable
-                    if (targetGem.colOnBoard >= 1 && targetGem.colOnBoard < gemBoard.Columns - 1)
+                    if (targetGem.gem.ColOnBoard >= 1 && targetGem.gem.ColOnBoard < gemBoard.Columns - 1)
                     {
-                        GemBehaviour leftOfTargetGem = gemBoard[targetGem.rowOnBoard, targetGem.colOnBoard - 1];
-                        GemBehaviour rightOfTargetGem = gemBoard[targetGem.rowOnBoard, targetGem.colOnBoard + 1];
+                        GemBehaviour leftOfTargetGem = gemBoard[targetGem.gem.RowOnBoard, targetGem.gem.ColOnBoard - 1];
+                        GemBehaviour rightOfTargetGem = gemBoard[targetGem.gem.RowOnBoard, targetGem.gem.ColOnBoard + 1];
 
                         if (targetGem.gemType == leftOfTargetGem.gemType && targetGem.gemType == rightOfTargetGem.gemType)
                         {
@@ -434,7 +434,7 @@ public static class GemBoardUtils
                         string originalColourString = $"{targetGem.gemType}".Color(GemUtils.GetColorBasedOnGemType(targetGem.gemType));
                         string newColourString = $"{chosenGemType}".Color(GemUtils.GetColorBasedOnGemType(chosenGemType));
 
-                        $"Vertical matching: The gem at ({targetGem.rowOnBoard}, {targetGem.colOnBoard}) will be changed from {originalColourString} to {newColourString}"
+                        $"Vertical matching: The gem at ({targetGem.gem.RowOnBoard}, {targetGem.gem.ColOnBoard}) will be changed from {originalColourString} to {newColourString}"
                             .Log(targetGem);
 
                         targetGem.gemType = chosenGemType;
@@ -444,7 +444,7 @@ public static class GemBoardUtils
                     {
                         // we don't have anything we can choose to stop the match from occurring
                         // for simplicity's sake, we don't alter the gem and just log this
-                        ($"Vertical matching: Unable to find a suitable gem type to change to for the gem at ({targetGem.rowOnBoard}, {targetGem.colOnBoard})!\n"
+                        ($"Vertical matching: Unable to find a suitable gem type to change to for the gem at ({targetGem.gem.RowOnBoard}, {targetGem.gem.ColOnBoard})!\n"
                             + $"This can happen if we exhaust the list of applicable gem types for the gem to change to.")
                             .LogAsWarning(targetGem);
                     }

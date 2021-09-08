@@ -10,9 +10,6 @@ public class GemBehaviour : MonoBehaviour
 
     public GemBoardBehaviour gemBoard;
 
-    public int rowOnBoard;
-    public int colOnBoard;
-
     public bool hasBeenMatched = false;
 
     public Vector3 fallDestination;
