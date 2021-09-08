@@ -17,8 +17,8 @@ public static class GemBoardUtils
                 // ? X
                 // ? X
                 // X ?
-                if (gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType
-                    && gemBoard[currentRow + 1, currentCol + 1].gemType == gemBoard[currentRow + 2, currentCol].gemType)
+                if (gemBoard[currentRow, currentCol + 1].GemType == gemBoard[currentRow + 1, currentCol + 1].GemType
+                    && gemBoard[currentRow + 1, currentCol + 1].GemType == gemBoard[currentRow + 2, currentCol].GemType)
                 {
                     numMatchesFound++;
                 }
@@ -26,8 +26,8 @@ public static class GemBoardUtils
                 // X ?
                 // X ?
                 // ? X
-                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 1, currentCol].gemType
-                    && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 2, currentCol + 1].gemType)
+                if (gemBoard[currentRow, currentCol].GemType == gemBoard[currentRow + 1, currentCol].GemType
+                    && gemBoard[currentRow + 1, currentCol].GemType == gemBoard[currentRow + 2, currentCol + 1].GemType)
                 {
 
                     numMatchesFound++;
@@ -36,8 +36,8 @@ public static class GemBoardUtils
                 // ? X
                 // X ?
                 // X ?
-                if (gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol].gemType
-                    && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 2, currentCol].gemType)
+                if (gemBoard[currentRow, currentCol + 1].GemType == gemBoard[currentRow + 1, currentCol].GemType
+                    && gemBoard[currentRow + 1, currentCol].GemType == gemBoard[currentRow + 2, currentCol].GemType)
                 {
                     numMatchesFound++;
                 }
@@ -45,8 +45,8 @@ public static class GemBoardUtils
                 // X ?
                 // ? X
                 // ? X
-                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType
-                    && gemBoard[currentRow + 1, currentCol + 1].gemType == gemBoard[currentRow + 2, currentCol + 1].gemType)
+                if (gemBoard[currentRow, currentCol].GemType == gemBoard[currentRow + 1, currentCol + 1].GemType
+                    && gemBoard[currentRow + 1, currentCol + 1].GemType == gemBoard[currentRow + 2, currentCol + 1].GemType)
                 {
                     numMatchesFound++;
                 }
@@ -54,8 +54,8 @@ public static class GemBoardUtils
                 // X ?
                 // ? X
                 // X ?
-                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType
-                    && gemBoard[currentRow + 1, currentCol + 1].gemType == gemBoard[currentRow + 2, currentCol].gemType)
+                if (gemBoard[currentRow, currentCol].GemType == gemBoard[currentRow + 1, currentCol + 1].GemType
+                    && gemBoard[currentRow + 1, currentCol + 1].GemType == gemBoard[currentRow + 2, currentCol].GemType)
                 {
                     numMatchesFound++;
                 }
@@ -63,8 +63,8 @@ public static class GemBoardUtils
                 // ? X
                 // X ?
                 // ? X
-                if (gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol].gemType
-                    && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 2, currentCol + 1].gemType)
+                if (gemBoard[currentRow, currentCol + 1].GemType == gemBoard[currentRow + 1, currentCol].GemType
+                    && gemBoard[currentRow + 1, currentCol].GemType == gemBoard[currentRow + 2, currentCol + 1].GemType)
                 {
                     numMatchesFound++;
                 }
@@ -80,48 +80,48 @@ public static class GemBoardUtils
 
                 // ? ? X
                 // X X ?
-                if (gemBoard[currentRow, currentCol + 2].gemType == gemBoard[currentRow + 1, currentCol].gemType
-                    && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType)
+                if (gemBoard[currentRow, currentCol + 2].GemType == gemBoard[currentRow + 1, currentCol].GemType
+                    && gemBoard[currentRow + 1, currentCol].GemType == gemBoard[currentRow + 1, currentCol + 1].GemType)
                 {
                     numMatchesFound++;
                 }
 
                 // X X ?
                 // ? ? X
-                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow, currentCol + 1].gemType
-                    && gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol + 2].gemType)
+                if (gemBoard[currentRow, currentCol].GemType == gemBoard[currentRow, currentCol + 1].GemType
+                    && gemBoard[currentRow, currentCol + 1].GemType == gemBoard[currentRow + 1, currentCol + 2].GemType)
                 {
                     numMatchesFound++;
                 }
 
                 // X ? ?
                 // ? X X
-                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType
-                    && gemBoard[currentRow + 1, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol + 2].gemType)
+                if (gemBoard[currentRow, currentCol].GemType == gemBoard[currentRow + 1, currentCol + 1].GemType
+                    && gemBoard[currentRow + 1, currentCol + 1].GemType == gemBoard[currentRow + 1, currentCol + 2].GemType)
                 {
                     numMatchesFound++;
                 }
 
                 // ? X X
                 // X ? ?
-                if (gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow, currentCol + 2].gemType
-                    && gemBoard[currentRow, currentCol + 2].gemType == gemBoard[currentRow + 1, currentCol].gemType)
+                if (gemBoard[currentRow, currentCol + 1].GemType == gemBoard[currentRow, currentCol + 2].GemType
+                    && gemBoard[currentRow, currentCol + 2].GemType == gemBoard[currentRow + 1, currentCol].GemType)
                 {
                     numMatchesFound++;
                 }
 
                 // X ? X
                 // ? X ?
-                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow, currentCol + 2].gemType
-                    && gemBoard[currentRow, currentCol + 2].gemType == gemBoard[currentRow + 1, currentCol + 1].gemType)
+                if (gemBoard[currentRow, currentCol].GemType == gemBoard[currentRow, currentCol + 2].GemType
+                    && gemBoard[currentRow, currentCol + 2].GemType == gemBoard[currentRow + 1, currentCol + 1].GemType)
                 {
                     numMatchesFound++;
                 }
 
                 // ? X ?
                 // X ? X
-                if (gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow + 1, currentCol].gemType
-                    && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 1, currentCol + 2].gemType)
+                if (gemBoard[currentRow, currentCol + 1].GemType == gemBoard[currentRow + 1, currentCol].GemType
+                    && gemBoard[currentRow + 1, currentCol].GemType == gemBoard[currentRow + 1, currentCol + 2].GemType)
                 {
                     numMatchesFound++;
                 }
@@ -137,8 +137,8 @@ public static class GemBoardUtils
                 // X
                 // ?
                 // X
-                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 1, currentCol].gemType
-                    && gemBoard[currentRow + 1, currentCol].gemType == gemBoard[currentRow + 3, currentCol].gemType)
+                if (gemBoard[currentRow, currentCol].GemType == gemBoard[currentRow + 1, currentCol].GemType
+                    && gemBoard[currentRow + 1, currentCol].GemType == gemBoard[currentRow + 3, currentCol].GemType)
                 {
                     numMatchesFound++;
                 }
@@ -147,8 +147,8 @@ public static class GemBoardUtils
                 // ?
                 // X
                 // X
-                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow + 2, currentCol].gemType
-                    && gemBoard[currentRow + 2, currentCol].gemType == gemBoard[currentRow + 3, currentCol].gemType)
+                if (gemBoard[currentRow, currentCol].GemType == gemBoard[currentRow + 2, currentCol].GemType
+                    && gemBoard[currentRow + 2, currentCol].GemType == gemBoard[currentRow + 3, currentCol].GemType)
                 {
                     numMatchesFound++;
                 }
@@ -161,15 +161,15 @@ public static class GemBoardUtils
             for (int currentCol = 0; currentCol <= gemBoard.Columns - 4; currentCol++)
             {
                 // X ? X X
-                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow, currentCol + 2].gemType
-                    && gemBoard[currentRow, currentCol + 2].gemType == gemBoard[currentRow, currentCol + 3].gemType)
+                if (gemBoard[currentRow, currentCol].GemType == gemBoard[currentRow, currentCol + 2].GemType
+                    && gemBoard[currentRow, currentCol + 2].GemType == gemBoard[currentRow, currentCol + 3].GemType)
                 {
                     numMatchesFound++;
                 }
 
                 // X X ? X
-                if (gemBoard[currentRow, currentCol].gemType == gemBoard[currentRow, currentCol + 1].gemType
-                    && gemBoard[currentRow, currentCol + 1].gemType == gemBoard[currentRow, currentCol + 3].gemType)
+                if (gemBoard[currentRow, currentCol].GemType == gemBoard[currentRow, currentCol + 1].GemType
+                    && gemBoard[currentRow, currentCol + 1].GemType == gemBoard[currentRow, currentCol + 3].GemType)
                 {
                     numMatchesFound++;
                 }
