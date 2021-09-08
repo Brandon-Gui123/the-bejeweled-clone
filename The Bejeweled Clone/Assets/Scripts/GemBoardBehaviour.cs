@@ -214,7 +214,7 @@ public class GemBoardBehaviour : MonoBehaviour
         {
             foreach (var g in verticalGems)
             {
-                g.hasBeenMatched = true;
+                g.HasBeenMatched = true;
             }
         }
 
@@ -223,7 +223,7 @@ public class GemBoardBehaviour : MonoBehaviour
         {
             foreach (var g in horizontalGems)
             {
-                g.hasBeenMatched = true;
+                g.HasBeenMatched = true;
             }
         }
 
