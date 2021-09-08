@@ -137,8 +137,8 @@ public class GemBoardBehaviour : MonoBehaviour
     {
         // our list will initially contain the target gem so that it can be
         // marked as matched if we do find a match
-        List<GemBehaviour> verticalGems = new List<GemBehaviour> { gem };
-        List<GemBehaviour> horizontalGems = new List<GemBehaviour> { gem };
+        var verticalGems = new List<Gem> { gem };
+        var horizontalGems = new List<Gem> { gem };
 
         int numVerticallyMatchedGems = 1;
         int numHorizontallyMatchedGems = 1;
