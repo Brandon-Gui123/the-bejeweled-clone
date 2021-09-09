@@ -351,8 +351,8 @@ public class GemBoardBehaviour : MonoBehaviour
                     gem.GemBehaviour.isFalling = true;
                 }
 
-                // wait until all the gems fall into place, then continue
-                yield return new WaitUntil(() => generatedGems.All(gem => !gem.isFalling));
+                // wait while gems are still falling
+                yield return new WaitWhile(() => gemBehaviours.Any(b => b.isFalling));
             }
             else if (!hasMatchedBefore)
             {
