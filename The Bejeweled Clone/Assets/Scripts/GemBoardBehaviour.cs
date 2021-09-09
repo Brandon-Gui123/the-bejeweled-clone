@@ -521,24 +521,6 @@ public class GemBoardBehaviour : MonoBehaviour
         yield return new WaitUntil(() => numGemsToShrink <= 0);
     }
 
-    private IEnumerator DestroyMatchedGemsRoutine()
-    {
-        for (int i = 0; i < gemBoard.Rows; i++)
-        {
-            for (int j = 0; j < gemBoard.Columns; j++)
-            {
-                if (gemBoard[i, j].HasBeenMatched)
-                {
-                    Destroy(gemBoard[i, j].GemBehaviour.gameObject);
-                    gemBoard[i, j].IsEmpty = true;
-                }
-            }
-        }
-
-        // wait for a frame so as to let Unity clean up the destroyed gems
-        yield return new WaitForEndOfFrame();
-    }
-
     private IEnumerator MoveFallingGemsDown()
     {
         int gemsLeft = 0;
