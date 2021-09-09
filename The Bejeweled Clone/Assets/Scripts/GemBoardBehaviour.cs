@@ -282,6 +282,14 @@ public class GemBoardBehaviour : MonoBehaviour
                 // shrink matched gems (animation)
                 yield return ShrinkMatchedGemsRoutine(isCascading);
 
+                // mark matched gems as empty
+                foreach (var gem in gemBoard)
+                {
+                    if (gem.HasBeenMatched)
+                    {
+                        gem.IsEmpty = true;
+                    }
+                }
                 // move gem instances downward if required, ensuring that the gaps are all above
                 // to do that, we bubble sort each column
                 for (int currentCol = 0; currentCol < gemBoard.Columns; currentCol++)
