@@ -290,6 +290,16 @@ public class GemBoardBehaviour : MonoBehaviour
                         gem.IsEmpty = true;
                     }
                 }
+
+                // set the size of all affected GameObjects back to 1
+                foreach (var behaviourInstance in gemBehaviours)
+                {
+                    if (behaviourInstance.gem.IsEmpty)
+                    {
+                        behaviourInstance.gemSpriteGameObject.transform.localScale = Vector3.one;
+                    }
+                }
+
                 // move gem instances downward if required, ensuring that the gaps are all above
                 // to do that, we bubble sort each column
                 for (int currentCol = 0; currentCol < gemBoard.Columns; currentCol++)
