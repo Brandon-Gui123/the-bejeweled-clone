@@ -474,9 +474,9 @@ public class GemBoardBehaviour : MonoBehaviour
     {
         int numGemsToShrink = 0;
 
-        foreach (GemBehaviour gem in gemBoard)
+        foreach (var behaviourInstance in gemBehaviours)
         {
-            if (gem.gem.HasBeenMatched)
+            if (behaviourInstance.gem.HasBeenMatched)
             {
                 numGemsToShrink++;
 
@@ -484,14 +484,14 @@ public class GemBoardBehaviour : MonoBehaviour
 
                 if (isCascading)
                 {
-                    sequence.Append(gem.gemSpriteGameObject.transform.DOScale(Vector3.one * 1.2f, 0.4f))
-                            .Append(gem.gemSpriteGameObject.transform.DOScale(Vector3.zero, 0.3f))
+                    sequence.Append(behaviourInstance.gemSpriteGameObject.transform.DOScale(Vector3.one * 1.2f, 0.4f))
+                            .Append(behaviourInstance.gemSpriteGameObject.transform.DOScale(Vector3.zero, 0.3f))
                             .OnComplete(() => numGemsToShrink--);
                 }
                 else
                 {
-                    sequence.Append(gem.gemSpriteGameObject.transform.DOScale(Vector3.one * 1.15f, 0.15f))
-                            .Append(gem.gemSpriteGameObject.transform.DOScale(Vector3.zero, 0.3f))
+                    sequence.Append(behaviourInstance.gemSpriteGameObject.transform.DOScale(Vector3.one * 1.15f, 0.15f))
+                            .Append(behaviourInstance.gemSpriteGameObject.transform.DOScale(Vector3.zero, 0.3f))
                             .OnComplete(() => numGemsToShrink--);
                 }
             }
