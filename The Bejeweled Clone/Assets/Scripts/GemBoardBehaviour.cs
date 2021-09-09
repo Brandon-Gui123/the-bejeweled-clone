@@ -7,6 +7,7 @@ using System.Linq;
 public class GemBoardBehaviour : MonoBehaviour
 {
     public GemBoard gemBoard = new GemBoard(8, 8);
+    private List<GemBehaviour> gemBehaviours = new List<GemBehaviour>(8 * 8);
 
     public GemBehaviour gemPrefab;
     public GameObject gemSelectionIndicator;
