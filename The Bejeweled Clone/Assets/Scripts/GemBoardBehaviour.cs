@@ -282,9 +282,6 @@ public class GemBoardBehaviour : MonoBehaviour
                 // shrink matched gems (animation)
                 yield return ShrinkMatchedGemsRoutine(isCascading);
 
-                // destroy and clear matched gems (waits for one frame to let Unity clean it up)
-                yield return DestroyMatchedGemsRoutine();
-
                 // move gem instances downward if required, ensuring that the gaps are all above
                 // to do that, we bubble sort each column
                 for (int currentCol = 0; currentCol < gemBoard.Columns; currentCol++)
