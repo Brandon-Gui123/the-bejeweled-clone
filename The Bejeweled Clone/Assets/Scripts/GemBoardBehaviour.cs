@@ -430,7 +430,6 @@ public class GemBoardBehaviour : MonoBehaviour
 
         gemInstance.gem.RowOnBoard = row;
         gemInstance.gem.ColOnBoard = col;
-        gemInstance.gemType = gemType;
         gemInstance.gemBoard = this;
 
         gemInstance.transform.position = ComputeGemPositionViaRowAndCol(row, col);
