@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GemBehaviour : MonoBehaviour
 {
-    public GemTypes gemType;
     public SpriteRenderer gemSprite;
     public GameObject gemSpriteGameObject;
 
