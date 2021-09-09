@@ -42,6 +42,21 @@ public class GemBoardBehaviour : MonoBehaviour
             noMoreMovesDisplay.SetActive(true);
             isSwappingAllowed = false;
         }
+
+        foreach (var gem in gemBoard)
+        {
+            GemBehaviour behaviourInstance = Instantiate(gemPrefab, transform);
+            behaviourInstance.gem = gem;
+            behaviourInstance.gemBoard = this;
+
+            // to ensure the gem sprite displays in the correct colour
+            behaviourInstance.UpdateGemColor();
+
+            // and to make sure the sprite appears in the correct place
+            behaviourInstance.transform.position = ComputeGemPositionViaRowAndCol(gem.RowOnBoard, gem.ColOnBoard);
+
+            gemBehaviours.Add(behaviourInstance);
+        }
     }
 
     private void GenerateGemsForBoard()
