@@ -321,35 +321,43 @@ public class GemBoardBehaviour : MonoBehaviour
                     }
                 }
 
-                // generate new gems at the blank spots
-                List<GemBehaviour> generatedGems = new List<GemBehaviour>();
-                for (int currentCol = 0; currentCol < gemBoard.Columns; currentCol++)
+                // re-assign new gem types to the affected gems
+                foreach (var gem in gemBoard)
                 {
-                    int gemsToFillThisRow = 0;
-
-                    for (int currentRow = gemBoard.Rows - 1; currentRow >= 0; currentRow--)
+                    if (gem.IsEmpty)
                     {
-                        if (!gemBoard[currentRow, currentCol].GemBehaviour)
-                        {
-                            GemBehaviour newGem = CreateGemForRowAndCol(gemPrefab, currentRow, currentCol, gemTypesToUse[Random.Range(0, gemTypesToUse.Length)]);
-
-                            gemBoard[currentRow, currentCol].GemBehaviour = newGem;
-                            generatedGems.Add(newGem);
-
-                            gemsToFillThisRow++;
-
-                            Vector3 newGemPosition = newGem.transform.position;
-                            newGemPosition.y = gemSpawnArea.position.y + (1.1f * (gemsToFillThisRow - 1));
-                            newGem.transform.position = newGemPosition;
-                        }
+                        gem.GemType = gemTypesToUse[Random.Range(0, gemTypesToUse.Length)];
                     }
                 }
 
-                foreach (var gem in gemBoard)
+                // re-position the gameObjects representing matched gems above the board
+                foreach (var behaviourInstance in gemBehaviours)
                 {
-                    gem.GemBehaviour.fallDestination = ComputeGemPositionViaRowAndCol(gem.RowOnBoard, gem.ColOnBoard);
-                    gem.GemBehaviour.isFalling = true;
+                    if (behaviourInstance.gem.IsEmpty)
+                    {
+                        Vector3 newPosition = behaviourInstance.transform.position;
+                        newPosition.y = gemSpawnArea.position.y + ComputeGemPositionViaRowAndCol(behaviourInstance.gem.RowOnBoard, behaviourInstance.gem.ColOnBoard).y;
+                        behaviourInstance.transform.position = newPosition;
+                    }
+
+                    behaviourInstance.fallDestination = ComputeGemPositionViaRowAndCol(behaviourInstance.gem.RowOnBoard, behaviourInstance.gem.ColOnBoard); ;
+                    behaviourInstance.isFalling = true;
                 }
+
+                // update sprite colour and clear IsEmpty and HasBeenMatched
+                foreach (var behaviourInstance in gemBehaviours)
+                {
+                    if (behaviourInstance.gem.IsEmpty)
+                    {
+                        // ensure the sprites are displaying the correct colour
+                        behaviourInstance.UpdateGemColor();
+
+                        // since the gem is now considered a new gem falling from above
+                        behaviourInstance.gem.IsEmpty = false;
+                        behaviourInstance.gem.HasBeenMatched = false;
+                    }
+                }
+
 
                 // wait while gems are still falling
                 yield return new WaitWhile(() => gemBehaviours.Any(b => b.isFalling));
