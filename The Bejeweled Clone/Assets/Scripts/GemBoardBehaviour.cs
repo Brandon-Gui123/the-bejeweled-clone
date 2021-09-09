@@ -335,8 +335,21 @@ public class GemBoardBehaviour : MonoBehaviour
                 {
                     if (behaviourInstance.gem.IsEmpty)
                     {
+                        // count how many gems below the current gem are empty
+                        int emptyGemsBelow = 0;
+
+                        for (int row = behaviourInstance.gem.RowOnBoard + 1; row < gemBoard.Columns; row++)
+                        {
+                            if (gemBoard[row, behaviourInstance.gem.ColOnBoard].IsEmpty)
+                            {
+                                emptyGemsBelow++;
+                            }
+                        }
+
+                        // how high the gem shall be positioned is based on how many empty spaces are below it
+                        // the more empty spaces there are, the higher it will be
                         Vector3 newPosition = behaviourInstance.transform.position;
-                        newPosition.y = gemSpawnArea.position.y + ComputeGemPositionViaRowAndCol(behaviourInstance.gem.RowOnBoard, behaviourInstance.gem.ColOnBoard).y;
+                        newPosition.y = gemSpawnArea.position.y + (1.1f * emptyGemsBelow);
                         behaviourInstance.transform.position = newPosition;
                     }
 
