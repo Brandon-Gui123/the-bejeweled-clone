@@ -521,23 +521,6 @@ public class GemBoardBehaviour : MonoBehaviour
         yield return new WaitUntil(() => numGemsToShrink <= 0);
     }
 
-    private IEnumerator MoveFallingGemsDown()
-    {
-        int gemsLeft = 0;
-
-        foreach (GemBehaviour gem in gemBoard)
-        {
-            if (gem && gem.transform.position != ComputeGemPositionViaRowAndCol(gem.gem.RowOnBoard, gem.gem.ColOnBoard))
-            {
-                gemsLeft++;
-                gem.transform.DOMove(ComputeGemPositionViaRowAndCol(gem.gem.RowOnBoard, gem.gem.ColOnBoard), 0.75f)
-                             .OnComplete(() => gemsLeft--);
-            }
-        }
-
-        yield return new WaitUntil(() => gemsLeft <= 0);
-    }
-
     private IEnumerator GrowGemsAtBlankSpots(List<GemBehaviour> gemsToGrow)
     {
         int numGemsToGrow = gemsToGrow.Count;
