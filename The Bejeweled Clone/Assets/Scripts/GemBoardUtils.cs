@@ -210,7 +210,7 @@ public static class GemBoardUtils
                     {
                         ($"Horizontal matching: Unable to remove the gem type of the target gem itself ({targetGem.GemType})!\n"
                             + $"This may happen if the list of applicable gem types differ from the gem types available during gem generation.")
-                            .Log(targetGem);
+                            .Log();
                     }
 
                     // the gems detected in horizontal matches shall only check upwards and downwards
@@ -228,14 +228,14 @@ public static class GemBoardUtils
                             {
                                 ($"Horizontal matching: Unable to remove the gem type {aboveTargeted.GemType} from the list of applicable gem types!\n"
                                     + $"This can happen if the gem type is already removed by an earlier match detection.")
-                                    .Log(targetGem);
+                                    .Log();
                             }
                             else
                             {
                                 string colouredGemTypeString = aboveTargeted.GemType.ToString().Color(GemUtils.GetColorBasedOnGemType(aboveTargeted.GemType));
 
                                 $"Horizontal matching: Found out that the targeted gem cannot be {colouredGemTypeString} because the two gems above are {colouredGemTypeString}"
-                                    .Log(targetGem);
+                                    .Log();
                             }
                         }
                     }
@@ -253,14 +253,14 @@ public static class GemBoardUtils
                             {
                                 ($"Horizontal matching: Unable to remove the gem type {belowTargeted.GemType} from the list of applicable gem types!"
                                     + $"This can happen if the gem type is already removed by an earlier match detection.")
-                                    .Log(targetGem);
+                                    .Log();
                             }
                             else
                             {
                                 string colouredGemTypeString = belowTargeted.GemType.ToString().Color(GemUtils.GetColorBasedOnGemType(belowTargeted.GemType));
 
                                 $"Horizontal matching: Found out that the targeted gem cannot be {colouredGemTypeString} because the two gems below are {colouredGemTypeString}"
-                                    .Log(targetGem);
+                                    .Log();
                             }
                         }
                     }
@@ -282,14 +282,14 @@ public static class GemBoardUtils
                             {
                                 ($"Horizontal matching: Unable to remove the gem type {aboveTargeted.GemType} from the list of applicable gem types!\n"
                                     + $"This can happen if the gem type is already removed by an earlier match detection.")
-                                    .Log(targetGem);
+                                    .Log();
                             }
                             else
                             {
                                 string colouredGemTypeString = aboveTargeted.GemType.ToString().Color(GemUtils.GetColorBasedOnGemType(aboveTargeted.GemType));
 
                                 $"Horizontal matching: Found out that the targeted gem cannot be {colouredGemTypeString} because the gem above and below are {colouredGemTypeString}"
-                                    .Log(targetGem);
+                                    .Log();
                             }
                         }
                     }
@@ -304,7 +304,7 @@ public static class GemBoardUtils
                         string newColourString = $"{chosenGemType}".Color(GemUtils.GetColorBasedOnGemType(chosenGemType));
 
                         $"Horizontal matching: The gem at ({targetGem.RowOnBoard}, {targetGem.ColOnBoard}) will be changed from {originalColourString} to {newColourString}"
-                            .Log(targetGem);
+                            .Log();
 
                         targetGem.GemType = chosenGemType;
                         //targetGem.UpdateGemColor();
@@ -315,7 +315,7 @@ public static class GemBoardUtils
                         // for simplicity's sake, we don't alter the gem and just log this
                         ($"Horizontal matching: Unable to find a suitable gem type to change to for the gem at ({targetGem.RowOnBoard}, {targetGem.ColOnBoard})!\n"
                             + $"This can happen if we exhaust the list of applicable gem types for the gem to change to.")
-                            .Log(targetGem);
+                            .Log();
                     }
                 }
             }
@@ -347,7 +347,7 @@ public static class GemBoardUtils
                     {
                         ($"Vertical matching: Unable to remove the gem type of the target gem itself ({targetGem.GemType})!\n"
                             + $"This may happen if the list of applicable gem types differ from the gem types available during gem generation.")
-                            .LogAsWarning(targetGem);
+                            .LogAsWarning();
                     }
 
                     // gems detected in vertical matches shall be checked for other possible
@@ -366,13 +366,13 @@ public static class GemBoardUtils
                             {
                                 ($"Vertical matching: Unable to remove the gem type {leftOfTargetGem.GemType} from the list of applicable gem types!\n"
                                     + $"This can happen if the gem type is already removed by an earlier match detection.")
-                                    .Log(targetGem);
+                                    .Log();
                             }
                             else
                             {
                                 string colouredGemText = leftOfTargetGem.ToString().Color(GemUtils.GetColorBasedOnGemType(leftOfTargetGem.GemType));
                                 $"Vertical matching: Found out that the targeted gem cannot be {colouredGemText} because the 2 gems to the left are {colouredGemText}"
-                                    .Log(targetGem);
+                                    .Log();
                             }
                         }
                     }
@@ -390,13 +390,13 @@ public static class GemBoardUtils
                             {
                                 ($"Vertical matching: Unable to remove the gem type {rightOfTargetGem.GemType} from the list of applicable gem types!\n"
                                     + $"This can happen if the gem type is already removed by an earlier match detection.")
-                                    .Log(targetGem);
+                                    .Log();
                             }
                             else
                             {
                                 string colouredGemText = rightOfTargetGem.ToString().Color(GemUtils.GetColorBasedOnGemType(rightOfTargetGem.GemType));
                                 $"Vertical matching: Found out that the targeted gem cannot be {colouredGemText} because the 2 gems to the right are {colouredGemText}"
-                                    .Log(targetGem);
+                                    .Log();
                             }
                         }
                     }
@@ -414,13 +414,13 @@ public static class GemBoardUtils
                             {
                                 ($"Vertical matching: Unable to remove the gem type {rightOfTargetGem.GemType} from the list of applicable gem types!\n"
                                     + $"This can happen if the gem type is already removed by an earlier match detection.")
-                                    .Log(targetGem);
+                                    .Log();
                             }
                             else
                             {
                                 string colouredGemText = rightOfTargetGem.ToString().Color(GemUtils.GetColorBasedOnGemType(rightOfTargetGem.GemType));
                                 $"Vertical matching: Found out that the targeted gem cannot be {colouredGemText} because the gem to the right and left are {colouredGemText}"
-                                    .Log(targetGem);
+                                    .Log();
                             }
                         }
                     }
@@ -435,7 +435,7 @@ public static class GemBoardUtils
                         string newColourString = $"{chosenGemType}".Color(GemUtils.GetColorBasedOnGemType(chosenGemType));
 
                         $"Vertical matching: The gem at ({targetGem.RowOnBoard}, {targetGem.ColOnBoard}) will be changed from {originalColourString} to {newColourString}"
-                            .Log(targetGem);
+                            .Log();
 
                         targetGem.GemType = chosenGemType;
                         //targetGem.UpdateGemColor();
@@ -446,7 +446,7 @@ public static class GemBoardUtils
                         // for simplicity's sake, we don't alter the gem and just log this
                         ($"Vertical matching: Unable to find a suitable gem type to change to for the gem at ({targetGem.RowOnBoard}, {targetGem.ColOnBoard})!\n"
                             + $"This can happen if we exhaust the list of applicable gem types for the gem to change to.")
-                            .LogAsWarning(targetGem);
+                            .LogAsWarning();
                     }
                 }
             }
