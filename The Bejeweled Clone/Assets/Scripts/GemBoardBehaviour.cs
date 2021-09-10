@@ -73,8 +73,6 @@ public class GemBoardBehaviour : MonoBehaviour
                     GemType = gemTypeToUse,
                     RowOnBoard = currentRow,
                     ColOnBoard = currentCol,
-
-                    GemBehaviour = createdGem
                 };
             }
         }
@@ -475,7 +473,6 @@ public class GemBoardBehaviour : MonoBehaviour
         GemBehaviour gemInstance = Instantiate(gemPrefab);
         Gem gemObject = new Gem
         {
-            GemBehaviour = gemInstance
         };
 
         gemInstance.gem = gemObject;
@@ -567,7 +564,6 @@ public class GemBoardBehaviour : MonoBehaviour
         {
             for (int j = 0; j < gemBoard.Columns; j++)
             {
-                Destroy(gemBoard[i, j].GemBehaviour.gameObject);
             }
         }
 
