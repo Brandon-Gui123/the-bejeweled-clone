@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class GemBehaviour : MonoBehaviour
 {
-    public GemTypes gemType;
     public SpriteRenderer gemSprite;
     public GameObject gemSpriteGameObject;
 
     public GemBoardBehaviour gemBoard;
-
-    public int rowOnBoard;
-    public int colOnBoard;
 
     public bool hasBeenMatched = false;
 
@@ -34,7 +30,7 @@ public class GemBehaviour : MonoBehaviour
 
     private void ColorizeGemSprite()
     {
-        gemSprite.color = GemUtils.GetColorBasedOnGemType(gemType);
+        gemSprite.color = GemUtils.GetColorBasedOnGemType(gem.GemType);
     }
 
     // Called while the user's cursor is over a collider and the mouse button is pressed down
